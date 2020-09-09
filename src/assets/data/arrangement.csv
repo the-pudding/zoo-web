@@ -1,13 +1,13 @@
-index,tile,position,camera,animal
-1,arctic,1R,37,beluga whale
-1,arctic,2L,"11, 90, 109",polar bear
-2,arctic2,1R,40,puffin
-2,arctic2,2L,45,harbor seal
-3,northAmerica,1R,"140, 141",grizzly bear
-3,northAmerica,2L,19,black-footed ferret
-3,northAmerica,3R,72,river otter
-3,northAmerica,4L,16,burrowing owl
-3,northAmerica,5R,18,condor
-4,cali,1R,29,kelp forest
-4,cali,2L,"33, 38, 46, 79, 99, 139",sea otter
-4,cali,3R,41,California sea lion
+index,tile,positionY,positionX,camera,animal
+1,arctic,1,R,37,beluga whale
+1,arctic,2,L,"11, 90, 109",polar bear
+2,arctic2,1,R,40,puffin
+2,arctic2,2,L,45,harbor seal
+3,northAmerica,1,R,"140, 141",grizzly bear
+3,northAmerica,2,L,19,black-footed ferret
+3,northAmerica,3,R,72,river otter
+3,northAmerica,4,L,16,burrowing owl
+3,northAmerica,5,R,18,condor
+4,cali,1,R,29,kelp forest
+4,cali,2,L,"33, 38, 46, 79, 99, 139",sea otter
+4,cali,3,R,41,California sea lion

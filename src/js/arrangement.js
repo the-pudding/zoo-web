@@ -21,12 +21,53 @@ function cleanData(dat){
         return nested
 }
 
-function loadMaps(data){
-    $section.selectAll('.tile').data(data)
-        .join(enter => {
-            const $container = enter.append('div').attr('class', 'tile')
+function findGridArea(cam){
+    // if on the right, column 2, otherwise 1
+   
+    const column = cam.positionX === 'R' ? 2 : 1 
+    console.log({cam, pos: `${cam.positionY} / ${column} / span 1 / span 1 `})
+    return `${cam.positionY} / ${column} / span 1 / span 1 `
+}
 
-            $container.append('img').attr('src', d => `assets/images/${d.key}.png`)
+function loadMaps(data){
+    const $tile = $section.selectAll('.tile').data(data)
+        .join(enter => {      
+            // setup grid
+            // anywhere between 2 and 5 rows
+
+            const $container = enter.append('div')
+                .attr('class', 'tile')
+                .style('grid-template-rows', d => {
+                const fullLayout = `repeat(${d.values.length}, 1fr)`
+                console.log({fullLayout})
+                return fullLayout
+            })
+
+
+            // append map artwork
+            $container.append('img').attr('src', d => `assets/images/${d.key}.png`).attr('class', 'exhibit').style('grid-area', d => {
+                const layout = `1 / 1 / span 2 / span ${d.values.length}`
+                console.log({layout})
+                return layout
+            })
+
+            // const $camCont = $container.append('div').attr('class', 'cam__container')
+      
+
+            return $container
+        })
+
+        $tile.selectAll('.cam__display').data(d => {
+            console.log({val: d.values})
+            return d.values}).join(enter => {
+            
+            // append placeholder images
+            enter.append('img')
+            .attr('class', 'cam__display')
+            .attr('data-id', d => d.id).attr('data-type', 'png')
+            .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.camera[0]}.png`)
+            .style('grid-area', d => findGridArea(d))
+            .style('z-index', -10)
         })
 
         // if (window.innerWidth >= BREAKPOINT) {

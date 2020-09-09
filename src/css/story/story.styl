@@ -13,11 +13,25 @@
     display flex 
     flex-wrap wrap
     margin 0 auto
-    max-width: $column-width
+    max-width $column-width
+    position relative
     .tile 
         max-width 400px
+        position relative            
+        display grid 
+        grid-template-columns repeat(2, 1fr)
+        grid-column-gap -5px
+        grid-row-gap 75px
         &:nth-child(even)
             transform translate(0, 0)
+        .cam__display
+            &:nth-child(even)
+                align-self end
+                transform translateX(-8px)
+            &:nth-child(odd)
+                transform translateX(8px)
+
+
     +mq('bp-5')
         .tile:nth-child(even)
             transform translate(0, 100px)
