@@ -8,3 +8,16 @@
         p
             margin 0
             font-family $national
+
+.map 
+    display flex 
+    flex-wrap wrap
+    margin 0 auto
+    max-width: $column-width
+    .tile 
+        max-width 400px
+        &:nth-child(even)
+            transform translate(0, 0)
+    +mq('bp-5')
+        .tile:nth-child(even)
+            transform translate(0, 100px)
