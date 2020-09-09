@@ -3,6 +3,7 @@ import debounce from "lodash.debounce";
 import isMobile from "./utils/is-mobile";
 import linkFix from "./utils/link-fix";
 import graphic from "./graphic";
+import arrangement from "./arrangement"
 import footer from "./footer";
 
 const $body = d3.select("body");
@@ -41,7 +42,10 @@ function init() {
   // setup sticky header menu
   setupStickyHeader();
   // kick off graphic code
-  graphic.init();
+  // graphic.init();
+
+  // arrange graphics
+  arrangement()
   // load footer stories
   footer.init();
 }
