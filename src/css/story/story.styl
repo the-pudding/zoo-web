@@ -11,25 +11,52 @@
 
 .map 
     display flex 
-    flex-wrap wrap
+    flex-direction column
     margin 0 auto
-    max-width $column-width
     position relative
+    max-width 1300px
+    pointer-events none
+
+
+
     .tile 
-        max-width 400px
+        height auto
         position relative            
         display grid 
         grid-template-columns repeat(2, 1fr)
         grid-column-gap -5px
-        grid-row-gap 75px
+        overflow hidden
+        margin-top 0
+        pointer-events none
+        z-index auto
+        +mq('bp-5')
+            &:nth-child(even)
+                margin-top -10vh
+        // grid-row-gap 205px
+        // &__R2
+        //     grid-template-rows 17.8% 1fr 17.8% 1fr 17.8%
+
         &:nth-child(even)
             transform translate(0, 0)
+        .exhibit 
+            display inline-block
+            padding 0
+            margin 0 auto
+            max-width 1228px
+            pointer-events none
+            z-index 10
         .cam__display
+            width 81%
+            height auto
+            display block
+            pointer-events auto
             &:nth-child(even)
-                align-self end
-                transform translateX(-8px)
+                justify-self start
+                transform translateX(-4%)
             &:nth-child(odd)
-                transform translateX(8px)
+                transform translateX(4%)
+                justify-self end
+                // transform translateX(140px)
 
 
     +mq('bp-5')

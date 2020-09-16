@@ -16,6 +16,7 @@ function resize() {
   if (previousWidth !== width) {
     previousWidth = width;
     graphic.resize();
+    arrangement.resize()
   }
 }
 
@@ -42,10 +43,10 @@ function init() {
   // setup sticky header menu
   setupStickyHeader();
   // kick off graphic code
-  // graphic.init();
+  //graphic.init();
 
   // arrange graphics
-  arrangement()
+  arrangement.init()
   // load footer stories
   footer.init();
 }
