@@ -2,8 +2,12 @@ import loadData from './load-data'
 import loadImage from './utils/load-image-promise'
 import 'intersection-observer'
 import scrollama from 'scrollama'
+import findUnique from './utils/unique';
 
 const $section = d3.selectAll('[data-js="arrangement"]')
+const $nav = d3.selectAll('[data-js="navigation"]')
+const $locations = $nav.select('.location')
+const $animals = $nav.select('.animal')
 
 const HOLE_OFFSET = 100
 const BREAKPOINT = 900
@@ -52,7 +56,8 @@ function setupScroll(){
 }
 
 function cleanData(dat){
-    const mapped =  dat.map((d) => ({
+    return new Promise((resolve) => {
+            const mapped =  dat.map((d) => ({
         ...d,
         index: +d.index,
         positionY: +d.positionY,
@@ -60,10 +65,12 @@ function cleanData(dat){
     }))
 
     const nested = d3.nest()
-        .key(d => d.tile)
-        .entries(mapped)
+    .key(d => d.tile)
+    .entries(mapped)
+ 
+    resolve ({mapped, nested})
+    })
 
-        return nested
 }
 
 
@@ -90,7 +97,9 @@ function resize(){
 }
 
 function loadMaps(data){
- 
+
+    console.log({data})
+
     const $tile = $section.selectAll('.tile')
         .data(data)
         .join(enter => {      
@@ -157,14 +166,41 @@ function preloadImages(data){
     }).catch(e => console.error(e))
 }
 
+function setupNav(raw){
+    const locData = d3.nest()
+    .key(d => d.location)
+    .entries(raw)
+
+    $locations.selectAll('.title').data(locData)
+        .join(enter => enter.append('p')
+            .attr('class', 'title')
+            .text(d => d.key)
+        
+        )
+
+    const animals = findUnique(raw.map(d => d.animal))
+
+    $animals.selectAll('.name').data(animals)
+        .join(enter => enter.append('p')
+            .attr('class', 'name')
+            .text(d => d)
+        )
+}
+
 
 function init(){
     loadData('assets/data/arrangement.csv').then(response => {
-        const data = cleanData(response)
-        preloadImages(data)
-        return data
+        return cleanData(response)
     })
-    .then((data) => loadMaps(data))
+    .then(({mapped, nested}) => {
+        preloadImages(nested)
+        return {mapped, nested}
+    })
+    .then(({mapped, nested}) => {
+        console.log({mapped, nested})
+        setupNav(mapped)
+        loadMaps(nested)
+    })
 }
 
 export default { init, resize };
