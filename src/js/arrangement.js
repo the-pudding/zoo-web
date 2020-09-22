@@ -1,5 +1,7 @@
 import loadData from './load-data'
 import loadImage from './utils/load-image-promise'
+import 'intersection-observer'
+import scrollama from 'scrollama'
 
 const $section = d3.selectAll('[data-js="arrangement"]')
 
@@ -15,6 +17,39 @@ const MIDDLE_GAP = {
     5: '7.7%'
 }
 
+const scroller = scrollama()
+
+function swapSource(el){
+    const $sel = d3.select(el)//d3.select(this)
+    const id = $sel.attr('data-id')
+    const type = $sel.attr('data-type')
+  
+    if (type === 'png'){
+      $sel.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${id}.gif`)
+      $sel.attr('data-type', 'gif')
+    }
+  
+    else {
+      $sel.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${id}.png`)
+      $sel.attr('data-type', 'png')
+    }
+  
+  }
+
+function setupScroll(){
+    scroller 
+        .setup({
+            step: '.cam__display'
+        })
+        .onStepEnter(response => {
+            const {element, index, direction} = response
+            swapSource(element)
+        })
+        .onStepExit(response => {
+            const {element, index, direction} = response
+            swapSource(element)
+        })
+}
 
 function cleanData(dat){
     const mapped =  dat.map((d) => ({
@@ -31,48 +66,31 @@ function cleanData(dat){
         return nested
 }
 
-function swapSource(){
-    const $sel = d3.select(this)
-    const id = $sel.attr('data-id')
-    const type = $sel.attr('data-type')
-    console.log('clicked')
-  
-    if (type === 'png'){
-      $sel.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${id}.gif`)
-      $sel.attr('data-type', 'gif')
-    }
-  
-    else {
-      $sel.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${id}.png`)
-      $sel.attr('data-type', 'png')
-    }
-  
-  }
+
 
 function findGridArea(cam, i){
-    console.log({i})
     // if on the right, column 2, otherwise 1
    const row =  cam.positionY * 2
     const column = cam.positionX === 'R' ? 2 : 1 
-    console.log({cam, pos: `${cam.positionY} / ${column} / span 1 / span 1 `})
     return `${row} / ${column} / span 1 / span 1 `
 }
 
 function findNewHeight(origHeight){
     const width = window.innerWidth > EXHIBIT_WIDTH ? EXHIBIT_WIDTH : window.innerWidth
-    console.log({origHeight, width})
     return origHeight * width / EXHIBIT_WIDTH
 }
 
 function resize(){
-    console.log('resize running')
+
     $section.selectAll('.tile')
-        .style('height', d => `${findNewHeight(d.values[0].imHeight)}px`)
+        .style('height', d => {
+            const newHeight = `${findNewHeight(d.values[0].imHeight)}px`
+            return newHeight
+        })
 }
 
 function loadMaps(data){
-    console.log('loadMaps running')
-
+ 
     const $tile = $section.selectAll('.tile')
         .data(data)
         .join(enter => {      
@@ -84,7 +102,7 @@ function loadMaps(data){
                 .style('grid-template-rows', d => {
                 const top = TOP_GAP[d.values.length]
                 const middle = MIDDLE_GAP[d.values.length]
-                return `${top} repeat(${d.values.length - 1}, 1fr ${middle}) 1fr ${top}`
+                return `${top} repeat(${d.values.length - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
             })
 
             // append map artwork
@@ -115,10 +133,10 @@ function loadMaps(data){
 
 
         resize()
+        setupScroll()
 }
 
 function preloadImages(data){
-    console.log('preloadImages running')
     return new Promise(resolve => {
         const allImages = []
 
@@ -128,15 +146,13 @@ function preloadImages(data){
             imgPromise.then(img => {
                 img.onload(() => {
                     if (i === data.length) resolve()
-                    console.log({i})
+    
                 })
                 //img.on('load', d => console.log(`${d} has loaded`))
             })
             allImages.push(imgPromise)
         }
 
-
-console.log({allImages})
      Promise.all(allImages).then(resolve).catch(e => console.log(`Error in loading images`))
     }).catch(e => console.error(e))
 }
