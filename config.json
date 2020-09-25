@@ -15,6 +15,11 @@
 				"id": "1VAo40vh_bo06weTn6bQ2RNJMbdk_RAk__xuh7tlRI5Q",
 				"gid": "0",
 				"filepath": "src/assets/data/arrangement.csv"
+			},
+			{
+				"id": "1_OMVPE_Q62r_gKC2XYqf6RVjrBWix97mZ37fmQWqK3o",
+				"gid": "0",
+				"filepath": "src/assets/data/links.csv"
 			}
 		]
 	}

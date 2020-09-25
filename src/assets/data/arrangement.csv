@@ -1,10 +1,10 @@
 index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location
-1,arctic,1,R,"11, 90, 109",polar bear,2,R2,1174,Arctic
-1,arctic,2,L,37,beluga whale,2,R2,1174,Arctic
-2,arctic2,1,R,40,puffin,2,R2,1174,Arctic
-2,arctic2,2,L,45,harbor seal,2,R2,1174,Arctic
-3,northAmerica,1,R,"140, 141",grizzly bear,5,R5,2674,North America
-3,northAmerica,2,L,19,black-footed ferret,5,R5,2674,North America
-3,northAmerica,3,R,72,river otter,5,R5,2674,North America
-3,northAmerica,4,L,16,burrowing owl,5,R5,2674,North America
-3,northAmerica,5,R,18,condor,5,R5,2674,North America
+1,arctic,1,R,"11, 90, 109",polar bear,2,R2,526,Arctic
+1,arctic,2,L,37,beluga whale,2,R2,526,Arctic
+2,arctic2,1,R,40,puffin,2,R2,526,Arctic
+2,arctic2,2,L,45,harbor seal,2,R2,526,Arctic
+3,northAmerica,1,R,"140, 141",grizzly bear,5,R5,1198,North America
+3,northAmerica,2,L,19,black-footed ferret,5,R5,1198,North America
+3,northAmerica,3,R,72,river otter,5,R5,1198,North America
+3,northAmerica,4,L,16,burrowing owl,5,R5,1198,North America
+3,northAmerica,5,R,18,condor,5,R5,1198,North America

@@ -5,13 +5,14 @@ import scrollama from 'scrollama'
 import findUnique from './utils/unique';
 
 const $section = d3.selectAll('[data-js="arrangement"]')
-const $nav = d3.selectAll('[data-js="navigation"]')
-const $locations = $nav.select('.location')
-const $animals = $nav.select('.animal')
+const $islands = $section.selectAll('[data-js="arrangement__islands"]')
+const $desktopAnno = d3.selectAll('[data-js="arrangement__annotation--desktop"]')
+const $mobileAnno = d3.selectAll('[data-js="arrangement__annotation--mobile]')
+
 
 const HOLE_OFFSET = 100
 const BREAKPOINT = 900
-const EXHIBIT_WIDTH = 1228
+const EXHIBIT_WIDTH = 550
 const TOP_GAP = {
     2: '17.6%',
     5: '7.7%'
@@ -57,18 +58,18 @@ function setupScroll(){
 
 function cleanData(dat){
     return new Promise((resolve) => {
-            const mapped =  dat.map((d) => ({
-        ...d,
-        index: +d.index,
-        positionY: +d.positionY,
-        camera: d.camera.split(', ')
-    }))
+        const mapped =  dat[0].map((d) => ({
+            ...d,
+            index: +d.index,
+            positionY: +d.positionY,
+            camera: d.camera.split(', ')
+        }))
 
-    const nested = d3.nest()
-    .key(d => d.tile)
-    .entries(mapped)
- 
-    resolve ({mapped, nested})
+        const nested = d3.nest()
+        .key(d => d.tile)
+        .entries(mapped)
+    
+        resolve ({mapped, nested, links: dat[1]})
     })
 
 }
@@ -84,62 +85,158 @@ function findGridArea(cam, i){
 
 function findNewHeight(origHeight){
     const width = window.innerWidth > EXHIBIT_WIDTH ? EXHIBIT_WIDTH : window.innerWidth
+    console.log({width, win: window.innerWidth})
     return origHeight * width / EXHIBIT_WIDTH
 }
 
 function resize(){
 
-    $section.selectAll('.tile')
+    $islands.selectAll('.tile, .annotation--desktop')
         .style('height', d => {
-            const newHeight = `${findNewHeight(d.values[0].imHeight)}px`
+            const newHeight = `${findNewHeight(d[0].imHeight)}px`
             return newHeight
         })
 }
 
-function loadMaps(data){
+function switchFacility(){
+    const sel = d3.select(this)
+    const cam = sel.attr('data-id')
+    const animal = sel.attr('data-animal')
+    const exhibit = sel.attr('data-tile')
 
-    console.log({data})
+    const $exhib = $section.select(`[data-exhibit="${exhibit}"]`)
 
-    const $tile = $section.selectAll('.tile')
+    // find which display to switch
+    const match = $exhib.selectAll('.cam__display').filter((d, i, n) => {
+        return d3.select(n[i]).attr('data-animal') === animal
+    })
+    console.log({cam, animal, exhibit, match})
+
+    const type = match.attr('data-type')
+    if (type === 'png'){
+        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${cam}.gif`)
+        match.attr('data-type', 'gif').attr('data-id', cam)
+      }
+    
+      else {
+        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${cam}.png`)
+        match.attr('data-type', 'png').attr('data-id', cam)
+      }
+
+}
+
+function determineGridRows(d){
+    const top = TOP_GAP[d.length]
+    const middle = MIDDLE_GAP[d.length]
+    const tile = d[0].tile
+    const final = `${top} repeat(${d.length - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
+    //gridRows.push({tile: `${tile}`, gridRow: final })
+    return final
+}
+
+function loadMaps(data, links){
+    // create group
+    const $group = $islands.selectAll('.g-island')
         .data(data)
+        .join(enter => 
+            enter.append('div')
+                .attr('class', 'g-island')
+                .attr('data-exhibit', d => `${d.key}`)
+    )
+
+    let gridRows = []
+
+    // add exhibit tiles
+    const $tile = $group.selectAll('.tile')
+        .data(d => [d.values])
         .join(enter => {      
             // setup grid
             // anywhere between 2 and 5 rows
 
             const $container = enter.append('div')
-                .attr('class', d => `tile tile__${d.values[0].shape}`)
-                .style('grid-template-rows', d => {
-                const top = TOP_GAP[d.values.length]
-                const middle = MIDDLE_GAP[d.values.length]
-                return `${top} repeat(${d.values.length - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
-            })
+                .attr('class', d => `tile tile__${d[0].shape}`)
+                .style('grid-template-rows', d => determineGridRows(d))
+
+            console.log({gridRows})
 
             // append map artwork
             $container.append('img')
                 .attr('class', 'exhibit')
-                .attr('src', d => `assets/images/${d.key}.png`)
+                .attr('src', d => `assets/images/${d[0].tile}.png`)
                 .style('grid-area', (d, i, n) => {
-                    return `1 / 1 / ${d.values.length + 1} / 3`
+                    return `1 / 1 / ${d.length + 1} / 3`
                 })
 
             return $container
         })
 
-
-        $tile.selectAll('.cam__display')
-            .data(d => d.values)
-            .join(enter => {
+        // add videos
+    $tile.selectAll('.cam__display')
+        .data(d => d)
+        .join(enter => {
                 // append placeholder images
                 enter.append('img')
                     .attr('class', 'cam__display')
                     .attr('data-id', d => d.camera[0])
                     .attr('data-type', 'png')
+                    .attr('data-animal', d => d.animal)
                     .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.camera[0]}.png`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
                     //.style('z-index', -10)
-                    .on('click', swapSource)
+                    //.on('click', swapSource)
             })
 
+    // add annotations for desktop
+    const $annoD = $group.selectAll('.annotation--desktop')
+            .data(d => [d.values])
+            .join(enter => enter.append('div').attr('class', 'annotation--desktop'))
+            .style('grid-template-rows', d => determineGridRows(d))
+
+    const $g = $annoD.selectAll('.g-anno')
+            .data(d => d)
+            .join(enter => {
+                const g = enter.append('div').attr('class', 'g-anno')
+
+                g.append('h3').attr('class', 'animal--name').text(d => d.animal)
+                
+                g.append('ul').attr('class', 'animal--list').attr('data-animal', d => d.animal)
+
+                return g
+            })
+            .style('grid-area', (d, i) => `${(i + 1) * 2} / 1 / span 1 / span 1 `)
+
+    // add facility names
+    const $list = $g.selectAll('.animal--list')
+
+    $list.selectAll('animal--facility').data(d => {
+        const animal = d.animal 
+        const facilities = links.filter(e => e.animal === animal).map(e => ({
+            ...e,
+            tile: d.tile 
+        }))
+        console.log({d, facilities})//.map(e => {return {animal: d.animal, id: e.id, facility: e.facility}})
+        return facilities
+    }).join(enter => 
+        enter.append('li')
+            .attr('class', 'animal--facility')
+            .text(d => d.facility)
+            .attr('data-id', d => d.id)
+            .attr('data-animal', d => d.animal)
+            .attr('data-tile', d => d.tile)
+            .on('click', switchFacility)
+        )
+
+    // $g.selectAll('.animal--name')
+    //     .data(d => [d])
+    //     .join(enter => {
+    //         enter.append('h3')
+    //             .attr('class', 'animal--name')
+    //             .text(d => d.animal)
+                
+    //     })
+
+
+        
 
         resize()
         setupScroll()
@@ -189,17 +286,17 @@ function setupNav(raw){
 
 
 function init(){
-    loadData('assets/data/arrangement.csv').then(response => {
+    loadData(['assets/data/arrangement.csv', 'assets/data/links.csv']).then(response => {
         return cleanData(response)
     })
-    .then(({mapped, nested}) => {
+    .then(({mapped, nested, links}) => {
         preloadImages(nested)
-        return {mapped, nested}
+        return {mapped, nested, links}
     })
-    .then(({mapped, nested}) => {
-        console.log({mapped, nested})
-        setupNav(mapped)
-        loadMaps(nested)
+    .then(({mapped, nested, links}) => {
+        console.log({mapped, nested, links})
+        //setupNav(mapped)
+        loadMaps(nested, links)
     })
 }
 

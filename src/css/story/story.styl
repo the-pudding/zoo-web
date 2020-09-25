@@ -11,11 +11,30 @@
 
 .map 
     display flex 
-    flex-direction column
+    flex-direction row
     margin 0 auto
     position relative
-    max-width 1300px
+    max-width 1130px
     pointer-events none
+
+    .annotations--desktop 
+        max-width 300px
+
+    .islands 
+        display flex 
+        flex-direction column
+
+        .g-island 
+            display flex 
+            flex-direction row
+
+        .annotation--desktop
+            display grid
+            grid-template-columns 1
+
+            ul 
+                li
+                    pointer-events all
 
 
 
@@ -29,6 +48,7 @@
         margin-top 0
         pointer-events none
         z-index auto
+        max-width 550px
         +mq('bp-5')
             &:nth-child(even)
                 margin-top -10vh
