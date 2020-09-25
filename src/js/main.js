@@ -43,7 +43,7 @@ function init() {
   // setup sticky header menu
   setupStickyHeader();
   // kick off graphic code
-  // graphic.init();
+  graphic.init();
 
   // arrange graphics
   arrangement.init()
