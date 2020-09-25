@@ -106,21 +106,29 @@ function switchFacility(){
 
     const $exhib = $section.select(`[data-exhibit="${exhibit}"]`)
 
+    // set low opacity for non-selected
+    $exhib.selectAll('ul').filter((d, i, n) => {
+        return d3.select(n[i]).attr('data-animal') === animal
+    }).selectAll('li').style('opacity', 0.4)
+
+    sel.style('opacity', 1)
+
     // find which display to switch
     const match = $exhib.selectAll('.cam__display').filter((d, i, n) => {
         return d3.select(n[i]).attr('data-animal') === animal
     })
-    console.log({cam, animal, exhibit, match})
 
     const type = match.attr('data-type')
+
+
     if (type === 'png'){
-        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${cam}.gif`)
-        match.attr('data-type', 'gif').attr('data-id', cam)
+        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${cam}.png`)
+        .attr('data-id', cam)
       }
     
       else {
-        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${cam}.png`)
-        match.attr('data-type', 'png').attr('data-id', cam)
+        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${cam}.gif`)
+        .attr('data-id', cam)
       }
 
 }
@@ -223,6 +231,16 @@ function loadMaps(data, links){
             .attr('data-id', d => d.id)
             .attr('data-animal', d => d.animal)
             .attr('data-tile', d => d.tile)
+            .style('opacity', d => {
+                const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
+                    .selectAll('.cam__display')
+                    .filter((e, i, n) => {
+                        return d3.select(n[i]).attr('data-animal') === d.animal
+                    })
+                const displayed = thisCam.attr('data-id')
+
+                return d.id === displayed ? 1 : 0.4
+            })
             .on('click', switchFacility)
         )
 
