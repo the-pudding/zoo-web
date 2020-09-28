@@ -55,8 +55,6 @@ function highlightList(element){
 
      const animal = d3.select(element).attr('data-animal')
 
-     console.log({animal})
-
      $section.selectAll(`[data-list="${animal}"]`).classed('in-focus', true)
      
      
@@ -83,8 +81,7 @@ function setupScroll(){
                 $ul.node().scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
-                }
-                )
+                })
             }
         })
         .onStepExit(response => {
@@ -130,7 +127,6 @@ function findGridArea(cam, i){
 
 function findNewHeight(origHeight){
     const width = window.innerWidth > EXHIBIT_WIDTH ? EXHIBIT_WIDTH : window.innerWidth
-    console.log({width, win: window.innerWidth})
     return origHeight * width / EXHIBIT_WIDTH
 }
 
@@ -255,12 +251,10 @@ function switchFacility(){
     // set low opacity for non-selected
     if (MOBILE){
         $li = $mobileAnimals.selectAll('ul').filter((d, i, n) => {
-            console.log({d})
             return d3.select(n[i]).attr('data-animal') === animal
         }).selectAll('li')
     } else {
        $li = $exhib.selectAll('ul').filter((d, i, n) => {
-        console.log({d})
         return d3.select(n[i]).attr('data-animal') === animal
     }).selectAll('li') 
     }
@@ -304,7 +298,7 @@ function determineGridRows(d){
 
 function loadMaps(){
     const data = nestedData
-    console.log({data})
+
     // create group
     const $group = $islands.selectAll('.g-island')
         .data(data)
@@ -326,8 +320,6 @@ function loadMaps(){
             const $container = enter.append('div')
                 .attr('class', d => `tile tile__${d[0].shape}`)
                 .style('grid-template-rows', d => determineGridRows(d))
-
-            console.log({gridRows})
 
             // append map artwork
             $container.append('img')
@@ -387,7 +379,7 @@ function preloadImages(){
                     if (i === data.length) resolve()
     
                 })
-                //img.on('load', d => console.log(`${d} has loaded`))
+
             })
             allImages.push(imgPromise)
         }
@@ -395,27 +387,6 @@ function preloadImages(){
      Promise.all(allImages).then(resolve).catch(e => console.log(`Error in loading images`))
     }).catch(e => console.error(e))
 }
-
-// function setupNav(raw){
-//     const locData = d3.nest()
-//     .key(d => d.location)
-//     .entries(raw)
-
-//     $locations.selectAll('.title').data(locData)
-//         .join(enter => enter.append('p')
-//             .attr('class', 'title')
-//             .text(d => d.key)
-        
-//         )
-
-//     const animals = findUnique(raw.map(d => d.animal))
-
-//     $animals.selectAll('.name').data(animals)
-//         .join(enter => enter.append('p')
-//             .attr('class', 'name')
-//             .text(d => d)
-//         )
-// }
 
 
 function init(){
