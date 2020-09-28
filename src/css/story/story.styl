@@ -28,34 +28,39 @@
             flex-direction row
 
         .annotation--desktop
-            display grid
-            grid-template-columns 1
-            margin-left 4rem
-            flex-grow 1
-            .g-anno 
-                opacity 0.3
-                &.in-focus 
-                    opacity 1
-            h3 
-                font-weight bold 
-                font-family $national
-                text-transform capitalize
-                set-type-size('xx-large')
-
-            ul 
-                li
-                    pointer-events all
-                    set-type-size('medium')
-                    font-family $national-narrow
-                    display flex 
-                    align-items center
-                    .video--icon 
-                        margin-left 0.5rem
-                        transform scale(0.7)
+            display none
+            +mq('bp-5')            
+                display grid
+                grid-template-columns 1
+                margin-left 4rem
+                flex-grow 1
+                .g-anno 
+                    opacity 0.3
+                    &.in-focus 
                         opacity 1
-                        fill $primary
-                        &.is-hidden 
-                            opacity 0
+                h3 
+                    font-weight bold 
+                    font-family $national
+                    text-transform capitalize
+                    set-type-size('xx-large')
+
+                ul 
+                    li
+                        pointer-events all
+                        set-type-size('medium')
+                        font-family $national-narrow
+                        display flex 
+                        align-items center
+                        font-weight normal
+                        &.selected
+                            font-weight bold 
+                        .video--icon 
+                            margin-left 0.5rem
+                            transform scale(0.7)
+                            opacity 1
+                            fill $primary
+                            &.is-hidden 
+                                opacity 0
 
 
 

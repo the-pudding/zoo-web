@@ -7,12 +7,18 @@ import videoSVG from './videoSVG'
 
 const $section = d3.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
-const $desktopAnno = d3.selectAll('[data-js="arrangement__annotation--desktop"]')
-const $mobileAnno = d3.selectAll('[data-js="arrangement__annotation--mobile]')
+const $mobileAnimals = d3.selectAll('[data-js="navigation"]')
+
+let linkData = null
+let mappedData = null
+let nestedData = null
 
 
 const HOLE_OFFSET = 100
-const BREAKPOINT = 900
+const BREAKPOINT = 848
+let MOBILE = false
+let MOBILE_SETUP = false
+let DESKTOP_SETUP = false
 const EXHIBIT_WIDTH = 550
 const TOP_GAP = {
     2: '17.6%',
@@ -77,18 +83,20 @@ function setupScroll(){
 
 function cleanData(dat){
     return new Promise((resolve) => {
-        const mapped =  dat[0].map((d) => ({
+        mappedData =  dat[0].map((d) => ({
             ...d,
             index: +d.index,
             positionY: +d.positionY,
             camera: d.camera.split(', ')
         }))
 
-        const nested = d3.nest()
+        nestedData = d3.nest()
         .key(d => d.tile)
-        .entries(mapped)
+        .entries(mappedData)
+
+        linkData = dat[1]
     
-        resolve ({mapped, nested, links: dat[1]})
+        resolve ({mappedData, nestedData, links: dat[1]})
     })
 
 }
@@ -115,6 +123,104 @@ function resize(){
             const newHeight = `${findNewHeight(d[0].imHeight)}px`
             return newHeight
         })
+
+    MOBILE = window.innerWidth < BREAKPOINT
+    setupNav()
+}
+
+function setupFacilities(group){
+    group.selectAll('ul')
+    .selectAll('.animal--facility')
+    .data(d => {
+        const animal = d.animal 
+        const facilities = linkData.filter(e => e.animal === animal).map(e => ({
+            ...e,
+            tile: d.tile,
+            positionX: d.positionX
+        }))
+        return facilities
+    })
+    .join(enter => {
+        const $li = enter.append('li')
+            .attr('class', 'animal--facility')
+            .html(d => `<span class='facility--name'>${d.facility}</span> <span class='video--icon'>${videoSVG}</span>`)
+            .attr('data-id', d => d.id)
+            .attr('data-animal', d => d.animal)
+            .attr('data-tile', d => d.tile)
+            .classed('selected', d => {
+                const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
+                    .selectAll('.cam__display')
+                    .filter((e, i, n) => {
+                        return d3.select(n[i]).attr('data-animal') === d.animal
+                    })
+                const displayed = thisCam.attr('data-id')
+
+                return d.id === displayed
+            })
+            .on('click', switchFacility)
+
+            $li.select('.video--icon').classed('is-hidden', d => {
+                const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
+                    .selectAll('.cam__display')
+                    .filter((e, i, n) => {
+                        return d3.select(n[i]).attr('data-animal') === d.animal
+                    })
+                const displayed = thisCam.attr('data-id')
+
+                return d.id !== displayed
+            })
+    })
+}
+
+function setupNav(){
+    let $g = null
+
+    // if on mobile and mobile nav isn't already setup
+    if (MOBILE === true && MOBILE_SETUP === false){ 
+        MOBILE_SETUP = true
+        $g = $mobileAnimals.select('.animal').selectAll('.g-anno')
+            .data(mappedData)
+            .join(enter => {
+            const $container = enter.append('div').attr('class', 'g-anno')
+                .style('align-self', d => d.positionX === 'L' ? 'flex-start' : 'flex-end')
+
+            $container.append('h3').attr('class', 'animal--name').text(d => d.animal)
+            .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
+
+            $container.append('ul').attr('class', 'animal--list')
+                .attr('data-animal', d => d.animal)
+
+            return $container
+            })
+
+        setupFacilities($g)
+
+    } else if (MOBILE === false && DESKTOP_SETUP ===  false){
+        DESKTOP_SETUP = true
+
+        // add annotations for desktop
+        const $annoD = $islands.selectAll('.g-island')
+            .selectAll('.annotation--desktop')
+            .data(d => [d.values])
+            .join(enter => enter.append('div').attr('class', 'annotation--desktop'))
+            .style('grid-template-rows', d => determineGridRows(d))
+
+        $g = $annoD.selectAll('.g-anno')
+            .data(d => d)
+            .join(enter => {
+                const g = enter.append('div').attr('class', 'g-anno').attr('data-list', d => d.animal)
+
+                g.append('h3').attr('class', 'animal--name').text(d => d.animal)
+                
+                g.append('ul').attr('class', 'animal--list').attr('data-animal', d => d.animal)
+
+                return g
+            })
+            .style('grid-area', (d, i) => `${(i + 1) * 2} / 1 / span 1 / span 1 `)
+
+        setupFacilities($g)
+    }
+
 }
 
 function switchFacility(){
@@ -125,10 +231,26 @@ function switchFacility(){
 
     const $exhib = $section.select(`[data-exhibit="${exhibit}"]`)
 
+    let $li = null
+
     // set low opacity for non-selected
-    const $li = $exhib.selectAll('ul').filter((d, i, n) => {
+    if (MOBILE){
+        $li = $mobileAnimals.selectAll('ul').filter((d, i, n) => {
+            console.log({d})
+            return d3.select(n[i]).attr('data-animal') === animal
+        }).selectAll('li')
+    } else {
+       $li = $exhib.selectAll('ul').filter((d, i, n) => {
+        console.log({d})
         return d3.select(n[i]).attr('data-animal') === animal
-    }).selectAll('.video--icon').classed('is-hidden', true)
+    }).selectAll('li') 
+    }
+    
+    $li.classed('selected', false)
+    
+    $li.selectAll('.video--icon').classed('is-hidden', true)
+
+    sel.classed('selected', true)
 
     sel.select('.video--icon').classed('is-hidden', false)
 
@@ -161,7 +283,9 @@ function determineGridRows(d){
     return final
 }
 
-function loadMaps(data, links){
+function loadMaps(){
+    const data = nestedData
+    console.log({data})
     // create group
     const $group = $islands.selectAll('.g-island')
         .data(data)
@@ -213,67 +337,7 @@ function loadMaps(data, links){
                     //.on('click', swapSource)
             })
 
-    // add annotations for desktop
-    const $annoD = $group.selectAll('.annotation--desktop')
-            .data(d => [d.values])
-            .join(enter => enter.append('div').attr('class', 'annotation--desktop'))
-            .style('grid-template-rows', d => determineGridRows(d))
-
-    const $g = $annoD.selectAll('.g-anno')
-            .data(d => d)
-            .join(enter => {
-                const g = enter.append('div').attr('class', 'g-anno').attr('data-list', d => d.animal)
-
-                g.append('h3').attr('class', 'animal--name').text(d => d.animal)
-                
-                g.append('ul').attr('class', 'animal--list').attr('data-animal', d => d.animal)
-
-                return g
-            })
-            .style('grid-area', (d, i) => `${(i + 1) * 2} / 1 / span 1 / span 1 `)
-
-    // add facility names
-    const $list = $g.selectAll('.animal--list')
-
-    $list.selectAll('animal--facility').data(d => {
-        const animal = d.animal 
-        const facilities = links.filter(e => e.animal === animal).map(e => ({
-            ...e,
-            tile: d.tile 
-        }))
-        console.log({d, facilities})//.map(e => {return {animal: d.animal, id: e.id, facility: e.facility}})
-        return facilities
-    }).join(enter => {
-        const $li = enter.append('li')
-            .attr('class', 'animal--facility')
-            .html(d => `${d.facility} <span class='video--icon'>${videoSVG}</span>`)
-            .attr('data-id', d => d.id)
-            .attr('data-animal', d => d.animal)
-            .attr('data-tile', d => d.tile)
-            // .style('opacity', d => {
-            //     const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
-            //         .selectAll('.cam__display')
-            //         .filter((e, i, n) => {
-            //             return d3.select(n[i]).attr('data-animal') === d.animal
-            //         })
-            //     const displayed = thisCam.attr('data-id')
-
-            //     return d.id === displayed ? 1 : 0.4
-            // })
-            .on('click', switchFacility)
-
-            $li.select('.video--icon').classed('is-hidden', d => {
-                const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
-                    .selectAll('.cam__display')
-                    .filter((e, i, n) => {
-                        return d3.select(n[i]).attr('data-animal') === d.animal
-                    })
-                const displayed = thisCam.attr('data-id')
-
-                return d.id !== displayed
-            })
-
-       } )
+    
 
     // $g.selectAll('.animal--name')
     //     .data(d => [d])
@@ -291,7 +355,8 @@ function loadMaps(data, links){
         setupScroll()
 }
 
-function preloadImages(data){
+function preloadImages(){
+    const data = nestedData
     return new Promise(resolve => {
         const allImages = []
 
@@ -312,41 +377,34 @@ function preloadImages(data){
     }).catch(e => console.error(e))
 }
 
-function setupNav(raw){
-    const locData = d3.nest()
-    .key(d => d.location)
-    .entries(raw)
+// function setupNav(raw){
+//     const locData = d3.nest()
+//     .key(d => d.location)
+//     .entries(raw)
 
-    $locations.selectAll('.title').data(locData)
-        .join(enter => enter.append('p')
-            .attr('class', 'title')
-            .text(d => d.key)
+//     $locations.selectAll('.title').data(locData)
+//         .join(enter => enter.append('p')
+//             .attr('class', 'title')
+//             .text(d => d.key)
         
-        )
+//         )
 
-    const animals = findUnique(raw.map(d => d.animal))
+//     const animals = findUnique(raw.map(d => d.animal))
 
-    $animals.selectAll('.name').data(animals)
-        .join(enter => enter.append('p')
-            .attr('class', 'name')
-            .text(d => d)
-        )
-}
+//     $animals.selectAll('.name').data(animals)
+//         .join(enter => enter.append('p')
+//             .attr('class', 'name')
+//             .text(d => d)
+//         )
+// }
 
 
 function init(){
     loadData(['assets/data/arrangement.csv', 'assets/data/links.csv']).then(response => {
         return cleanData(response)
     })
-    .then(({mapped, nested, links}) => {
-        preloadImages(nested)
-        return {mapped, nested, links}
-    })
-    .then(({mapped, nested, links}) => {
-        console.log({mapped, nested, links})
-        //setupNav(mapped)
-        loadMaps(nested, links)
-    })
+    .then(() => preloadImages())
+    .then(() => loadMaps())
 }
 
 export default { init, resize };

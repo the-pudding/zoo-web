@@ -1,15 +1,47 @@
 .navigation
     position fixed 
     bottom 0
-    background-color $off-black
-    color $white
+    background-color darken($bg, 10)
+    color $primary
     width 100vw
     display flex 
     justify-content space-between
     padding 1rem 
     z-index 20
-    max-height 150px
+    max-height 400px
     overflow hidden
-    p
+    +mq('bp-5')
+        display none
+    .animal 
+        display flex 
+        flex-direction column
+    h3 
+        font-weight bold 
+        font-family $national
+        text-transform capitalize
+        set-type-size('x-large')
+        margin-top 0.25rem
+
+    ul 
+        display flex 
+        flex-direction row
         margin 0
-        font-family $national-narrow
+        li
+            pointer-events all
+            set-type-size('small')
+            font-family $national-narrow
+            display flex 
+            align-items center
+            margin-right 0.5rem
+            font-weight normal
+            &.selected
+                font-weight bold 
+            .video--icon 
+                display none
+                margin-left 0.25rem
+                margin-right 0.5rem
+                transform scale(0.7)
+                opacity 1
+                fill $primary
+                &.is-hidden 
+                    opacity 0
