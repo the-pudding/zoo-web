@@ -3,6 +3,7 @@ import loadImage from './utils/load-image-promise'
 import 'intersection-observer'
 import scrollama from 'scrollama'
 import findUnique from './utils/unique';
+import videoSVG from './videoSVG'
 
 const $section = d3.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
@@ -49,10 +50,13 @@ function setupScroll(){
         .onStepEnter(response => {
             const {element, index, direction} = response
             swapSource(element)
+            $section.selectAll('.cam__display').classed('in-focus', false)
+            d3.select(element).classed('in-focus', true)
         })
         .onStepExit(response => {
             const {element, index, direction} = response
             swapSource(element)
+            d3.select(element).classed('in-focus', false)
         })
 }
 
@@ -107,11 +111,11 @@ function switchFacility(){
     const $exhib = $section.select(`[data-exhibit="${exhibit}"]`)
 
     // set low opacity for non-selected
-    $exhib.selectAll('ul').filter((d, i, n) => {
+    const $li = $exhib.selectAll('ul').filter((d, i, n) => {
         return d3.select(n[i]).attr('data-animal') === animal
-    }).selectAll('li').style('opacity', 0.4)
+    }).selectAll('.video--icon').classed('is-hidden', true)
 
-    sel.style('opacity', 1)
+    sel.select('.video--icon').classed('is-hidden', false)
 
     // find which display to switch
     const match = $exhib.selectAll('.cam__display').filter((d, i, n) => {
@@ -224,14 +228,26 @@ function loadMaps(data, links){
         }))
         console.log({d, facilities})//.map(e => {return {animal: d.animal, id: e.id, facility: e.facility}})
         return facilities
-    }).join(enter => 
-        enter.append('li')
+    }).join(enter => {
+        const $li = enter.append('li')
             .attr('class', 'animal--facility')
-            .text(d => d.facility)
+            .html(d => `${d.facility} <span class='video--icon'>${videoSVG}</span>`)
             .attr('data-id', d => d.id)
             .attr('data-animal', d => d.animal)
             .attr('data-tile', d => d.tile)
-            .style('opacity', d => {
+            // .style('opacity', d => {
+            //     const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
+            //         .selectAll('.cam__display')
+            //         .filter((e, i, n) => {
+            //             return d3.select(n[i]).attr('data-animal') === d.animal
+            //         })
+            //     const displayed = thisCam.attr('data-id')
+
+            //     return d.id === displayed ? 1 : 0.4
+            // })
+            .on('click', switchFacility)
+
+            $li.select('.video--icon').classed('is-hidden', d => {
                 const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
                     .selectAll('.cam__display')
                     .filter((e, i, n) => {
@@ -239,10 +255,10 @@ function loadMaps(data, links){
                     })
                 const displayed = thisCam.attr('data-id')
 
-                return d.id === displayed ? 1 : 0.4
+                return d.id !== displayed
             })
-            .on('click', switchFacility)
-        )
+
+       } )
 
     // $g.selectAll('.animal--name')
     //     .data(d => [d])

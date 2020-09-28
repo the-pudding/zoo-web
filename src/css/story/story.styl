@@ -43,6 +43,15 @@
                     pointer-events all
                     set-type-size('medium')
                     font-family $national-narrow
+                    display flex 
+                    align-items center
+                    .video--icon 
+                        margin-left 0.5rem
+                        transform scale(0.7)
+                        opacity 1
+                        fill $primary
+                        &.is-hidden 
+                            opacity 0
 
 
 
@@ -80,6 +89,8 @@
             display block
             pointer-events auto
             object-fit cover
+            filter saturate(0.25)
+            transition filter 300ms ease-in-out
             &:nth-child(even)
                 justify-self start
                 transform translateX(-4%)
@@ -87,6 +98,9 @@
                 transform translateX(4%)
                 justify-self end
                 // transform translateX(140px)
+            &.in-focus
+                filter saturate(1)
+                transition filter 300ms ease-in-out
 
 
     +mq('bp-5')
