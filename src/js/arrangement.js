@@ -73,6 +73,18 @@ function setupScroll(){
             $section.selectAll('.cam__display').classed('in-focus', false)
             d3.select(element).classed('in-focus', true)
             highlightList(element)
+            if (MOBILE) {
+                const animal = d3.select(element).attr('data-animal')
+                const $ul = $mobileAnimals.select(`[data-animal="${animal}"]`)
+                const offset = $ul.node
+                console.log({offset})
+
+                $ul.node().scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                }
+                )
+            }
         })
         .onStepExit(response => {
             const {element, index, direction} = response
@@ -182,6 +194,7 @@ function setupNav(){
             .data(mappedData)
             .join(enter => {
             const $container = enter.append('div').attr('class', 'g-anno')
+                .attr('data-list', d => d.animal)
                 .style('align-self', d => d.positionX === 'L' ? 'flex-start' : 'flex-end')
 
             $container.append('h3').attr('class', 'animal--name').text(d => d.animal)
