@@ -42,6 +42,20 @@ function swapSource(el){
   
   }
 
+function highlightList(element){
+     const all = $section.selectAll('.g-anno')
+     
+     all.classed('in-focus', false)
+
+     const animal = d3.select(element).attr('data-animal')
+
+     console.log({animal})
+
+     $section.select(`[data-list="${animal}"]`).classed('in-focus', true)
+     
+     
+}
+
 function setupScroll(){
     scroller 
         .setup({
@@ -52,6 +66,7 @@ function setupScroll(){
             swapSource(element)
             $section.selectAll('.cam__display').classed('in-focus', false)
             d3.select(element).classed('in-focus', true)
+            highlightList(element)
         })
         .onStepExit(response => {
             const {element, index, direction} = response
@@ -207,7 +222,7 @@ function loadMaps(data, links){
     const $g = $annoD.selectAll('.g-anno')
             .data(d => d)
             .join(enter => {
-                const g = enter.append('div').attr('class', 'g-anno')
+                const g = enter.append('div').attr('class', 'g-anno').attr('data-list', d => d.animal)
 
                 g.append('h3').attr('class', 'animal--name').text(d => d.animal)
                 
