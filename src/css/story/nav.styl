@@ -8,40 +8,46 @@
     justify-content space-between
     padding 1rem 
     z-index 20
-    max-height 250px
+    max-height 150px
     overflow hidden
     +mq('bp-5')
         display none
     .animal 
         display flex 
         flex-direction column
-    h3 
-        font-weight bold 
-        font-family $national
-        text-transform capitalize
-        set-type-size('x-large')
-        margin-top 0.25rem
-
-    ul 
-        display flex 
-        flex-direction row
-        margin 0
-        li
-            pointer-events all
-            set-type-size('small')
-            font-family $national-narrow
-            display flex 
-            align-items center
-            margin-right 0.5rem
-            font-weight normal
-            &.selected
-                font-weight bold 
-            .video--icon 
-                display none
-                margin-left 0.25rem
-                margin-right 0.5rem
-                transform scale(0.7)
+        .g-anno 
+            opacity 0.3
+            &.in-focus 
                 opacity 1
-                fill $primary
+            h3 
+                font-weight bold 
+                font-family $national
+                text-transform capitalize
+                set-type-size('x-large')
+                margin-top 0.25rem
+
+            ul 
+                display flex 
+                flex-direction row
+                margin 0
                 &.is-hidden 
-                    opacity 0
+                    display none 
+                li
+                    pointer-events all
+                    set-type-size('small')
+                    font-family $national-narrow
+                    display flex 
+                    align-items center
+                    margin-right 0.5rem
+                    font-weight normal
+                    &.selected
+                        font-weight bold 
+                    .video--icon 
+                        display none
+                        margin-left 0.25rem
+                        margin-right 0.5rem
+                        transform scale(0.7)
+                        opacity 1
+                        fill $primary
+                        &.is-hidden 
+                            opacity 0

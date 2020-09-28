@@ -57,7 +57,7 @@ function highlightList(element){
 
      console.log({animal})
 
-     $section.select(`[data-list="${animal}"]`).classed('in-focus', true)
+     $section.selectAll(`[data-list="${animal}"]`).classed('in-focus', true)
      
      
 }
@@ -74,10 +74,11 @@ function setupScroll(){
             d3.select(element).classed('in-focus', true)
             highlightList(element)
             if (MOBILE) {
+                $mobileAnimals.selectAll('ul').classed('is-hidden', true)
                 const animal = d3.select(element).attr('data-animal')
                 const $ul = $mobileAnimals.select(`[data-animal="${animal}"]`)
-                const offset = $ul.node
-                console.log({offset})
+                $ul.classed('is-hidden', false)
+    
 
                 $ul.node().scrollIntoView({
                     behavior: 'smooth',
@@ -90,6 +91,11 @@ function setupScroll(){
             const {element, index, direction} = response
             swapSource(element)
             d3.select(element).classed('in-focus', false)
+            // if (MOBILE){
+            //     const animal = d3.select(element).attr('data-animal')
+            //     const $ul = $mobileAnimals.select(`[data-animal="${animal}"]`)
+            //     $ul.classed('is-hidden', true)
+            // }
         })
 }
 
