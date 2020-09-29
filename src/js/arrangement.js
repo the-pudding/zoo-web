@@ -75,7 +75,7 @@ function setupScroll(){
             if (MOBILE) {
                 $mobileAnimals.selectAll('ul').classed('is-hidden', true)
                 const animal = d3.select(element).attr('data-animal')
-                const $ul = $mobileAnimals.select(`[data-animal="${animal}"]`)
+                const $ul = $mobileAnimals.selectAll(`[data-animal="${animal}"]`)
                 $ul.classed('is-hidden', false)
     
 
@@ -369,20 +369,6 @@ function loadMaps(){
                     //.style('z-index', -10)
                     //.on('click', swapSource)
             })
-
-    
-
-    // $g.selectAll('.animal--name')
-    //     .data(d => [d])
-    //     .join(enter => {
-    //         enter.append('h3')
-    //             .attr('class', 'animal--name')
-    //             .text(d => d.animal)
-                
-    //     })
-
-
-        
 
         resize()
         setupScroll()

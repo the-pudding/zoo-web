@@ -29,19 +29,23 @@
 
     &__content 
         display flex 
-        flex-direction row
+        flex-direction column-reverse
         max-width 50rem
         margin 0 auto
+        &:mq('bp-5')
+            flex-direction row
     &__video
         flex 2
         max-width 500px
         margin-right 2rem
         .modal__video--carousel
-            display flex 
+            display none 
             flex-direction row 
             justify-content space-between
             margin-top 2rem
             position relative
+            +mq('bp-5')
+                display flex 
             &.is-hidden 
                 display none
             .g-carousel 
