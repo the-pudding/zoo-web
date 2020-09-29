@@ -4,6 +4,7 @@ import 'intersection-observer'
 import scrollama from 'scrollama'
 import findUnique from './utils/unique';
 import videoSVG from './videoSVG'
+import modal from './modal'
 
 const $section = d3.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
@@ -88,11 +89,6 @@ function setupScroll(){
             const {element, index, direction} = response
             swapSource(element)
             d3.select(element).classed('in-focus', false)
-            // if (MOBILE){
-            //     const animal = d3.select(element).attr('data-animal')
-            //     const $ul = $mobileAnimals.select(`[data-animal="${animal}"]`)
-            //     $ul.classed('is-hidden', true)
-            // }
         })
 }
 
@@ -114,6 +110,18 @@ function cleanData(dat){
         resolve ({mappedData, nestedData, links: dat[1]})
     })
 
+}
+
+function launchModal(){
+    const $sel = d3.select(this)
+    const animal = $sel.attr('data-animal')
+
+    console.log({animal})
+
+    const group  = $section.selectAll(`[data-list="${animal}"]`)
+    const facility = group.selectAll('.animal--facility.selected').node().innerText.trim()
+
+    modal.setup(mappedData, linkData, animal, facility)
 }
 
 
@@ -344,6 +352,7 @@ function loadMaps(){
                     .attr('data-animal', d => d.animal)
                     .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.camera[0]}.png`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
+                    .on('click', launchModal)
                     //.style('z-index', -10)
                     //.on('click', swapSource)
             })
