@@ -14,6 +14,27 @@
         flex 2
         max-width 500px
         margin-right 2rem
+        .modal__video--carousel
+            display flex 
+            flex-direction row 
+            justify-content space-between
+            margin-top 2rem
+            position relative
+            .g-carousel 
+                position relative
+            .carousel__display 
+                max-width 225px
+                filter saturate(0.4)
+            .carousel__facility
+                position absolute
+                bottom 0
+                left 0
+                padding 0.25rem 
+                background-color rgba($off-black, 0.75)
+                color $white
+                set-type-size('small')
+                font-family $national-narrow
+
 
     &__info 
         flex 1
