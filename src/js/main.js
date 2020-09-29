@@ -44,6 +44,8 @@ function init() {
   setupStickyHeader();
   // kick off graphic code
   // graphic.init();
+  const file = `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/20.png`
+  console.log({test: new Date(file.lastModified)})
 
   // arrange graphics
   arrangement.init()
