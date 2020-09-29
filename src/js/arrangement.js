@@ -338,7 +338,14 @@ function loadMaps(){
             // append map artwork
             $container.append('img')
                 .attr('class', 'exhibit')
-                .attr('src', d => `assets/images/${d[0].tile}.png`)
+                .attr('src', d => `assets/images/${d[0].tile}-0.png`)
+                .style('grid-area', (d, i, n) => {
+                    return `1 / 1 / ${d.length + 1} / 3`
+                })
+
+            $container.append('img')
+            .attr('class', 'exhibit-top')
+                .attr('src', d => `assets/images/${d[0].tile}-2.png`)
                 .style('grid-area', (d, i, n) => {
                     return `1 / 1 / ${d.length + 1} / 3`
                 })
@@ -387,7 +394,7 @@ function preloadImages(){
         const allImages = []
 
         for (let i = 0; i < data.length; ++i){
-            const imgPromise = loadImage(`assets/images/${data[i].key}.png`)
+            const imgPromise = loadImage(`assets/images/${data[i].key}-0.png`)
 
             imgPromise.then(img => {
                 img.onload(() => {
