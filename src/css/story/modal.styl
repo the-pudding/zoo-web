@@ -7,5 +7,50 @@
     z-index 100
     display flex 
     margin-top 4rem
+    padding 1rem 2rem
     &.is-hidden
         display none
+    &__video
+        flex 2
+        max-width 500px
+        margin-right 2rem
+
+    &__info 
+        flex 1
+        font-family $national
+        color $white
+        h3 
+            font-weight bold 
+            text-transform capitalize
+            set-type-size('xx-large')
+            margin-top 0.25rem
+        .modal__info-facility
+            set-type-size('large')
+            font-family $national-narrow
+            margin 0.25rem 0
+        .modal__info-help 
+            text-transform uppercase
+            set-type-size('small')
+            margin-bottom 0
+            font-weight bold
+
+        ul 
+            li, a
+                font-family $national-narrow
+                set-type-size('root')
+                color $white
+
+        .modal__info-fact 
+            border-top 1px solid $white 
+            padding 2rem 0 0 0
+            margin-top 2rem
+            .fact__intro 
+                margin 0.25rem 0
+                set-type-size('root')
+            .fact__text 
+                set-type-size('small')
+            .fact__link, a
+                set-type-size('small')
+                color $white
+
+    
