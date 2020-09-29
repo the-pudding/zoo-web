@@ -18,7 +18,7 @@ function loadFile(file) {
       d3.csv(`${file}`)
         .then(resolve)
         .catch(reject);
-    else if (ext === 'json')
+    else if (ext === 'json' || ext === 'geojson')
       d3.json(`assets/data/${file}`)
         .then(resolve)
         .catch(reject);

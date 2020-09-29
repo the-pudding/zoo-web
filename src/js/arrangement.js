@@ -5,6 +5,7 @@ import scrollama from 'scrollama'
 import findUnique from './utils/unique';
 import videoSVG from './videoSVG'
 import modal from './modal'
+import globe from './globe'
 
 const $section = d3.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
@@ -402,7 +403,10 @@ function init(){
         return cleanData(response)
     })
     .then(() => preloadImages())
-    .then(() => loadMaps())
+    .then(() => {
+        loadMaps()
+        globe.init()
+    })
 }
 
 export default { init, resize };
