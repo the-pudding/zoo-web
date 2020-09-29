@@ -207,8 +207,11 @@ function setupNav(){
                 .attr('data-list', d => d.animal)
                 .style('align-self', d => d.positionX === 'L' ? 'flex-start' : 'flex-end')
 
-            $container.append('h3').attr('class', 'animal--name').text(d => d.animal)
-            .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
+            $container.append('h3').attr('class', 'animal--name')
+                .text(d => d.animal)
+                .attr('data-animal', d => d.animal)
+                .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
+                .on('click', 'launchModal')
 
             $container.append('ul').attr('class', 'animal--list')
                 .attr('data-animal', d => d.animal)
@@ -233,7 +236,10 @@ function setupNav(){
             .join(enter => {
                 const g = enter.append('div').attr('class', 'g-anno').attr('data-list', d => d.animal)
 
-                g.append('h3').attr('class', 'animal--name').text(d => d.animal)
+                g.append('h3').attr('class', 'animal--name')
+                    .text(d => d.animal)
+                    .attr('data-animal', d => d.animal)
+                    .on('click', launchModal)
                 
                 g.append('ul').attr('class', 'animal--list').attr('data-animal', d => d.animal)
 

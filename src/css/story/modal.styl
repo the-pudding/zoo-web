@@ -6,10 +6,32 @@
     top 0
     z-index 100
     display flex 
-    margin-top 4rem
+    margin-top 3rem
     padding 1rem 2rem
+    display flex 
+    flex-direction column
     &.is-hidden
         display none
+    &__quit 
+        font-family $national-narrow
+        set-type-size('root') 
+        text-transform uppercase
+        color $gray
+        display flex 
+        flex-direction row 
+        align-items center
+        margin-bottom 0.5rem
+        pointer-events none
+        p 
+            margin 0
+        svg 
+            transform scale(0.7)
+
+    &__content 
+        display flex 
+        flex-direction row
+        max-width 50rem
+        margin 0 auto
     &__video
         flex 2
         max-width 500px
@@ -20,8 +42,12 @@
             justify-content space-between
             margin-top 2rem
             position relative
+            &.is-hidden 
+                display none
             .g-carousel 
                 position relative
+                pointer-events all
+                cursor pointer
             .carousel__display 
                 max-width 225px
                 filter saturate(0.4)
@@ -60,11 +86,17 @@
                 font-family $national-narrow
                 set-type-size('root')
                 color $white
+                visibility visible
+                &.is-hidden 
+                    visibility hidden
 
         .modal__info-fact 
             border-top 1px solid $white 
             padding 2rem 0 0 0
             margin-top 2rem
+            display block 
+            &.is-hidden
+                display none
             .fact__intro 
                 margin 0.25rem 0
                 set-type-size('root')
