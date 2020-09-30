@@ -10,6 +10,7 @@ import globe from './globe'
 const $section = d3.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
 const $mobileAnimals = d3.selectAll('[data-js="navigation"]')
+const $update = d3.select('.update')
 
 let linkData = null
 let mappedData = null
@@ -397,6 +398,33 @@ function preloadImages(){
     }).catch(e => console.error(e))
 }
 
+function setupTimestamps(){
+    d3.json(`https://pudding-data-processing.s3.amazonaws.com/zoo-cams/timestamps.json`)
+        .then(result => {
+            const timestampData = result.map(d => ({
+                ...d,
+                id: +d.id,
+                timestamp: +d.timestamp
+            }))
+                .sort((a, b) => d3.descending(a.timestamp, b.timestamp))
+                .shift()
+            
+            const currentTime = Date.now() 
+
+            const elapsed = d3.timeMinute.count(timestampData.timestamp, currentTime)
+
+
+            $update.text(() => {
+                if (elapsed < 60) return `~${elapsed} minutes ago`
+             else return `~${d3.timeHour.count(timestampData.timestamp, currentTime)} hours ago`
+            })
+        
+        })
+            .catch(new Error("Couldn't load timestamp data"));
+
+      
+
+}
 
 function init(){
     loadData(['assets/data/arrangement.csv', 'assets/data/links.csv']).then(response => {
@@ -405,6 +433,7 @@ function init(){
     .then(() => preloadImages())
     .then(() => {
         loadMaps()
+        setupTimestamps()
         globe.init()
     })
 }
