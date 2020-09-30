@@ -247,7 +247,9 @@ function setupNav(){
 
                 return g
             })
-            .style('grid-area', (d, i) => `${(i + 1) * 2} / 1 / span 1 / span 1 `)
+            .style('grid-area', (d, i) => {
+                console.log({d})
+                return `${(d.positionY) * 2} / 1 / span 1 / span 1 `})
 
         setupFacilities($g)
     }
@@ -304,11 +306,12 @@ function switchFacility(){
 }
 
 function determineGridRows(d){
-    const top = TOP_GAP[d.length]
-    const middle = MIDDLE_GAP[d.length]
-    const tile = d[0].tile
-    const final = `${top} repeat(${d.length - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
-    //gridRows.push({tile: `${tile}`, gridRow: final })
+    const last = d3.max(d.map(e => e.positionY))
+    console.log({last})
+    const top = TOP_GAP[last]
+    const middle = MIDDLE_GAP[last]
+    const final = `${top} repeat(${last - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
+
     return final
 }
 
@@ -365,6 +368,9 @@ function loadMaps(){
                     .attr('data-id', d => d.camera[0])
                     .attr('data-type', 'png')
                     .attr('data-animal', d => d.animal)
+                    .style('justify-self', d => d.positionX === 'R' ? 'start' : 'end')
+                    .style('margin-right', d => d.positionX === 'R' ? 0 : `4%`)
+                    .style('margin-left', d => d.positionX === 'R' ? `-4%` : 0)
                     .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.camera[0]}.png`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
                     .on('click', launchModal)
