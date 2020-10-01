@@ -3,12 +3,15 @@ import loadData from './load-data'
 const $globes = d3.selectAll('.globe')
 const $svg = $globes.selectAll('svg')
 
-const projection = d3.geoOrthographic();
+let projection = d3.geoOrthographic();
 const path = d3.geoPath(projection)//.projection(projection);
 const TILT = 20;
 const OUTLINE = {type: 'Sphere'};
+const DURATION = 1000
 let $map = null
 let geo = null
+
+let markerData = null
 
 let p1 = [0, 0];
 let p2 = [0, 0];
@@ -94,28 +97,43 @@ function interpolateLinear([a1, b1, c1, d1], [a2, b2, c2, d2]) {
   }
 
 function update(lat, long){
-    const matched = geo.features.filter( e => e.properties.iso_a2 === 'GB')
+    const matched = geo.features.filter( e => e.properties.iso_a2 === 'US')[0]
     console.log({matched})
 
     p1 = p2
-    p2 = d3.geoCentroid(matched)
+    p2 = projection([lat, long])
     r1 = r2;
     r2 = [-p2[0], TILT - p2[1], 0];
     const iv = interpolateAngles(r1, r2);
 
-    d3.transition()
-        .duration(500)
-        .tween('render', () => (t) => {
-            projection.rotate(iv(t));
-            console.log({projection})
+    console.log({p1, p2, r1, r2, iv, matched})
+    const countryPaths = $map.selectAll('.path-country');
 
-            // countryPaths
-            //     .attr('d', path)
-            //     .classed(
-            //         'highlighted',
-            //         (e) => e.properties.iso_a2 === iso
-            //     );
-        });
+    d3.transition()
+      .duration(DURATION)
+      .tween('render', () => (t) => {
+        projection.rotate(iv(t));
+       countryPaths.attr('d', path)
+
+       $svg.selectAll('.marker')
+       .attr('cx', d => projection([d.long, d.lat])[0])
+      .attr('cy', d => projection([d.long, d.lat])[1])
+      .attr('fill', d => {
+        const coordinate = [d.long, d.lat]
+        const gDistance = d3.geoDistance(coordinate, projection.invert([70, 70]))
+        return gDistance > 1.57 ? 'none' : 'steelblue'
+      })
+      })
+
+}
+
+function drawMarkers(markers){
+  const circles = $svg.selectAll('.marker')
+    .data(markers)
+    .join(enter => enter.append('circle')
+      .attr('class', 'marker')  
+      .attr('r', 15)
+    )
 }
 
 function resize(){}
@@ -127,9 +145,12 @@ function setupMap(geojson){
     $map.append('path').attr('class', 'path-sphere');
     $map.append('g').attr('class', 'g-countries');
 
+    const width = 150
+    const height = 150
+
     // draw map
     projection
-        .fitSize([150, 150], geojson)
+        .fitExtent([[10, 10], [width - 10, height - 10]], geojson)
         .center([0, 0])
         .rotate([0, -30]);
 
@@ -141,29 +162,21 @@ function setupMap(geojson){
         .style('stroke-width', '1px')
         .lower();
 
-    const countryPaths = $map
-        .select('.g-countries')
-        .selectAll('.path-country')
-        .data(geojson.features);
+    const countryPaths = $map.select('.g-countries').selectAll('.path-country')
+        .data(geojson.features)
+        .join(enter => enter.append('path').attr('class', d => `path-country country-${d.properties.iso_a2}`))
 
-    countryPaths.exit().remove();
-
-    const countriesEnter = countryPaths
-        .enter()
-        .append('path')
-        .attr('class', (d) => `path-country country-${d.properties.iso_a2}`);
-
-    // draw path on merge
-    countriesEnter.merge(countryPaths).attr('d', path);
+      countryPaths.attr('d', path)
 
     geo = geojson;
 }
 
 
-function init(){
+function init(markers){
+  markerData = markers
     loadData('custom.geojson')
         .then(result => setupMap(result))
-        .then(() => update(77.375894, -43.538519))
+        .then(() => drawMarkers(markers))
 }
 
 

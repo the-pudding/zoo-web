@@ -66,14 +66,22 @@ function highlightList(element){
 function setupScroll(){
     scroller 
         .setup({
-            step: '.cam__display'
+            step: '.cam__display',
+            debug: false
         })
         .onStepEnter(response => {
             const {element, index, direction} = response
             swapSource(element)
             $section.selectAll('.cam__display').classed('in-focus', false)
-            d3.select(element).classed('in-focus', true)
+            const $el = d3.select(element)
+            $el.classed('in-focus', true)
             highlightList(element)
+            
+            // update globe 
+            const elData = $el.data()[0]
+            console.log({elData, lat: elData.lat, long: elData.long})
+            globe.update(+elData.lat, +elData.long)
+
             if (MOBILE) {
                 $mobileAnimals.selectAll('ul').classed('is-hidden', true)
                 const animal = d3.select(element).attr('data-animal')
@@ -440,7 +448,9 @@ function init(){
     .then(() => {
         loadMaps()
         setupTimestamps()
-        globe.init()
+
+
+        globe.init(mappedData)
     })
 }
 
