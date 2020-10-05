@@ -5,7 +5,7 @@ const $svg = $globes.selectAll('svg')
 
 let projection = d3.geoOrthographic();
 const path = d3.geoPath(projection)//.projection(projection);
-const TILT = 20;
+const TILT = 5;
 const OUTLINE = {type: 'Sphere'};
 const DURATION = 1000
 let $map = null
@@ -97,32 +97,46 @@ function interpolateLinear([a1, b1, c1, d1], [a2, b2, c2, d2]) {
   }
 
 function update(lat, long){
-    const matched = geo.features.filter( e => e.properties.iso_a2 === 'US')[0]
-    console.log({matched})
+    const matched = geo.features.filter( e => e.properties.iso_a2 === 'CA')[0]
+    const matched2 = geo.features.filter( e => e.properties.iso_a2 === 'US')[0]
+    const manual = projection([long, lat])
+    const manualInv = projection.invert(manual)
+    const cent = d3.geoCentroid(matched)
+    const centInv = projection.invert(cent)
+    console.log({manual, manualInv, cent, centInv})
 
     p1 = p2
-    p2 = projection([lat, long])
+    p2 = projection([long, lat])
     r1 = r2;
-    r2 = [-p2[0], TILT - p2[1], 0];
+    r2 = [p2[0], TILT - p2[1], 0];
     const iv = interpolateAngles(r1, r2);
 
     console.log({p1, p2, r1, r2, iv, matched})
     const countryPaths = $map.selectAll('.path-country');
 
+    // var x = point[0],
+    //     y = point[1],
+    //     cx = x,
+    //     cy = y - 25,
+    //     rotation = [-cx, -cy];
+    // projection.rotate(rotation);
+    // loftedProjection.rotate(rotation);
+
     d3.transition()
       .duration(DURATION)
       .tween('render', () => (t) => {
         projection.rotate(iv(t));
-       countryPaths.attr('d', path)
+        countryPaths.attr('d', path)
+        //projection.rotate(projection.invert([long, lat]))
 
        $svg.selectAll('.marker')
-       .attr('cx', d => projection([d.long, d.lat])[0])
-      .attr('cy', d => projection([d.long, d.lat])[1])
-      .attr('fill', d => {
-        const coordinate = [d.long, d.lat]
-        const gDistance = d3.geoDistance(coordinate, projection.invert([70, 70]))
-        return gDistance > 1.57 ? 'none' : 'steelblue'
-      })
+        .attr('cx', d => projection([d.long, d.lat])[0])
+        .attr('cy', d => projection([d.long, d.lat])[1])
+        .attr('fill', d => {
+          const coordinate = [d.long, d.lat]
+          const gDistance = d3.geoDistance(coordinate, projection.invert([70, 70]))
+          return gDistance > 1.57 ? 'none' : 'steelblue'
+        })
       })
 
 }
@@ -150,9 +164,10 @@ function setupMap(geojson){
 
     // draw map
     projection
-        .fitExtent([[10, 10], [width - 10, height - 10]], geojson)
+        .fitSize([width, height], geojson)
         .center([0, 0])
-        .rotate([0, -30]);
+        .rotate([0, 0]);
+
 
     // size globe border
     $map

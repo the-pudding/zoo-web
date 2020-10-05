@@ -33,6 +33,7 @@ const MIDDLE_GAP = {
 }
 
 const scroller = scrollama()
+const habitatScroller = scrollama()
 
 function swapSource(el){
     const $sel = d3.select(el)//d3.select(this)
@@ -63,6 +64,24 @@ function highlightList(element){
      
 }
 
+function setupHabitatScroll(){
+    habitatScroller 
+        .setup({
+            step: '.g-island',
+            offset: 0.8,
+            debug: true
+        })
+        .onStepEnter(response => {
+            const {element, index, direction} = response
+            const $el = d3.select(element)
+            const elData = $el.data()[0].values[0]
+            const {lat, long} = elData
+
+            // update globe 
+            globe.update(+lat, +long)
+        })
+}
+
 function setupScroll(){
     scroller 
         .setup({
@@ -77,10 +96,7 @@ function setupScroll(){
             $el.classed('in-focus', true)
             highlightList(element)
             
-            // update globe 
-            const elData = $el.data()[0]
-            console.log({elData, lat: elData.lat, long: elData.long})
-            globe.update(+elData.lat, +elData.long)
+
 
             if (MOBILE) {
                 $mobileAnimals.selectAll('ul').classed('is-hidden', true)
@@ -388,6 +404,7 @@ function loadMaps(){
 
         resize()
         setupScroll()
+        setupHabitatScroll()
 }
 
 function preloadImages(){
