@@ -159,8 +159,8 @@ function setupMap(geojson){
     $map.append('path').attr('class', 'path-sphere');
     $map.append('g').attr('class', 'g-countries');
 
-    const width = 150
-    const height = 150
+    const width = 100
+    const height = 100
 
     // draw map
     projection

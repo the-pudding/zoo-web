@@ -154,13 +154,20 @@ function launchModal(){
 
 function findGridArea(cam, i){
     // if on the right, column 2, otherwise 1
-   const row =  cam.positionY * 2
+    const index = cam.index
+    
+    const row =  cam.positionY * 2
     const column = cam.positionX === 'R' ? 2 : 1 
-    return `${row} / ${column} / span 1 / span 1 `
+
+    if (index % 2 === 0) return `${row} / ${column + 1} / span 1 / span 1`
+    else return `${row} / ${column} / span 1 / span 1 `
 }
 
 function findNewHeight(origHeight){
-    const width = window.innerWidth > EXHIBIT_WIDTH ? EXHIBIT_WIDTH : window.innerWidth
+    const windowWidth = window.innerWidth
+    const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
+    
+    const width = biggerThanExhibit ? EXHIBIT_WIDTH * 0.66 : windowWidth
     return origHeight * width / EXHIBIT_WIDTH
 }
 
@@ -331,7 +338,6 @@ function switchFacility(){
 
 function determineGridRows(d){
     const last = d3.max(d.map(e => e.positionY))
-    console.log({last})
     const top = TOP_GAP[last]
     const middle = MIDDLE_GAP[last]
     const final = `${top} repeat(${last - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
@@ -362,21 +368,25 @@ function loadMaps(){
 
             const $container = enter.append('div')
                 .attr('class', d => `tile tile__${d[0].shape}`)
-                .style('grid-template-rows', d => determineGridRows(d))
+                .style('grid-template-rows', (d, i) => determineGridRows(d))
 
             // append map artwork
             $container.append('img')
                 .attr('class', 'exhibit')
                 .attr('src', d => `assets/images/${d[0].tile}-0.png`)
                 .style('grid-area', (d, i, n) => {
-                    return `1 / 1 / ${d.length + 1} / 3`
+                    const exhibitIndex = d[0].index 
+                    if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
+                    else return `1 / 1 / ${d.length + 1} / 3`
                 })
 
             $container.append('img')
             .attr('class', 'exhibit-top')
                 .attr('src', d => `assets/images/${d[0].tile}-2.png`)
                 .style('grid-area', (d, i, n) => {
-                    return `1 / 1 / ${d.length + 1} / 3`
+                    const exhibitIndex = d[0].index 
+                    if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
+                    else return `1 / 1 / ${d.length + 1} / 3`
                 })
 
             return $container

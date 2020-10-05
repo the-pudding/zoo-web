@@ -14,7 +14,7 @@
     flex-direction row
     margin 0 auto
     position relative
-    max-width 1130px
+    max-width 1300px
     pointer-events none
 
 
@@ -26,6 +26,9 @@
         .g-island 
             display flex 
             flex-direction row
+            width 100%
+            &:nth-child(even)
+                margin-top -13vh
 
         .annotation--desktop
             display none
@@ -33,7 +36,6 @@
                 display grid
                 grid-template-columns 1
                 margin-left 4rem
-                flex-grow 1
                 .g-anno 
                     opacity 0.3
                     &.in-focus 
@@ -42,19 +44,23 @@
                     font-weight bold 
                     font-family $national
                     text-transform capitalize
-                    set-type-size('xx-large')
+                    set-type-size('x-large')
                     pointer-events all
                     cursor pointer
+                    margin 0
 
                 ul 
+                    list-style-image url('assets/images/video.svg')
                     li
                         pointer-events all
-                        set-type-size('medium')
+                        set-type-size('root')
                         font-family $national-narrow
                         display flex 
                         align-items center
                         font-weight normal
                         cursor pointer
+                        line-height 1
+                        list-style inherit
                         &.selected
                             font-weight bold 
                         .video--icon 
@@ -66,55 +72,54 @@
                                 opacity 0
 
 
-
-    .tile 
-        height auto
-        position relative            
-        display grid 
-        grid-template-columns repeat(2, 1fr)
-        grid-column-gap -5px
-        overflow hidden
-        margin-top 0
-        pointer-events none
-        z-index auto
-        max-width 550px
-        flex-grow 2
-        +mq('bp-5')
-            &:nth-child(even)
-                margin-top -10vh
-        // grid-row-gap 205px
-        // &__R2
-        //     grid-template-rows 17.8% 1fr 17.8% 1fr 17.8%
-
-        &:nth-child(even)
-            transform translate(0, 0)
-        .exhibit 
-            display inline-block
-            padding 0
-            margin 0 auto
-            max-width 1228px
-            pointer-events none
-            &-top
-                z-index 10
-        .cam__display
-            width 75%
+        .tile 
             height auto
-            display block
-            pointer-events auto
-            object-fit cover
-            filter saturate(0.25)
-            transform scale(1)
-            transform-origin center
-            transition filter, transform 300ms ease-in-out
-            cursor pointer
+            position relative            
+            display grid 
+            grid-template-columns repeat(2, 1fr)
+            grid-column-gap -5px
+            overflow hidden
+            margin-top 0
+            pointer-events none
+            z-index auto
+            max-width 550px
+            +mq('bp-5')
+                grid-template-columns repeat(3, 1fr)
 
-            &.in-focus
-                filter saturate(1)
-                transform scale(1.05)
+            // grid-row-gap 205px
+            // &__R2
+            //     grid-template-rows 17.8% 1fr 17.8% 1fr 17.8%
+
+            &:nth-child(even)
+                transform translate(0, 0)
+            .exhibit 
+                display inline-block
+                padding 0
+                margin 0 auto
+                max-width 1228px
+                pointer-events none
+                &-top
+                    z-index 10
+            .cam__display
+                width 75%
+                height auto
+                display block
+                pointer-events auto
+                object-fit cover
+                filter saturate(0.25)
+                transform scale(1)
                 transform-origin center
                 transition filter, transform 300ms ease-in-out
+                cursor pointer
+
+                &.in-focus
+                    filter saturate(1)
+                    transform scale(1.05)
+                    transform-origin center
+                    transition filter, transform 300ms ease-in-out
 
 
-    +mq('bp-5')
-        .tile:nth-child(even)
-            transform translate(0, 100px)
+        +mq('bp-5')
+            .tile:nth-child(even)
+                transform translate(0, 100px)
+
