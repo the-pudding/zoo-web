@@ -1,9 +1,9 @@
 index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,long
-1,arctic,1,R,"11, 90, 109",polar bear,2,R2,526,Arctic,63.088,-119.788
-1,arctic,2,L,37,beluga whale,2,R2,526,Arctic,63.088,-119.788
-2,glacier,1,R,40,puffin,2,R2,526,Arctic,48.652,-123.919
-2,glacier,2,L,45,harbor seal,2,R2,526,Arctic,48.652,-123.919
-3,wildwest,1,R,"140, 141",grizzly bear,5,R5,1198,North America,35.484,-120.228
-3,wildwest,3,R,72,river otter,5,R5,1198,North America,35.484,-120.228
-3,wildwest,4,L,16,burrowing owl,5,R5,1198,North America,35.484,-120.228
-3,wildwest,5,R,18,California condor,5,R5,1198,North America,35.484,-120.228
+1,arctic,1,R,"11, 90, 109",polar bear,2,R2,1174,Arctic,63.088,-119.788
+1,arctic,2,L,37,beluga whale,2,R2,1174,Arctic,63.088,-119.788
+2,glacier,1,R,40,puffin,2,R2,1174,Arctic,48.652,-123.919
+2,glacier,2,L,45,harbor seal,2,R2,1174,Arctic,48.652,-123.919
+3,wildwest,1,R,"140, 141",grizzly bear,5,R5,2674,North America,35.484,-120.228
+3,wildwest,3,R,72,river otter,5,R5,2674,North America,35.484,-120.228
+3,wildwest,4,L,16,burrowing owl,5,R5,2674,North America,35.484,-120.228
+3,wildwest,5,R,18,California condor,5,R5,2674,North America,35.484,-120.228

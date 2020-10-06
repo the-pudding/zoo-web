@@ -9,7 +9,8 @@ import globe from './globe'
 
 const $section = d3.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
-const $mobileAnimals = d3.selectAll('[data-js="navigation"]')
+const $mobileNav = d3.selectAll('[data-js="navigation"]')
+const $mobileAnimals = $mobileNav.select('.animal')
 const $update = d3.select('.update')
 
 let linkData = null
@@ -22,7 +23,7 @@ const BREAKPOINT = 848
 let MOBILE = false
 let MOBILE_SETUP = false
 let DESKTOP_SETUP = false
-const EXHIBIT_WIDTH = 550
+const EXHIBIT_WIDTH = 1228
 const TOP_GAP = {
     2: '17.6%',
     5: '7.7%'
@@ -69,7 +70,7 @@ function setupHabitatScroll(){
         .setup({
             step: '.g-island',
             offset: 0.8,
-            debug: true
+            debug: false
         })
         .onStepEnter(response => {
             const {element, index, direction} = response
@@ -166,9 +167,22 @@ function findGridArea(cam, i){
 function findNewHeight(origHeight){
     const windowWidth = window.innerWidth
     const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
-    
-    const width = biggerThanExhibit ? EXHIBIT_WIDTH * 0.66 : windowWidth
-    return origHeight * width / EXHIBIT_WIDTH
+
+    const heightToWidthRatio = +origHeight / EXHIBIT_WIDTH
+
+    const islandWidth = $islands.selectAll('.tile').node().offsetWidth
+
+    // if on desktop, the island image should be 2/3 of the entire island group
+    // otherwise, all islands stack so should be the entire island width
+    const imgWidth = MOBILE ? islandWidth : islandWidth * .66
+
+    const newImgHeight = +origHeight * imgWidth / EXHIBIT_WIDTH
+
+    console.log({imgWidth, new: imgWidth * heightToWidthRatio})
+    const width = biggerThanExhibit ? EXHIBIT_WIDTH : windowWidth
+
+    console.log({biggerThanExhibit, width, origHeight, new: origHeight * width / EXHIBIT_WIDTH})
+    return imgWidth * heightToWidthRatio
 }
 
 function resize(){
@@ -233,7 +247,7 @@ function setupNav(){
     // if on mobile and mobile nav isn't already setup
     if (MOBILE === true && MOBILE_SETUP === false){ 
         MOBILE_SETUP = true
-        $g = $mobileAnimals.select('.animal').selectAll('.g-anno')
+        $g = $mobileAnimals.selectAll('.g-anno')
             .data(mappedData)
             .join(enter => {
             const $container = enter.append('div').attr('class', 'g-anno')
