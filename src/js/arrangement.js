@@ -102,13 +102,23 @@ function setupScroll(){
             if (MOBILE) {
                 $mobileAnimals.selectAll('ul').classed('is-hidden', true)
                 const animal = d3.select(element).attr('data-animal')
-                const $ul = $mobileAnimals.selectAll(`[data-animal="${animal}"]`)
+                const $ul = $mobileAnimals.selectAll('ul')
+                    .filter((d, i, n) => {
+                        return d3.select(n[i]).attr('data-animal') === animal
+                    })
+                
+                //.selectAll(`[data-animal="${animal}"]`)
                 $ul.classed('is-hidden', false)
+
+                // $mobileAnimals.node().scrollTop = $ul.node().offsetTop
+
+                // console.log({check: $ul.node().offsetTop, node: $mobileAnimals.node(), $ul})
     
 
                 $ul.node().scrollIntoView({
                     behavior: 'smooth',
-                    block: 'center'
+                    block: 'center',
+                    inline: 'start'
                 })
             }
         })

@@ -97,6 +97,7 @@ function interpolateLinear([a1, b1, c1, d1], [a2, b2, c2, d2]) {
   }
 
 function update(lat, long){
+  if(geo){
     const matched = geo.features.filter( e => e.properties.iso_a2 === 'CA')[0]
     const matched2 = geo.features.filter( e => e.properties.iso_a2 === 'US')[0]
     const manual = projection([long, lat])
@@ -138,6 +139,8 @@ function update(lat, long){
           return gDistance > 1.57 ? 'none' : 'steelblue'
         })
       })
+  }
+    
 
 }
 
