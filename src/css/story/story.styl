@@ -14,7 +14,7 @@
     flex-direction row
     margin 0 auto
     position relative
-    max-width 1300px
+    max-width 1200px
     pointer-events none
 
 
@@ -22,12 +22,13 @@
         display flex 
         flex-direction column
         margin 0 auto
-        max-width 1300px
+        padding 0 0.5rem
+        // max-width 1300px
 
         .g-island 
             display flex 
             flex-direction row
-            max-width 1300px
+      
             +mq('bp-5')
                 &:nth-child(even)
                     margin-top -5em
@@ -38,6 +39,7 @@
                 display grid
                 grid-template-columns 1
                 margin-left 4rem
+                width 30%
                 .g-anno 
                     opacity 0.3
                     &.in-focus 
@@ -75,7 +77,6 @@
 
 
         .tile 
-            height auto
             position relative            
             display grid 
             // grid-template-columns repeat(2, 1fr)
@@ -84,8 +85,11 @@
             margin-top 0
             pointer-events none
             z-index auto
-            max-width 700px
+            width 100%
+            
+            // max-width 700px
             +mq('bp-5')
+                width 70%
                 grid-template-columns repeat(3, 1fr)
 
             // grid-row-gap 205px
@@ -100,6 +104,7 @@
                 margin 0 auto
                 max-width 1228px
                 pointer-events none
+                
                 &-top
                     z-index 10
             .cam__display

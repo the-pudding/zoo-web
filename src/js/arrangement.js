@@ -24,6 +24,7 @@ let MOBILE = false
 let MOBILE_SETUP = false
 let DESKTOP_SETUP = false
 const EXHIBIT_WIDTH = 1228
+const MAX_ISLAND_WIDTH = 1200
 const TOP_GAP = {
     2: '17.6%',
     5: '7.7%'
@@ -175,12 +176,22 @@ function findGridArea(cam, i){
 }
 
 function findNewHeight(origHeight){
+    //  what percent of island container does this take up?
+    const EXHIBIT_RATIO = MOBILE ? 1 : .70
+    const EXHIBIT_PADDING = 16
+
+    console.log({EXHIBIT_RATIO})
+
+
+
+    console.log('new height')
     const windowWidth = window.innerWidth
     const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
 
     const heightToWidthRatio = +origHeight / EXHIBIT_WIDTH
 
-    const islandWidth = $islands.selectAll('.tile').node().offsetWidth
+    const islandWidth = windowWidth > MAX_ISLAND_WIDTH ? MAX_ISLAND_WIDTH * EXHIBIT_RATIO - EXHIBIT_PADDING :
+     windowWidth * EXHIBIT_RATIO - EXHIBIT_PADDING
 
     // if on desktop, the island image should be 2/3 of the entire island group
     // otherwise, all islands stack so should be the entire island width
@@ -188,7 +199,7 @@ function findNewHeight(origHeight){
 
     const newImgHeight = +origHeight * imgWidth / EXHIBIT_WIDTH
 
-    console.log({imgWidth, new: imgWidth * heightToWidthRatio})
+    console.log({imgWidth, islandWidth, new: imgWidth * heightToWidthRatio})
     const width = biggerThanExhibit ? EXHIBIT_WIDTH : windowWidth
 
     console.log({biggerThanExhibit, width, origHeight, new: origHeight * width / EXHIBIT_WIDTH})
@@ -196,14 +207,14 @@ function findNewHeight(origHeight){
 }
 
 function resize(){
-
+    MOBILE = window.innerWidth < BREAKPOINT
     $islands.selectAll('.tile, .annotation--desktop')
         .style('height', d => {
             const newHeight = `${findNewHeight(d[0].imHeight)}px`
             return newHeight
         })
 
-    MOBILE = window.innerWidth < BREAKPOINT
+    
     setupNav()
 }
 
@@ -436,9 +447,7 @@ function loadMaps(){
                     //.on('click', swapSource)
             })
 
-        resize()
-        setupScroll()
-        setupHabitatScroll()
+
 }
 
 function preloadImages(){
@@ -462,6 +471,7 @@ function preloadImages(){
      Promise.all(allImages).then(resolve).catch(e => console.log(`Error in loading images`))
     }).catch(e => console.error(e))
 }
+
 
 function setupTimestamps(){
     d3.json(`https://pudding-data-processing.s3.amazonaws.com/zoo-cams/timestamps.json`)
@@ -502,6 +512,11 @@ function init(){
 
 
         globe.init(mappedData)
+    })
+    .then(() => {
+        resize()
+        setupScroll()
+        setupHabitatScroll()
     })
 }
 
