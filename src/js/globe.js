@@ -176,8 +176,8 @@ function setupMap(geojson){
     $map
         .select('.path-sphere')
         .attr('d', path(OUTLINE))
-        .style('fill', 'white')
-        .style('stroke-width', '1px')
+        // .style('fill', 'white')
+        // .style('stroke-width', '1px')
         .lower();
 
     const countryPaths = $map.select('.g-countries').selectAll('.path-country')
