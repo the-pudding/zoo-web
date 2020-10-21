@@ -26,11 +26,17 @@ let DESKTOP_SETUP = false
 const EXHIBIT_WIDTH = 1228
 const MAX_ISLAND_WIDTH = 1200
 const TOP_GAP = {
+    1: '22.3%',
     2: '17.6%',
+    3: '12.2%',
+    4: '9.4%',
     5: '7.7%'
 }
 const MIDDLE_GAP = {
+    1: '22.3%',
     2: '17.6%',
+    3: '12.2%',
+    4: '9.4%',
     5: '7.7%'
 }
 

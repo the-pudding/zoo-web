@@ -107,39 +107,21 @@ function update(lat, long){
     console.log({manual, manualInv, cent, centInv})
 
     p1 = p2
-    p2 = projection([long, lat])
+    p2 = [long, lat]
     r1 = r2;
-    r2 = [p2[0], TILT - p2[1], 0];
+    r2 = [-p2[0], TILT - p2[1], 0];
     const iv = interpolateAngles(r1, r2);
 
     console.log({p1, p2, r1, r2, iv, matched})
     const countryPaths = $map.selectAll('.path-country');
-
-    // var x = point[0],
-    //     y = point[1],
-    //     cx = x,
-    //     cy = y - 25,
-    //     rotation = [-cx, -cy];
-    // projection.rotate(rotation);
-    // loftedProjection.rotate(rotation);
 
     d3.transition()
       .duration(DURATION)
       .tween('render', () => (t) => {
         projection.rotate(iv(t));
         countryPaths.attr('d', path)
-        //projection.rotate(projection.invert([long, lat]))
-
-       $svg.selectAll('.marker')
-        .attr('cx', d => projection([d.long, d.lat])[0])
-        .attr('cy', d => projection([d.long, d.lat])[1])
-        .attr('fill', d => {
-          const coordinate = [d.long, d.lat]
-          const gDistance = d3.geoDistance(coordinate, projection.invert([70, 70]))
-          return gDistance > 1.57 ? 'none' : 'steelblue'
-        })
-      })
-  }
+  })
+}
     
 
 }
@@ -194,7 +176,7 @@ function init(markers){
   markerData = markers
     loadData('custom.geojson')
         .then(result => setupMap(result))
-        .then(() => drawMarkers(markers))
+        //.then(() => drawMarkers(markers))
 }
 
 
