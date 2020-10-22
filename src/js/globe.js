@@ -104,7 +104,6 @@ function update(lat, long){
     const manualInv = projection.invert(manual)
     const cent = d3.geoCentroid(matched)
     const centInv = projection.invert(cent)
-    console.log({manual, manualInv, cent, centInv})
 
     p1 = p2
     p2 = [long, lat]
@@ -112,7 +111,6 @@ function update(lat, long){
     r2 = [-p2[0], TILT - p2[1], 0];
     const iv = interpolateAngles(r1, r2);
 
-    console.log({p1, p2, r1, r2, iv, matched})
     const countryPaths = $map.selectAll('.path-country');
 
     d3.transition()

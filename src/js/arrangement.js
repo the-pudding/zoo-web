@@ -160,8 +160,6 @@ function launchModal(){
     const $sel = d3.select(this)
     const animal = $sel.attr('data-animal')
 
-    console.log({animal})
-
     const group  = $section.selectAll(`[data-list="${animal}"]`)
     const facility = group.selectAll('.animal--facility.selected').node().innerText.trim()
 
@@ -186,11 +184,6 @@ function findNewHeight(origHeight){
     const EXHIBIT_RATIO = MOBILE ? 1 : .70
     const EXHIBIT_PADDING = 16
 
-    console.log({EXHIBIT_RATIO})
-
-
-
-    console.log('new height')
     const windowWidth = window.innerWidth
     const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
 
@@ -205,10 +198,8 @@ function findNewHeight(origHeight){
 
     const newImgHeight = +origHeight * imgWidth / EXHIBIT_WIDTH
 
-    console.log({imgWidth, islandWidth, new: imgWidth * heightToWidthRatio})
     const width = biggerThanExhibit ? EXHIBIT_WIDTH : windowWidth
 
-    console.log({biggerThanExhibit, width, origHeight, new: origHeight * width / EXHIBIT_WIDTH})
     return imgWidth * heightToWidthRatio
 }
 
@@ -320,7 +311,6 @@ function setupNav(){
                 return g
             })
             .style('grid-area', (d, i) => {
-                console.log({d})
                 return `${(d.positionY) * 2} / 1 / span 1 / span 1 `})
 
         setupFacilities($g)
@@ -477,7 +467,7 @@ function preloadImages(){
         }
 
      Promise.all(allImages).then(resolve).catch(e => console.log(`Error in loading images`))
-    }).catch(e => console.error(e))
+    }).catch(e => console.error(`Error with preload ${e}`))
 }
 
 
