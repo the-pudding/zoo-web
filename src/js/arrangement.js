@@ -181,6 +181,7 @@ function findGridArea(cam, i){
 
 function findNewHeight(origHeight){
     //  what percent of island container does this take up?
+    // TODO WHAT IS GOING ON HERE
     const EXHIBIT_RATIO = MOBILE ? 1 : .70
     const EXHIBIT_PADDING = 16
 
