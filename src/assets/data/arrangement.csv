@@ -34,7 +34,7 @@ index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,lo
 10,kanji,3,L,"84, 111",snow leopard,3,R3,1674,East Asia,29.4892,86.5182
 11,india,1,L,"56, 24",Asian elephant,3,L3,1674,India,26.9991,79.3794
 11,india,2,R,13,tiger,3,L3,1674,India,23.1283,74.1545
-11,india,3,L,66,lion,3,L3,1674,India,21.1316,70.6152
+11,india,3,L,66,asiatic lion,3,L3,1674,India,21.1316,70.6152
 12,escape,1,R,75,lemurs,2,R2,1174,Madagascar,-14.1167,49.5034
 12,escape,2,L,"34, 35",shark & fish,2,R2,1174,Madagascar,-5.3428,45.385
 13,mara,1,R,9,baboon,4,R4,2174,African plains,-3.3561,38.0281

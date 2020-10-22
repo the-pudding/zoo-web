@@ -34,10 +34,10 @@ const TOP_GAP = {
 }
 const MIDDLE_GAP = {
     1: '22.3%',
-    2: '17.6%',
-    3: '12.2%',
-    4: '9.4%',
-    5: '7.7%'
+    2: '14%',
+    3: '10%',
+    4: '7%',
+    5: '5%'
 }
 
 const scroller = scrollama()
@@ -381,7 +381,9 @@ function determineGridRows(d){
     const last = d3.max(d.map(e => e.positionY))
     const top = TOP_GAP[last]
     const middle = MIDDLE_GAP[last]
-    const final = `${top} repeat(${last - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
+    let final = null 
+    if (last === 1) final = `${top} 1fr ${top}`
+    else final = `${top} repeat(${last - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
 
     return final
 }
