@@ -416,7 +416,7 @@ function loadMaps(){
             // append map artwork
             $container.append('img')
                 .attr('class', 'exhibit')
-                .attr('src', d => `assets/images/${d[0].tile}-0.png`)
+                .attr('src', d => `assets/images/${d[0].tile}-0.PNG`)
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
@@ -425,7 +425,7 @@ function loadMaps(){
 
             $container.append('img')
             .attr('class', 'exhibit-top')
-                .attr('src', d => `assets/images/${d[0].tile}-2.png`)
+                .attr('src', d => `assets/images/${d[0].tile}-2.PNG`)
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
@@ -464,7 +464,7 @@ function preloadImages(){
         const allImages = []
 
         for (let i = 0; i < data.length; ++i){
-            const imgPromise = loadImage(`assets/images/${data[i].key}-0.png`)
+            const imgPromise = loadImage(`assets/images/${data[i].key}-0.PNG`)
 
             imgPromise.then(img => {
                 img.onload(() => {
