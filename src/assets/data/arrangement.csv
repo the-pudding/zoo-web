@@ -1,5 +1,5 @@
 index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,long
-1,arctic,1,R,"11, 90, 109",polar bear,2,R2,1174,Arctic,90,0
+1,arctic,1,R,"11, 90, 109",polar bear,2,R2,1174,Arctic,89,-52.2841
 1,arctic,2,L,37,beluga whale,2,R2,1174,Arctic,83,-52.2841
 2,glacier,1,R,"40, 98",puffin,2,R2,1174,Arctic,74.1272,-80.202
 2,glacier,2,L,45,harbor seal,2,R2,1174,Arctic,68.5851,-99.0782
@@ -22,15 +22,15 @@ index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,lo
 6,pacific,4,R,2,shark & fish,5,L5,2674,Pacific Ocean,-29.5035,-168.6107
 6,pacific,5,L,"42, 73",reef,5,L5,2674,Pacific Ocean,-42.4176,-174.4636
 7,zealand,1,R,80,penguins,1,R1,924,New Zealand,-42.5713,175.5233
-8,aussie,1,R,"47, 65, 17",koala,4,L4,2174,Australia,-30.8305,152.3815
-8,aussie,2,L,"49, 50",reptiles,4,L4,2174,Australia,-23.4038,136.0905
-8,aussie,3,R,48,dingo,4,L4,2174,Australia,-16.8938,133.6621
-8,aussie,4,L,"8, 51",platypus,4,L4,2174,Australia,-12.3812,133.1462
-9,sumatra,1,R,"12, 108",orangutan,3,L3,1674,Sumatra,-0.6965,112.5357
-9,sumatra,2,L,64,Sumatran tiger,3,L3,1674,Sumatra,-3.507,104.4071
-9,sumatra,3,R,???,sun bear,3,L3,1674,Sumatra,13.624,108.491
-10,kanji,1,L,124,snow monkey,3,R3,1674,East Asia,35.3989,137.0534
-10,kanji,2,R,"23, 53, 61",giant panda,3,R3,1674,East Asia,26.9369,104.0084
+8,aussie,1,L,"47, 65, 17",koala,4,L4,2174,Australia,-30.8305,152.3815
+8,aussie,2,R,"49, 50",reptiles,4,L4,2174,Australia,-23.4038,136.0905
+8,aussie,3,L,48,dingo,4,L4,2174,Australia,-16.8938,133.6621
+8,aussie,4,R,"8, 51",platypus,4,L4,2174,Australia,-12.3812,133.1462
+9,sumatra,1,L,"12, 108",orangutan,3,L3,1674,Sumatra,-0.6965,112.5357
+9,sumatra,2,R,64,Sumatran tiger,3,L3,1674,Sumatra,-3.507,104.4071
+9,sumatra,3,L,???,sun bear,3,L3,1674,Sumatra,13.624,108.491
+10,kanji,1,R,124,snow monkey,3,R3,1674,East Asia,35.3989,137.0534
+10,kanji,2,L,"23, 53, 61",giant panda,3,R3,1674,East Asia,26.9369,104.0084
 10,kanji,3,L,"84, 111",snow leopard,3,R3,1674,East Asia,29.4892,86.5182
 11,india,1,L,"56, 24",Asian elephant,3,L3,1674,India,26.9991,79.3794
 11,india,2,R,13,tiger,3,L3,1674,India,23.1283,74.1545
@@ -50,4 +50,4 @@ index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,lo
 15,namibia,5,R,"39, 10, 78, 100",African penguin,5,R5,2674,Namibia,-31.1192,17.8522
 16,south,1,L,"69, 97",shark & fish,3,L3,1674,Antarctica,-54.3575,15.802
 16,south,2,R,"71, 107",penguins,3,L3,1674,Antarctica,-69.3348,31.0731
-16,south,3,L,63,penguins,3,L3,1674,Antarctica,-90,0
+16,south,3,L,63,penguins,3,L3,1674,Antarctica,-89,31.0731
