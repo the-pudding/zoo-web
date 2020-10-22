@@ -20,11 +20,11 @@ function resize() {
   }
 }
 
-window.addEventListener('scroll', e => {
-  const scrolled = window.pageYOffset
-  const background = d3.select('.background')
-  background.style('top', `${-scrolled * 0.1}px`)
-})
+// window.addEventListener('scroll', e => {
+//   const scrolled = window.pageYOffset
+//   const background = d3.select('.background')
+//   background.style('top', `${-scrolled * 0.1}px`)
+// })
 
 function setupStickyHeader() {
   const $header = $body.select("header");
