@@ -101,8 +101,10 @@ function setupScroll(){
         .onStepEnter(response => {
             const {element, index, direction} = response
 
+            const first = index === 0 && direction === 'down'
+    
             // stop anything else playing 
-            if (index !== 0){
+            if (first === false){
                 const playing = $islands.select('[data-type="gif"]')
                 if (playing){
                     swapSource(playing.node())
@@ -200,11 +202,10 @@ function findGridArea(cam, i){
 
 function findNewHeight(origHeight){
     //  what percent of island container does this take up?
-    // TODO WHAT IS GOING ON HERE
     const EXHIBIT_RATIO = MOBILE ? 1 : .70
     const EXHIBIT_PADDING = 16
 
-    const windowWidth = window.innerWidth
+    const windowWidth = $section.node().offsetWidth
     const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
 
     const heightToWidthRatio = +origHeight / EXHIBIT_WIDTH
@@ -226,6 +227,8 @@ function findNewHeight(origHeight){
     const output = Math.ceil(imgWidth * heightToWidthRatio)
 
     heights[origHeight] = output
+
+    console.log({newImgHeight, width, imgWidth, islandWidth, heights, output, windowWidth})
 
     return output
 }
@@ -409,7 +412,6 @@ function determineGridRows(d){
     let final = null 
     if (last === 1) final = `${top} 1fr ${top}`
     else final = `${top} repeat(${last - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
-    console.log({last, d, final})
     return final
 }
 

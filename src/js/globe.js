@@ -116,8 +116,7 @@ function update(lat, long){
     d3.transition()
       .duration(DURATION)
       .tween('render', () => (t) => {
-        projection.rotate(iv(t));
-        console.log({rotation: iv(t)})
+        projection.rotate(iv(t))
         countryPaths.attr('d', path)
   })
 }
