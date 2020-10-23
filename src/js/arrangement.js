@@ -28,7 +28,7 @@ let DESKTOP_SETUP = false
 const EXHIBIT_WIDTH = 1228
 const MAX_ISLAND_WIDTH = 1200
 const TOP_GAP = {
-    1: '21.2',
+    1: '21.2%',
     2: '16.7%',
     3: '11.7%',
     4: '9.02%',
@@ -408,7 +408,7 @@ function determineGridRows(d){
     let final = null 
     if (last === 1) final = `${top} 1fr ${top}`
     else final = `${top} repeat(${last - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
-
+    console.log({last, d, final})
     return final
 }
 
