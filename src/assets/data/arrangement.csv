@@ -14,7 +14,7 @@ index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,lo
 4,monterey,4,R,6,blue cavern,4,L4,2174,North America,9.9253,-89.973
 5,igazu,1,L,112,tamarin,4,L4,2174,Argentina,9.9253,-89.973
 5,igazu,2,R,43,piranha,4,L4,2174,Argentina,-24.2074,-52.8978
-5,igazu,3,L,112,two-toed sloth,4,L4,2174,Argentina,-26.013,-48.4018
+5,igazu,3,L,67,two-toed sloth,4,L4,2174,Argentina,-26.013,-48.4018
 5,igazu,4,R,"0, 1",Magellanic penguin,4,L4,2174,Argentina,-55.3188,-66.5588
 6,pacific,1,L,31,open sea,5,L5,2674,Pacific Ocean,-45.6932,-106.4169
 6,pacific,2,R,"28, 29, 36, 77",jellyfish,5,L5,2674,Pacific Ocean,-25.2236,-138.7501

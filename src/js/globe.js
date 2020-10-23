@@ -172,7 +172,7 @@ function setupMap(geojson){
 
 function init(markers){
   markerData = markers
-    loadData('custom.geojson')
+    loadData('custom2.geojson')
         .then(result => setupMap(result))
         //.then(() => drawMarkers(markers))
 }

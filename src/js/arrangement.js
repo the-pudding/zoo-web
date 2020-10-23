@@ -200,36 +200,6 @@ function findGridArea(cam, i){
     else return `${row} / ${column} / span 1 / span 1 `
 }
 
-// function findNewHeight(origHeight){
-//     //  what percent of island container does this take up?
-//     const EXHIBIT_RATIO = MOBILE ? 1 : .70
-//     const EXHIBIT_PADDING = 16
-
-//     const windowWidth = $section.node().offsetWidth
-//     const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
-
-//     const heightToWidthRatio = +origHeight / EXHIBIT_WIDTH
-
-//     const islandWidth = windowWidth > MAX_ISLAND_WIDTH ?
-//      MAX_ISLAND_WIDTH * EXHIBIT_RATIO - EXHIBIT_PADDING:
-//      windowWidth * EXHIBIT_RATIO - EXHIBIT_PADDING
-
-//     // if on desktop, the island image should be 2/3 of the entire island group
-//     // otherwise, all islands stack so should be the entire island width
-//     const imgWidth = MOBILE ? islandWidth : islandWidth * .66
-
-
-
-//     const newImgHeight = +origHeight * imgWidth / EXHIBIT_WIDTH
-
-//     const width = biggerThanExhibit ? EXHIBIT_WIDTH : windowWidth
-
-//     const output = Math.ceil(imgWidth * heightToWidthRatio)
-
-//     heights[origHeight] = output
-
-//     return output
-// }
 
 function resize(){
     MOBILE = window.innerWidth < BREAKPOINT
