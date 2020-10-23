@@ -100,13 +100,22 @@ function setupScroll(){
         })
         .onStepEnter(response => {
             const {element, index, direction} = response
+
+            // stop anything else playing 
+            if (index !== 0){
+                const playing = $islands.select('[data-type="gif"]')
+                if (playing){
+                    swapSource(playing.node())
+                    playing.classed('in-focus', false)
+                }
+            }
+
             swapSource(element)
             $section.selectAll('.cam__display').classed('in-focus', false)
             const $el = d3.select(element)
             $el.classed('in-focus', true)
             highlightList(element)
             
-
 
             if (MOBILE) {
                 $mobileAnimals.selectAll('ul').classed('is-hidden', true)
@@ -131,11 +140,13 @@ function setupScroll(){
                 })
             }
         })
-        .onStepExit(response => {
-            const {element, index, direction} = response
-            swapSource(element)
-            d3.select(element).classed('in-focus', false)
-        })
+        // .onStepExit(response => {
+        //     const {element, index, direction} = response
+
+        //     console.log({playing})
+        //     //swapSource(element)
+        //     d3.select(element).classed('in-focus', false)
+        // })
 }
 
 function cleanData(dat){
