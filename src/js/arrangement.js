@@ -166,10 +166,10 @@ function cleanData(dat){
 
         linkData = dat[1]
 
-        const uniqueHeights = findUnique(mappedData.map(d => d.imHeight))
-        uniqueHeights.forEach(h => {
-            heights[h] = findNewHeight(h)
-        })
+        // const uniqueHeights = findUnique(mappedData.map(d => d.imHeight))
+        // uniqueHeights.forEach(h => {
+        //     heights[h] = findNewHeight(h)
+        // })
     
         resolve ({mappedData, nestedData, links: dat[1]})
     })
@@ -200,52 +200,51 @@ function findGridArea(cam, i){
     else return `${row} / ${column} / span 1 / span 1 `
 }
 
-function findNewHeight(origHeight){
-    //  what percent of island container does this take up?
-    const EXHIBIT_RATIO = MOBILE ? 1 : .70
-    const EXHIBIT_PADDING = 16
+// function findNewHeight(origHeight){
+//     //  what percent of island container does this take up?
+//     const EXHIBIT_RATIO = MOBILE ? 1 : .70
+//     const EXHIBIT_PADDING = 16
 
-    const windowWidth = $section.node().offsetWidth
-    const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
+//     const windowWidth = $section.node().offsetWidth
+//     const biggerThanExhibit = windowWidth > EXHIBIT_WIDTH
 
-    const heightToWidthRatio = +origHeight / EXHIBIT_WIDTH
+//     const heightToWidthRatio = +origHeight / EXHIBIT_WIDTH
 
-    const islandWidth = windowWidth > MAX_ISLAND_WIDTH ?
-     MAX_ISLAND_WIDTH * EXHIBIT_RATIO - EXHIBIT_PADDING:
-     windowWidth * EXHIBIT_RATIO - EXHIBIT_PADDING
+//     const islandWidth = windowWidth > MAX_ISLAND_WIDTH ?
+//      MAX_ISLAND_WIDTH * EXHIBIT_RATIO - EXHIBIT_PADDING:
+//      windowWidth * EXHIBIT_RATIO - EXHIBIT_PADDING
 
-    // if on desktop, the island image should be 2/3 of the entire island group
-    // otherwise, all islands stack so should be the entire island width
-    const imgWidth = MOBILE ? islandWidth : islandWidth * .66
+//     // if on desktop, the island image should be 2/3 of the entire island group
+//     // otherwise, all islands stack so should be the entire island width
+//     const imgWidth = MOBILE ? islandWidth : islandWidth * .66
 
 
 
-    const newImgHeight = +origHeight * imgWidth / EXHIBIT_WIDTH
+//     const newImgHeight = +origHeight * imgWidth / EXHIBIT_WIDTH
 
-    const width = biggerThanExhibit ? EXHIBIT_WIDTH : windowWidth
+//     const width = biggerThanExhibit ? EXHIBIT_WIDTH : windowWidth
 
-    const output = Math.ceil(imgWidth * heightToWidthRatio)
+//     const output = Math.ceil(imgWidth * heightToWidthRatio)
 
-    heights[origHeight] = output
+//     heights[origHeight] = output
 
-    console.log({newImgHeight, width, imgWidth, islandWidth, heights, output, windowWidth})
-
-    return output
-}
+//     return output
+// }
 
 function resize(){
     MOBILE = window.innerWidth < BREAKPOINT
+
+    const $exhibits = $islands.selectAll('.exhibit')
+    $exhibits.nodes().forEach(ex => {
+        const tile = d3.select(ex).attr('data-tile')
+        const h = ex.offsetHeight
+        heights[tile] = h 
+    })
     
     $islands.selectAll('.tile, .annotation--desktop')
-        .style('height', d => {
-            const newHeight = findNewHeight(d[0].imHeight)
-            heights[d[0].imHeight] = newHeight
-            
-            return `${newHeight}px`
-        })
+        .style('height', d => `${heights[d[0].tile]}px`)
 
 
-    
     setupNav()
 }
 
@@ -330,8 +329,9 @@ function setupNav(){
             .join(enter => enter.append('div').attr('class', 'annotation--desktop'))
             .style('grid-template-rows', d => determineGridRows(d))
             .style('height', (d) => {
+                console.log({d})
                 
-                const test = `${findNewHeight(d[0].imHeight)}px`
+                const test = `${heights[d[0].tile]}px`
                 return test})
 
         $g = $annoD.selectAll('.g-anno')
@@ -444,11 +444,20 @@ function loadMaps(){
             $container.append('img')
                 .attr('class', 'exhibit')
                 .attr('src', d => `assets/images/${d[0].tile}-0.PNG`)
+                .attr('data-tile', d => d[0].tile)
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
                     else return `1 / 1 / ${d.length + 1} / 3`
                 })
+
+
+            const $exhibits = $container.selectAll('.exhibit')
+            $exhibits.nodes().forEach(ex => {
+                const tile = d3.select(ex).attr('data-tile')
+                const h = ex.offsetHeight
+                heights[tile] = h 
+            })
 
             $container.append('img')
             .attr('class', 'exhibit-top')
