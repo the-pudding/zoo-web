@@ -57,20 +57,21 @@ body
                     margin 0
 
                 ul 
-                    list-style-image url('assets/images/video.svg')
+                    
                     li
                         pointer-events all
                         set-type-size('root')
                         font-family $national-narrow
-                        display flex 
-                        align-items center
                         font-weight normal
                         cursor pointer
                         line-height 1
-                        list-style inherit
+                        display flex 
+                        align-items center
+                        // list-style-image url('assets/images/video.svg')
+                        background-position top 10px
                         &.selected
                             font-weight bold 
-                        .video--icon 
+                        .video--icon
                             margin-left 0.5rem
                             transform scale(0.7)
                             opacity 1

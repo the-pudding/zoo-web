@@ -15,8 +15,8 @@ let markerData = null
 
 let p1 = [0, 0];
 let p2 = [0, 0];
-let r1 = [0, 0, 0];
-let r2 = [0, 0, 0];
+let r1 = [52.3, -84, 0];
+let r2 = [52.3, -84, 0];
 
 // rotate map functions
 
@@ -117,6 +117,7 @@ function update(lat, long){
       .duration(DURATION)
       .tween('render', () => (t) => {
         projection.rotate(iv(t));
+        console.log({rotation: iv(t)})
         countryPaths.attr('d', path)
   })
 }
@@ -149,7 +150,7 @@ function setupMap(geojson){
     projection
         .fitSize([width, height], geojson)
         .center([0, 0])
-        .rotate([0, 0]);
+        .rotate([52.3, -84, 0]);
 
 
     // size globe border
