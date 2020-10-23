@@ -5,13 +5,14 @@ const $videos = $modal.select('.modal__video')
 
 
 
-function setup(islandData, linkData, animal, facility){
+function setup(islandData, linkData, animal, facility, id){
     $modal.classed('is-hidden', false)
 
     $info.select('.modal__info-animal').text(animal)
     $info.select('.modal__info-facility').text(facility)
 
-    const theseData = linkData.filter(d => d.animal === animal && d.facility === facility)[0]
+    const theseData = linkData.filter(d => d.id === id)[0]
+    console.log({theseData, id})
    
     $info.select('.modal__info-help')
     $modal.select('.facility').text(facility)
@@ -53,7 +54,7 @@ function setup(islandData, linkData, animal, facility){
                         const $sel = d3.select(n[i])
                         const id = $sel.attr('data-id')
                         const newFacility = idMap.get(+id)
-                        setup(islandData, linkData, animal, newFacility)
+                        setup(islandData, linkData, animal, newFacility, id)
                     })
 
                 $container

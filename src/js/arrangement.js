@@ -177,11 +177,12 @@ function cleanData(dat){
 function launchModal(){
     const $sel = d3.select(this)
     const animal = $sel.attr('data-animal')
+    const id = $sel.attr('data-id')
 
     const group  = $section.selectAll(`[data-list="${animal}"]`)
     const facility = group.selectAll('.animal--facility.selected').node().innerText.trim()
 
-    modal.setup(mappedData, linkData, animal, facility)
+    modal.setup(mappedData, linkData, animal, facility, id)
 }
 
 
