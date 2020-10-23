@@ -7,11 +7,13 @@ import videoSVG from './videoSVG'
 import modal from './modal'
 import globe from './globe'
 
+
 const $section = d3.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
 const $mobileNav = d3.selectAll('[data-js="navigation"]')
 const $mobileAnimals = $mobileNav.select('.animal')
 const $update = d3.select('.update')
+const heights = []
 
 let linkData = null
 let mappedData = null
@@ -150,6 +152,11 @@ function cleanData(dat){
         .entries(mappedData)
 
         linkData = dat[1]
+
+        const uniqueHeights = findUnique(mappedData.map(d => d.imHeight))
+        uniqueHeights.forEach(h => {
+            heights[h] = findNewHeight(h)
+        })
     
         resolve ({mappedData, nestedData, links: dat[1]})
     })
@@ -190,27 +197,38 @@ function findNewHeight(origHeight){
 
     const heightToWidthRatio = +origHeight / EXHIBIT_WIDTH
 
-    const islandWidth = windowWidth > MAX_ISLAND_WIDTH ? MAX_ISLAND_WIDTH * EXHIBIT_RATIO - EXHIBIT_PADDING :
+    const islandWidth = windowWidth > MAX_ISLAND_WIDTH ?
+     MAX_ISLAND_WIDTH * EXHIBIT_RATIO - EXHIBIT_PADDING:
      windowWidth * EXHIBIT_RATIO - EXHIBIT_PADDING
 
     // if on desktop, the island image should be 2/3 of the entire island group
     // otherwise, all islands stack so should be the entire island width
     const imgWidth = MOBILE ? islandWidth : islandWidth * .66
 
+
+
     const newImgHeight = +origHeight * imgWidth / EXHIBIT_WIDTH
 
     const width = biggerThanExhibit ? EXHIBIT_WIDTH : windowWidth
 
-    return imgWidth * heightToWidthRatio
+    const output = Math.ceil(imgWidth * heightToWidthRatio)
+
+    heights[origHeight] = output
+
+    return output
 }
 
 function resize(){
     MOBILE = window.innerWidth < BREAKPOINT
+    
     $islands.selectAll('.tile, .annotation--desktop')
         .style('height', d => {
-            const newHeight = `${findNewHeight(d[0].imHeight)}px`
-            return newHeight
+            const newHeight = findNewHeight(d[0].imHeight)
+            heights[d[0].imHeight] = newHeight
+            
+            return `${newHeight}px`
         })
+
 
     
     setupNav()
@@ -296,6 +314,10 @@ function setupNav(){
             .data(d => [d.values])
             .join(enter => enter.append('div').attr('class', 'annotation--desktop'))
             .style('grid-template-rows', d => determineGridRows(d))
+            .style('height', (d) => {
+                
+                const test = `${findNewHeight(d[0].imHeight)}px`
+                return test})
 
         $g = $annoD.selectAll('.g-anno')
             .data(d => d)

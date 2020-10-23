@@ -31,7 +31,7 @@ index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,lo
 9,sumatra,3,L,???,sun bear,3,L3,1674,Sumatra,13.624,108.491
 10,kanji,1,R,124,snow monkey,3,R3,1674,East Asia,35.3989,137.0534
 10,kanji,2,L,"23, 53, 61",giant panda,3,R3,1674,East Asia,26.9369,104.0084
-10,kanji,3,L,"84, 111",snow leopard,3,R3,1674,East Asia,29.4892,86.5182
+10,kanji,3,R,"84, 111",snow leopard,3,R3,1674,East Asia,29.4892,86.5182
 11,india,1,L,"56, 24",Asian elephant,3,L3,1674,India,26.9991,79.3794
 11,india,2,R,13,tiger,3,L3,1674,India,23.1283,74.1545
 11,india,3,L,66,asiatic lion,3,L3,1674,India,21.1316,70.6152
