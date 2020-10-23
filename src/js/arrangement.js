@@ -273,6 +273,11 @@ function setupNav(){
             .join(enter => {
             const $container = enter.append('div').attr('class', 'g-anno')
                 .attr('data-list', d => d.animal)
+                // .style('transform', d => {
+                //     const val = d.positionX === 'L' ? 0 : '60%'
+                //     return `translateX(${val})`
+                // })
+                // .style('left', d => d.positionX === 'L' ? 0 : '40%')
                 .style('align-self', d => d.positionX === 'L' ? 'flex-start' : 'flex-end')
 
             $container.append('h3').attr('class', 'animal--name')
@@ -458,7 +463,11 @@ function loadMaps(){
                     .attr('data-animal', d => d.animal)
                     .style('justify-self', d => d.positionX === 'R' ? 'start' : 'end')
                     .style('margin-right', d => d.positionX === 'R' ? 0 : `4%`)
-                    .style('margin-left', d => d.positionX === 'R' ? `-4%` : 0)
+                    .style('margin-left', d => {
+                        const right = d.positionX === 'R' ? `-4%` : 0
+                        const polarBear = d.tile === 'polar' ? `-40%` : right
+                        return polarBear
+                    })
                     .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.camera[0]}.png`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
                     .on('click', launchModal)

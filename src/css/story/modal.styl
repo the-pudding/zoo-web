@@ -13,17 +13,17 @@
         display none
     &__quit 
         font-family $national-narrow
-        set-type-size('root') 
+        set-type-size('small') 
         text-transform uppercase
-        color $white
+        color $zooPink
         display flex 
         flex-direction row 
         align-items center
         margin-bottom 0.5rem
         pointer-events none
-        opacity 0.5
         p 
             margin 0
+            set-type-size('small')
         svg 
             transform scale(0.7)
 
@@ -105,9 +105,8 @@
                     visibility hidden
 
         .modal__info-fact 
-            border-top 1px solid $white 
+            // border-top 1px solid $white 
             padding 2rem 0 0 0
-            margin-top 2rem
             display block 
             &.is-hidden
                 display none
@@ -117,6 +116,7 @@
                 font-style italic
             .fact__text 
                 set-type-size('small')
+                margin 0
             .fact__link, a
                 set-type-size('small')
                 color $white
