@@ -1,6 +1,6 @@
 index,tile,positionY,positionX,camera,animal,display,size,shape,imHeight,location,lat,long
-1,arctic,1,R,"11, 90, 109",polar bear,,2,R2,1174,Arctic,89,-52.2841
-1,arctic,2,L,37,beluga whale,,2,R2,1174,Arctic,83,-52.2841
+0,polar,1,R,"11, 90, 109",polar bear,,1,R2,924,Arctic,89,-52.2841
+1,beluga,1,L,37,beluga whale,,1,L1,924,Arctic,83,-52.2841
 2,glacier,1,R,"40, 98",puffin,,2,R2,1174,Arctic,74.1272,-80.202
 2,glacier,2,L,45,harbor seal,,2,R2,1174,Arctic,68.5851,-99.0782
 3,wildwest,1,R,"140, 141",grizzly bear,,5,R5,2674,North America,51.0223,-112.0381

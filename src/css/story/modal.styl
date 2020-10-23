@@ -1,12 +1,11 @@
 .modal 
     width 100vw 
     height 100vh
-    background-color $off-black
+    background-color $fg
     position fixed
     top 0
     z-index 100
     display flex 
-    margin-top 3rem
     padding 1rem 2rem
     display flex 
     flex-direction column
@@ -16,12 +15,13 @@
         font-family $national-narrow
         set-type-size('root') 
         text-transform uppercase
-        color $gray
+        color $white
         display flex 
         flex-direction row 
         align-items center
         margin-bottom 0.5rem
         pointer-events none
+        opacity 0.5
         p 
             margin 0
         svg 
@@ -85,8 +85,17 @@
             set-type-size('small')
             margin-bottom 0
             font-weight bold
+        
+        .modal__info-full 
+            set-type-size('small')
+        
+        a
+            color $white
+            border-bottom 1px solid $white
+            set-type-style('small')
 
         ul 
+            list-style none
             li, a
                 font-family $national-narrow
                 set-type-size('root')
@@ -104,7 +113,8 @@
                 display none
             .fact__intro 
                 margin 0.25rem 0
-                set-type-size('root')
+                set-type-size('small')
+                font-style italic
             .fact__text 
                 set-type-size('small')
             .fact__link, a

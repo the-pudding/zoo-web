@@ -14,6 +14,8 @@ function setup(islandData, linkData, animal, facility, id){
     const animalTitle = theseData.specific ? theseData.specific : animal
     $info.select('.modal__info-animal').text(animalTitle)
     $info.select('.modal__info-facility').text(facility)
+    $info.select('.modal__info-full').text(`Go to the full live stream`)
+        .attr('href', theseData.link)
     $info.select('.modal__info-help')
     $modal.select('.facility').text(facility)
     $modal.select('.donate').attr('href', theseData.donate)
