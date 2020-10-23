@@ -310,7 +310,11 @@ function setupNav(){
                 const g = enter.append('div').attr('class', 'g-anno').attr('data-list', d => d.animal)
 
                 g.append('h3').attr('class', 'animal--name')
-                    .text(d => d.animal)
+                    .text(d => {
+                        console.log({d})
+                        if (d.display) return d.display 
+                        else return d.animal
+                    })
                     .attr('data-animal', d => d.animal)
                     .on('click', launchModal)
                 
@@ -395,6 +399,7 @@ function loadMaps(){
             enter.append('div')
                 .attr('class', 'g-island')
                 .attr('data-exhibit', d => `${d.key}`)
+                .style('order', (d, i) => i === 0 ? 0 : i + 1)
     )
 
     let gridRows = []

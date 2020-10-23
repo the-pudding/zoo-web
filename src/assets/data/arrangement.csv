@@ -1,53 +1,53 @@
-index,tile,positionY,positionX,camera,animal,size,shape,imHeight,location,lat,long
-1,arctic,1,R,"11, 90, 109",polar bear,2,R2,1174,Arctic,89,-52.2841
-1,arctic,2,L,37,beluga whale,2,R2,1174,Arctic,83,-52.2841
-2,glacier,1,R,"40, 98",puffin,2,R2,1174,Arctic,74.1272,-80.202
-2,glacier,2,L,45,harbor seal,2,R2,1174,Arctic,68.5851,-99.0782
-3,wildwest,1,R,"140, 141",grizzly bear,5,R5,2674,North America,51.0223,-112.0381
-3,wildwest,2,L,72,river otter,5,R5,2674,North America,40.4776,-120.6639
-3,wildwest,3,R,19,ferret,5,R5,2674,North America,38.8622,-120.6568
-3,wildwest,4,L,18,California condor,5,R5,2674,North America,36.7576,-120.2283
-3,wildwest,5,R,16,burrowing owl,5,R5,2674,North America,35.72,-119.9268
-4,monterey,1,L,41,California sea lion,4,L4,2174,North America,34.8607,-120.8066
-4,monterey,2,R,"33, 38, 46, 79, 99, 139",sea otter,4,L4,2174,North America,32.4657,-117.162
-4,monterey,3,L,30,kelp forest,4,L4,2174,North America,27.8559,-114.2903
-4,monterey,4,R,6,blue cavern,4,L4,2174,North America,9.9253,-89.973
-5,igazu,1,L,112,tamarin,4,L4,2174,Argentina,9.9253,-89.973
-5,igazu,2,R,43,piranha,4,L4,2174,Argentina,-24.2074,-52.8978
-5,igazu,3,L,67,two-toed sloth,4,L4,2174,Argentina,-26.013,-48.4018
-5,igazu,4,R,"0, 1",Magellanic penguin,4,L4,2174,Argentina,-55.3188,-66.5588
-6,pacific,1,L,31,open sea,5,L5,2674,Pacific Ocean,-45.6932,-106.4169
-6,pacific,2,R,"28, 29, 36, 77",jellyfish,5,L5,2674,Pacific Ocean,-25.2236,-138.7501
-6,pacific,3,L,"5, 70",reef lagoon,5,L5,2674,Pacific Ocean,-16.6142,-174.0523
-6,pacific,4,R,2,shark & fish,5,L5,2674,Pacific Ocean,-29.5035,-168.6107
-6,pacific,5,L,"42, 73",reef,5,L5,2674,Pacific Ocean,-42.4176,-174.4636
-7,zealand,1,R,80,penguins,1,R1,924,New Zealand,-42.5713,175.5233
-8,aussie,1,L,"47, 65, 17",koala,4,L4,2174,Australia,-30.8305,152.3815
-8,aussie,2,R,"49, 50",reptiles,4,L4,2174,Australia,-23.4038,136.0905
-8,aussie,3,L,48,dingo,4,L4,2174,Australia,-16.8938,133.6621
-8,aussie,4,R,"8, 51",platypus,4,L4,2174,Australia,-12.3812,133.1462
-9,sumatra,1,L,"12, 108",orangutan,3,L3,1674,Sumatra,-0.6965,112.5357
-9,sumatra,2,R,64,Sumatran tiger,3,L3,1674,Sumatra,-3.507,104.4071
-9,sumatra,3,L,???,sun bear,3,L3,1674,Sumatra,13.624,108.491
-10,kanji,1,R,124,snow monkey,3,R3,1674,East Asia,35.3989,137.0534
-10,kanji,2,L,"23, 53, 61",giant panda,3,R3,1674,East Asia,26.9369,104.0084
-10,kanji,3,R,"84, 111",snow leopard,3,R3,1674,East Asia,29.4892,86.5182
-11,india,1,L,"56, 24",Asian elephant,3,L3,1674,India,26.9991,79.3794
-11,india,2,R,13,tiger,3,L3,1674,India,23.1283,74.1545
-11,india,3,L,66,asiatic lion,3,L3,1674,India,21.1316,70.6152
-12,escape,1,R,75,lemurs,2,R2,1174,Madagascar,-14.1167,49.5034
-12,escape,2,L,"34, 35",shark & fish,2,R2,1174,Madagascar,-5.3428,45.385
-13,mara,1,R,9,baboon,4,R4,2174,African plains,-3.3561,38.0281
-13,mara,2,L,"15, 58",savannah,4,R4,2174,African plains,-2.5095,36.3794
-13,mara,3,R,"22, 85",lion,4,R4,2174,African plains,-2.1564,35.1577
-13,mara,4,L,"7, 86",hippopotamus,4,R4,2174,African plains,-3.4276,34.2872
-14,apes,1,R,59,chimpanzee,2,R2,1174,,-4.6479,28.3215
-14,apes,2,L,55,western lowland gorilla,2,R2,1174,,-9.1122,26.7997
-15,namibia,1,R,"54, 81, 123",giraffe,5,R5,2674,Namibia,-17.4545,24.653
-15,namibia,2,L,14,African elephant,5,R5,2674,Namibia,-20.2039,20.1306
-15,namibia,3,R,20,cheetah,5,R5,2674,Namibia,-23.2088,18.0772
-15,namibia,4,L,"103, 110",meerkat,5,R5,2674,Namibia,-27.6584,17.4601
-15,namibia,5,R,"39, 10, 78, 100",African penguin,5,R5,2674,Namibia,-31.1192,17.8522
-16,south,1,L,"69, 97",shark & fish,3,L3,1674,Antarctica,-54.3575,15.802
-16,south,2,R,"71, 107",penguins,3,L3,1674,Antarctica,-69.3348,31.0731
-16,south,3,L,63,penguins,3,L3,1674,Antarctica,-89,31.0731
+index,tile,positionY,positionX,camera,animal,display,size,shape,imHeight,location,lat,long
+1,arctic,1,R,"11, 90, 109",polar bear,,2,R2,1174,Arctic,89,-52.2841
+1,arctic,2,L,37,beluga whale,,2,R2,1174,Arctic,83,-52.2841
+2,glacier,1,R,"40, 98",puffin,,2,R2,1174,Arctic,74.1272,-80.202
+2,glacier,2,L,45,harbor seal,,2,R2,1174,Arctic,68.5851,-99.0782
+3,wildwest,1,R,"140, 141",grizzly bear,,5,R5,2674,North America,51.0223,-112.0381
+3,wildwest,2,L,72,river otter,,5,R5,2674,North America,40.4776,-120.6639
+3,wildwest,3,R,19,ferret,,5,R5,2674,North America,38.8622,-120.6568
+3,wildwest,4,L,18,California condor,,5,R5,2674,North America,36.7576,-120.2283
+3,wildwest,5,R,16,burrowing owl,,5,R5,2674,North America,35.72,-119.9268
+4,monterey,1,L,41,California sea lion,,4,L4,2174,North America,34.8607,-120.8066
+4,monterey,2,R,"33, 38, 46, 139",sea otter,,4,L4,2174,North America,32.4657,-117.162
+4,monterey,3,L,30,kelp forest,,4,L4,2174,North America,27.8559,-114.2903
+4,monterey,4,R,6,blue cavern,,4,L4,2174,North America,9.9253,-89.973
+5,igazu,1,L,112,tamarin,,4,L4,2174,Argentina,9.9253,-89.973
+5,igazu,2,R,43,piranha,,4,L4,2174,Argentina,-24.2074,-52.8978
+5,igazu,3,L,67,two-toed sloth,,4,L4,2174,Argentina,-26.013,-48.4018
+5,igazu,4,R,"0, 1",Magellanic penguin,,4,L4,2174,Argentina,-55.3188,-66.5588
+6,pacific,1,L,31,open sea,,5,L5,2674,Pacific Ocean,-45.6932,-106.4169
+6,pacific,2,R,"28, 29, 36, 77",jellyfish,,5,L5,2674,Pacific Ocean,-25.2236,-138.7501
+6,pacific,3,L,"5, 70",reef lagoon,,5,L5,2674,Pacific Ocean,-16.6142,-174.0523
+6,pacific,4,R,2,sharks,,5,L5,2674,Pacific Ocean,-29.5035,-168.6107
+6,pacific,5,L,"42, 73",reef,,5,L5,2674,Pacific Ocean,-42.4176,-174.4636
+7,zealand,1,R,80,penguins,,1,R1,924,New Zealand,-42.5713,175.5233
+8,aussie,1,L,"47, 65, 17",koala,,4,L4,2174,Australia,-30.8305,152.3815
+8,aussie,2,R,"49, 50",reptiles,,4,L4,2174,Australia,-23.4038,136.0905
+8,aussie,3,L,48,dingo,,4,L4,2174,Australia,-16.8938,133.6621
+8,aussie,4,R,"8, 51",platypus,,4,L4,2174,Australia,-12.3812,133.1462
+9,sumatra,1,L,"12, 108",orangutan,,3,L3,1674,Sumatra,-0.6965,112.5357
+9,sumatra,2,R,64,Sumatran tiger,,3,L3,1674,Sumatra,-3.507,104.4071
+9,sumatra,3,L,???,sun bear,,3,L3,1674,Sumatra,13.624,108.491
+10,kanji,1,R,124,snow monkey,,3,R3,1674,East Asia,35.3989,137.0534
+10,kanji,2,L,"23, 53, 61",giant panda,,3,R3,1674,East Asia,26.9369,104.0084
+10,kanji,3,R,"84, 111",snow leopard,,3,R3,1674,East Asia,29.4892,86.5182
+11,india,1,L,"56, 24",Asian elephant,,3,L3,1674,India,26.9991,79.3794
+11,india,2,R,13,tiger,,3,L3,1674,India,23.1283,74.1545
+11,india,3,L,66,asiatic lion,,3,L3,1674,India,21.1316,70.6152
+12,escape,1,R,75,lemurs,,2,R2,1174,Madagascar,-14.1167,49.5034
+12,escape,2,L,"34, 35",sharks & fish 1,sharks & fish,2,R2,1174,Madagascar,-5.3428,45.385
+13,mara,1,R,9,baboon,,4,R4,2174,African plains,-3.3561,38.0281
+13,mara,2,L,"15, 58",savannah,,4,R4,2174,African plains,-2.5095,36.3794
+13,mara,3,R,"22, 85",lion,,4,R4,2174,African plains,-2.1564,35.1577
+13,mara,4,L,"7, 86",hippopotamus,,4,R4,2174,African plains,-3.4276,34.2872
+14,apes,1,R,59,chimpanzee,,2,R2,1174,,-4.6479,28.3215
+14,apes,2,L,55,western lowland gorilla,,2,R2,1174,,-9.1122,26.7997
+15,namibia,1,R,"54, 81, 123",giraffe,,5,R5,2674,Namibia,-17.4545,24.653
+15,namibia,2,L,14,African elephant,,5,R5,2674,Namibia,-20.2039,20.1306
+15,namibia,3,R,20,cheetah,,5,R5,2674,Namibia,-23.2088,18.0772
+15,namibia,4,L,"103, 110",meerkat,,5,R5,2674,Namibia,-27.6584,17.4601
+15,namibia,5,R,"39, 10, 78, 100",African penguin,,5,R5,2674,Namibia,-31.1192,17.8522
+16,south,1,L,"69, 97",sharks & fish 2,sharks & fish ,3,L3,1674,Antarctica,-54.3575,15.802
+16,south,2,R,"71, 107",penguins 1,penguins ,3,L3,1674,Antarctica,-69.3348,31.0731
+16,south,3,L,63,penguins 2,penguins ,3,L3,1674,Antarctica,-89,31.0731

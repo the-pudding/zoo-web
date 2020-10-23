@@ -4,7 +4,7 @@ header
 	top 0
 	left 0
 	width 100%
-	background-color $white
+	background-color $primary
 	font-family $sans
 
 	a.logo
@@ -14,14 +14,16 @@ header
 		margin 1rem auto
 
 		svg
-			fill $off-black
+			fill $bg
 			display block
 			width 100%
+			path
+				fill $bg
 	
 header.is-sticky
 	position fixed
 	transform translate3d(0,0,0)
-	background-color $white
+	background-color $primary
 	box-shadow 0 0 7px 1px $gray-light
 	height 3rem
 	display flex
@@ -42,7 +44,7 @@ header.is-sticky
 		border none 
 		background-color transparent
 		svg
-			stroke $off-black
+			stroke $bg
 		
 		span
 			&:first-of-type
@@ -68,8 +70,8 @@ header.is-sticky
 		width 100%
 		max-width 30rem
 		padding 1rem 1.5rem
-		background-color $off-black
-		color $off-white
+		background-color $bg
+		color $fg
 		z-index set-index(overlay)
 		transition transform 200ms ease-in-out
 		+mq('bp-3')
@@ -79,10 +81,10 @@ header.is-sticky
 			transform translateX(0)
 
 		a
-			color $off-white
-			border-bottom 1px solid $off-white
+			color $fg
+			border-bottom 1px solid $fg
 			&:hover
-				color $gray-light
+				color lighten($fg, 5)
 
 		.menu__links
 			display flex

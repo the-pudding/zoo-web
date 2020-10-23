@@ -8,12 +8,12 @@ const $videos = $modal.select('.modal__video')
 function setup(islandData, linkData, animal, facility, id){
     $modal.classed('is-hidden', false)
 
-    $info.select('.modal__info-animal').text(animal)
-    $info.select('.modal__info-facility').text(facility)
+
 
     const theseData = linkData.filter(d => d.id === id)[0]
-    console.log({theseData, id})
-   
+    const animalTitle = theseData.specific ? theseData.specific : animal
+    $info.select('.modal__info-animal').text(animalTitle)
+    $info.select('.modal__info-facility').text(facility)
     $info.select('.modal__info-help')
     $modal.select('.facility').text(facility)
     $modal.select('.donate').attr('href', theseData.donate)
