@@ -1,11 +1,17 @@
 <div class='intro'>
-	<h1 class='intro__hed'>{{doc.title}}</h1>
+
+	<h1 class='intro__hed'>
+		<span class='intro__hed--welcome'>
+			{{doc.welcome}}
+		</span>
+		<span class='intro__hed--name'>
+			{{doc.title}}
+		</span>
+
+	</h1>
 	<time class='intro__time'>{{{doc.update}}}</time>
 
 	<div class='intro__text'>
-		{{#each doc.questions}}
-		<p class='prose--big'>{{{value}}}</p>
-		{{/each}}
 
 		{{#each doc.intro}}
 		<p class='prose'>{{{value}}}</p>
