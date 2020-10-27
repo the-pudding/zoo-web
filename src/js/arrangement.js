@@ -95,8 +95,6 @@ function setupHabitatScroll(){
             if (index === TOTAL_ISLANDS){
                 $section.selectAll('.clouds__base, .globe').classed('is-hidden', false)
             }
-
-            console.log({index})
         })
         .onStepExit(response => {
             const {element, index, direction} = response 
@@ -144,10 +142,6 @@ function setupScroll(){
                 
                 //.selectAll(`[data-animal="${animal}"]`)
                 $ul.classed('is-hidden', false)
-
-                // $mobileAnimals.node().scrollTop = $ul.node().offsetTop
-
-                // console.log({check: $ul.node().offsetTop, node: $mobileAnimals.node(), $ul})
     
 
                 $ul.node().scrollIntoView({
@@ -157,29 +151,37 @@ function setupScroll(){
                 })
             }
         })
-        // .onStepExit(response => {
-        //     const {element, index, direction} = response
+}
 
-        //     console.log({playing})
-        //     //swapSource(element)
-        //     d3.select(element).classed('in-focus', false)
-        // })
+function findFirst(arr, facMap){
+    const split = arr.split(', ')
+    const facilities = split.map(d => ({
+        id: d,
+        facility: facMap.get(d)
+    }))
+        .sort((a, b) => d3.ascending(a.facility, b.facility))
+
+    const first = facilities[0].id
+    return first
+
 }
 
 function cleanData(dat){
     return new Promise((resolve) => {
+        linkData = dat[1]
+        const idToFacilityMap = new Map(linkData.map(d => [d.id, d.facility]))
+
         mappedData =  dat[0].map((d) => ({
             ...d,
             index: +d.index,
             positionY: +d.positionY,
-            camera: d.camera.split(', ')
+            camera: d.camera.split(', '),
+            first: findFirst(d.camera, idToFacilityMap)
         }))
 
         nestedData = d3.nest()
         .key(d => d.tile)
         .entries(mappedData)
-
-        linkData = dat[1]
 
         // const uniqueHeights = findUnique(mappedData.map(d => d.imHeight))
         // uniqueHeights.forEach(h => {
@@ -199,7 +201,6 @@ function launchModal(){
     const group  = $section.selectAll(`[data-list="${animal}"]`)
     const facility = group.selectAll('.animal--facility.selected').node().innerText.trim()
 
-    console.log({animal, id, mappedData, linkData, facility})
     modal.setup(mappedData, linkData, animal, facility, id)
 }
 
@@ -213,6 +214,7 @@ function findGridArea(cam, i){
     const column = cam.positionX === 'R' ? 2 : 1 
 
     if (index % 2 === 0) return `${row} / ${column + 1} / span 1 / span 1`
+    else if (index === 1) return `${row} / ${column + 1} / span 1 / span 1`
     else return `${row} / ${column} / span 1 / span 1 `
 }
 
@@ -243,7 +245,7 @@ function setupFacilities(group){
             ...e,
             tile: d.tile,
             positionX: d.positionX
-        }))
+        })).sort((a, b) => d3.ascending(a.facility, b.facility))
         return facilities
     })
     .join(enter => {
@@ -259,6 +261,7 @@ function setupFacilities(group){
                     .filter((e, i, n) => {
                         return d3.select(n[i]).attr('data-animal') === d.animal
                     })
+
                 const displayed = thisCam.attr('data-id')
 
                 return d.id === displayed
@@ -299,9 +302,7 @@ function setupNav(){
             $container.append('h3').attr('class', 'animal--name')
                 .text(d => d.animal)
                 .attr('data-animal', d => d.animal)
-                .attr('data-id', d => {
-                    console.log({d})
-                    return d.id})
+                .attr('data-id', d => d.id)
                 .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
                 .on('click', launchModal)
 
@@ -442,7 +443,9 @@ function loadMaps(){
                 .attr('data-tile', d => d[0].tile)
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
+                    console.log({d, i})
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
+                    else if (exhibitIndex === 1 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
                     else return `1 / 1 / ${d.length + 1} / 3`
                 })
 
@@ -460,6 +463,7 @@ function loadMaps(){
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
+                    else if (exhibitIndex === 1 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
                     else return `1 / 1 / ${d.length + 1} / 3`
                 })
 
@@ -473,7 +477,7 @@ function loadMaps(){
                 // append placeholder images
                 enter.append('img')
                     .attr('class', 'cam__display')
-                    .attr('data-id', d => d.camera[0])
+                    .attr('data-id', d => d.first)
                     .attr('data-type', 'png')
                     .attr('data-animal', d => d.animal)
                     .style('justify-self', d => d.positionX === 'R' ? 'start' : 'end')
