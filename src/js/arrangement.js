@@ -64,6 +64,10 @@ function swapSource(el){
   
   }
 
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
 function highlightList(element){
      const all = $section.selectAll('.g-anno')
      
@@ -71,8 +75,17 @@ function highlightList(element){
 
      const animal = d3.select(element).attr('data-animal')
 
-     $section.selectAll(`[data-list="${animal}"]`).classed('in-focus', true)
-     
+     const $anno = $section.selectAll(`[data-list="${animal}"]`).classed('in-focus', true)
+
+     const $list = $anno.selectAll('li')
+
+    //  if ($list.size() > 1){
+    //     for (const li in $list){
+    //         console.log({li})
+    //         sleep(500).then(() => console.log({slept: li}))
+    //     }
+    //  }
+
      
 }
 
