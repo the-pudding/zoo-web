@@ -37,7 +37,7 @@ const TOP_GAP = {
     5: '7.33%'
 }
 const MIDDLE_GAP = {
-    1: '21.2%',
+    1: '48.4%',
     2: '18.65%',
     3: '13.1%',
     4: '10.1%',
@@ -414,11 +414,13 @@ function switchFacility(){
 }
 
 function determineGridRows(d){
-    const last = d3.max(d.map(e => e.positionY))
+
+    const last = +d[0].shape.split('')[1]
+    console.log({d, last})
     const top = TOP_GAP[last]
     const middle = MIDDLE_GAP[last]
     let final = null 
-    if (last === 1) final = `${top} 1fr ${top}`
+    if (last === 1) final = `${top} 1fr ${middle}`
     else final = `${top} repeat(${last - 1}, minmax(0, 1fr) ${middle}) minmax(0, 1fr) ${top}`
     return final
 }
@@ -494,7 +496,7 @@ function loadMaps(){
                     .attr('data-type', 'png')
                     .attr('data-animal', d => d.animal)
                     .style('justify-self', d => d.positionX === 'R' ? 'start' : 'end')
-                    .style('margin-right', d => d.positionX === 'R' ? 0 : `4%`)
+                    .style('margin-right', d => d.positionX === 'R' ? 0 : `-4%`)
                     .style('margin-left', d => {
                         const right = d.positionX === 'R' ? `-4%` : 0
                         const polarBear = d.tile === 'polar' ? `-40%` : right
