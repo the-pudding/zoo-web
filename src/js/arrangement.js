@@ -184,6 +184,7 @@ function launchModal(){
     const group  = $section.selectAll(`[data-list="${animal}"]`)
     const facility = group.selectAll('.animal--facility.selected').node().innerText.trim()
 
+    console.log({animal, id, mappedData, linkData, facility})
     modal.setup(mappedData, linkData, animal, facility, id)
 }
 
@@ -283,8 +284,11 @@ function setupNav(){
             $container.append('h3').attr('class', 'animal--name')
                 .text(d => d.animal)
                 .attr('data-animal', d => d.animal)
+                .attr('data-id', d => {
+                    console.log({d})
+                    return d.id})
                 .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
-                .on('click', 'launchModal')
+                .on('click', launchModal)
 
             $container.append('ul').attr('class', 'animal--list')
                 .attr('data-animal', d => d.animal)
@@ -303,11 +307,7 @@ function setupNav(){
             .data(d => [d.values])
             .join(enter => enter.append('div').attr('class', 'annotation--desktop'))
             .style('grid-template-rows', d => determineGridRows(d))
-            .style('height', (d) => {
-                console.log({d})
-                
-                const test = `${heights[d[0].tile]}px`
-                return test})
+            .style('height', (d) => `${heights[d[0].tile]}px`)
 
         $g = $annoD.selectAll('.g-anno')
             .data(d => d)
@@ -316,11 +316,11 @@ function setupNav(){
 
                 g.append('h3').attr('class', 'animal--name')
                     .text(d => {
-                        console.log({d})
                         if (d.display) return d.display 
                         else return d.animal
                     })
                     .attr('data-animal', d => d.animal)
+                    .attr('data-id', d => d.camera[0])
                     .on('click', launchModal)
                 
                 g.append('ul').attr('class', 'animal--list').attr('data-animal', d => d.animal)
