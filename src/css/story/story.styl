@@ -21,6 +21,7 @@ body
     pointer-events none
     padding-top 7rem
     padding-bottom 4rem
+    height 100%
 
     .intro 
         text-align left 
@@ -31,12 +32,19 @@ body
     .clouds__base 
         width 100%
         max-height 356px
-        height 30%
+        height 40%
         background-image url('assets/images/clouds-baseline.png')
         position fixed 
         left 0 
         bottom 0
         z-index 2000
+        opacity 1 
+        transition opacity 300ms ease-in-out
+        +mq('bp-5')
+            height 30%
+        &.is-hidden 
+            opacity 0
+            transition opacity 300ms ease-in-out
         // opacity 0.9
 
 

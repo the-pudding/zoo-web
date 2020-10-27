@@ -19,6 +19,8 @@ let linkData = null
 let mappedData = null
 let nestedData = null
 
+let TOTAL_ISLANDS = 16
+
 
 const HOLE_OFFSET = 100
 const BREAKPOINT = 848
@@ -89,6 +91,19 @@ function setupHabitatScroll(){
 
             // update globe 
             globe.update(+lat, +long)
+
+            if (index === TOTAL_ISLANDS){
+                $section.selectAll('.clouds__base, .globe').classed('is-hidden', false)
+            }
+
+            console.log({index})
+        })
+        .onStepExit(response => {
+            const {element, index, direction} = response 
+            if (index === TOTAL_ISLANDS && direction === 'down') {
+                $section.selectAll('.clouds__base, .globe').classed('is-hidden', true)
+                // $globe.classed('is-hidden', true)
+            }
         })
 }
 
