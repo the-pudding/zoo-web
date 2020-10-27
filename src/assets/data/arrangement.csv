@@ -5,7 +5,6 @@ index,tile,positionY,positionX,camera,animal,display,size,shape,imHeight,locatio
 2,glacier,2,L,45,harbor seal,,2,R2,1174,Arctic,68.5851,-99.0782
 3,wildwest,1,R,"140, 141",grizzly bear,,5,R5,2674,North America,51.0223,-112.0381
 3,wildwest,2,L,72,river otter,,5,R5,2674,North America,40.4776,-120.6639
-3,wildwest,3,R,19,ferret,,5,R5,2674,North America,38.8622,-120.6568
 3,wildwest,4,L,18,California condor,,5,R5,2674,North America,36.7576,-120.2283
 3,wildwest,5,R,16,burrowing owl,,5,R5,2674,North America,35.72,-119.9268
 4,monterey,1,L,41,California sea lion,,4,L4,2174,North America,34.8607,-120.8066
@@ -21,14 +20,13 @@ index,tile,positionY,positionX,camera,animal,display,size,shape,imHeight,locatio
 6,pacific,3,L,"5, 70",reef lagoon,,5,L5,2674,Pacific Ocean,-16.6142,-174.0523
 6,pacific,4,R,2,sharks,,5,L5,2674,Pacific Ocean,-29.5035,-168.6107
 6,pacific,5,L,"42, 73",reef,,5,L5,2674,Pacific Ocean,-42.4176,-174.4636
-7,zealand,1,R,80,penguins,,1,R1,924,New Zealand,-42.5713,175.5233
+7,zealand,1,R,80,Fiordland penguins,,1,R1,924,New Zealand,-42.5713,175.5233
 8,aussie,1,L,"47, 65, 17",koala,,4,L4,2174,Australia,-30.8305,152.3815
 8,aussie,2,R,"49, 50",reptiles,,4,L4,2174,Australia,-23.4038,136.0905
 8,aussie,3,L,48,dingo,,4,L4,2174,Australia,-16.8938,133.6621
 8,aussie,4,R,"8, 51",platypus,,4,L4,2174,Australia,-12.3812,133.1462
 9,sumatra,1,L,"12, 108",orangutan,,3,L3,1674,Sumatra,-0.6965,112.5357
 9,sumatra,2,R,64,Sumatran tiger,,3,L3,1674,Sumatra,-3.507,104.4071
-9,sumatra,3,L,???,sun bear,,3,L3,1674,Sumatra,13.624,108.491
 10,kanji,1,R,124,snow monkey,,3,R3,1674,East Asia,35.3989,137.0534
 10,kanji,2,L,"23, 53, 61",giant panda,,3,R3,1674,East Asia,26.9369,104.0084
 10,kanji,3,R,"84, 111",snow leopard,,3,R3,1674,East Asia,29.4892,86.5182
