@@ -1,6 +1,10 @@
 /* CUSTOM STORY STYLE */
 body 
     background linear-gradient(180deg, #8087C4 2.5%, #BCA8CC 17.5%, #DBB0C2 32.5%, #E5A7AA 50%, #DBB0C2 67.5%, #BCA8CC 82.5%, #8087C4 97.5%);
+    &.modal__open
+        height 100vh 
+        overflow-y hidden 
+        padding-right 1rem
 
 .grid
     display flex 
@@ -69,7 +73,7 @@ body
             &:nth-child(2) .cam__display
                 &.in-focus
                     z-index 0
-                    
+
         .annotation--desktop
             display none
             +mq('bp-5')            

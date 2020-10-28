@@ -1,4 +1,4 @@
-
+const $body = d3.select('body')
 const $modal = d3.select('[data-js="modal"]')
 const $info = $modal.select('.modal__info')
 const $videos = $modal.select('.modal__video')
@@ -75,6 +75,7 @@ function setup(islandData, linkData, animal, facility, id){
 
 function close(){
     $modal.classed('is-hidden', true)
+    $body.classed('modal__open', false)
 }
 
 $modal.on('click', close)

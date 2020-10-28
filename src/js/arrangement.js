@@ -7,8 +7,8 @@ import videoSVG from './videoSVG'
 import modal from './modal'
 import globe from './globe'
 
-
-const $section = d3.selectAll('[data-js="arrangement"]')
+const $body = d3.select('body')
+const $section = $body.selectAll('[data-js="arrangement"]')
 const $islands = $section.selectAll('[data-js="arrangement__islands"]')
 const $mobileNav = d3.selectAll('[data-js="navigation"]')
 const $mobileAnimals = $mobileNav.select('.animal')
@@ -234,6 +234,7 @@ function launchModal(){
     // const label = d3.select(parent).select('label')//.innerText//.innerText.trim()
     // const facility = label.innerText
     // console.log({facility, parent, label})
+    $body.classed('modal__open', true)
 
     modal.setup(mappedData, linkData, animal, facility, id)
 }
