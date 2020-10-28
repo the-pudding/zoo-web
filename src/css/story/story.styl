@@ -57,6 +57,7 @@ body
         // max-width 1300px
 
 
+
         .g-island 
             display flex 
             flex-direction row
@@ -65,6 +66,10 @@ body
                 &:nth-child(even)
                     margin-top -2em
 
+            &:nth-child(2) .cam__display
+                &.in-focus
+                    z-index 0
+                    
         .annotation--desktop
             display none
             +mq('bp-5')            
@@ -196,6 +201,7 @@ body
                     transform scale(1.25)
                     transition filter, transform 300ms ease-in-out
                     z-index 1000
+
 
 
         +mq('bp-5')
