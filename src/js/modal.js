@@ -15,12 +15,14 @@ function setup(islandData, linkData, animal, facility, id){
     $info.select('.modal__info-facility').text(facility)
     $info.select('.modal__info-full').text(`Go to the full live stream`)
         .attr('href', theseData.link)
+        .attr('target', '_blank')
     $info.select('.modal__info-help')
     $modal.select('.facility').text(facility)
     $modal.select('.donate').attr('href', theseData.donate)
     if (theseData.adopt) {
         $modal.select('.adopt')
             .attr('href', theseData.adopt)
+            .attr('target', '_blank')
             .classed('is-hidden', false)
     } else $modal.select('.adopt').classed('is-hidden', true)
 
@@ -29,7 +31,7 @@ function setup(islandData, linkData, animal, facility, id){
         $fact.classed('is-hidden', false)
         $fact.select('.facility').text(facility)
         $fact.select('.fact__text').text(theseData.fact)
-        $fact.select('.fact__link').attr('href', theseData.learn)
+        $fact.select('.fact__link').attr('href', theseData.learn).attr('target', '_blank')
     } else $fact.classed('is-hidden', true)
 
     const otherVids = islandData.filter(d => d.animal === animal)[0].camera.filter(d => +d !== +theseData.id)
