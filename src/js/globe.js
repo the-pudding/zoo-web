@@ -133,13 +133,13 @@ function addLabels(){
     .style('fill', 'none')
     .style('stroke', 'none')
 
-  $g.append('text')
-    .append('textPath')
-    .attr('xlink:href', '#globe--top')
-    .style('text-anchor', 'middle')
-    .attr('startOffset', '50%')
-    .text('Geographic Center')
-    .attr('font-size', '14px')
+  // $g.append('text')
+  //   .append('textPath')
+  //   .attr('xlink:href', '#globe--top')
+  //   .style('text-anchor', 'middle')
+  //   .attr('startOffset', '50%')
+  //   .text('Geographic Center')
+  //   .attr('font-size', '14px')
 
     $g.append('path')
     .attr('id', 'globe--bottom')
@@ -150,10 +150,18 @@ function addLabels(){
   $g.append('text')
     .append('textPath')
     .attr('xlink:href', '#globe--bottom')
-    .style('text-anchor', 'middle')
+    .style('text-anchor', (d, i, n) => {
+      const sel = d3.select(n[i].parentNode.parentNode.parentNode.parentNode)
+      const size = sel.attr('data-globe')
+      return size === 'desktop' ? 'end' : 'start'
+    })
     .style('text-baseline', 'hanging')
-    .attr('startOffset', '50%')
-    .text('of Wild Range')
+    .attr('startOffset', (d, i, n) => {
+      const sel = d3.select(n[i].parentNode.parentNode.parentNode.parentNode)
+      const size = sel.attr('data-globe')
+      return size === 'desktop' ? '100%' : '0%'
+    } )
+    .text('Center of Wild Range')
     .attr('font-size', '14px')
 }
 
