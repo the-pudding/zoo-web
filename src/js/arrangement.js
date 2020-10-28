@@ -146,9 +146,9 @@ function setupScroll(){
             
 
             if (MOBILE) {
-                $mobileAnimals.selectAll('ul').classed('is-hidden', true)
+                $mobileAnimals.selectAll('fieldset').classed('is-hidden', true)
                 const animal = d3.select(element).attr('data-animal')
-                const $ul = $mobileAnimals.selectAll('ul')
+                const $ul = $mobileAnimals.selectAll('fieldset')
                     .filter((d, i, n) => {
                         return d3.select(n[i]).attr('data-animal') === animal
                     })
@@ -250,7 +250,7 @@ function resize(){
 }
 
 function setupFacilities(group){
-    group.selectAll('ul')
+    group.selectAll('fieldset')
     .selectAll('.animal--facility')
     .data(d => {
         const animal = d.animal 
@@ -262,12 +262,32 @@ function setupFacilities(group){
         return facilities
     })
     .join(enter => {
-        const $li = enter.append('li')
+        const $wrapper = enter.append('div')
+            .attr('class', 'wrapper')
+
+
+            // .html(d => `<span class='facility--name'>${d.facility}</span> `)
+
+        const $radio = $wrapper.append('input')
+            .attr('type', 'radio')
+            .attr('value', d => d.facility)
             .attr('class', 'animal--facility')
-            .html(d => `<span class='facility--name'>${d.facility}</span> <span class='video--icon'>${videoSVG}</span>`)
+            .attr('id', (d) => `facility--${d.id}`)
             .attr('data-id', d => d.id)
             .attr('data-animal', d => d.animal)
             .attr('data-tile', d => d.tile)
+            .attr('checked', d => {
+                const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
+                    .selectAll('.cam__display')
+                    .filter((e, i, n) => {
+                        return d3.select(n[i]).attr('data-animal') === d.animal
+                    })
+
+                const displayed = thisCam.attr('data-id')
+                console.log({d, thisCam, displayed})
+
+                return d.id === displayed
+            })
             .classed('selected', d => {
                 const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
                     .selectAll('.cam__display')
@@ -277,11 +297,11 @@ function setupFacilities(group){
 
                 const displayed = thisCam.attr('data-id')
 
-                return d.id === displayed
+                return d.id === displayed ? 'checked' : ''
             })
             .on('click', switchFacility)
 
-            $li.select('.video--icon').classed('is-hidden', d => {
+            $radio.select('.video--icon').classed('is-hidden', d => {
                 const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
                     .selectAll('.cam__display')
                     .filter((e, i, n) => {
@@ -291,6 +311,10 @@ function setupFacilities(group){
 
                 return d.id !== displayed
             })
+
+                const $label = $wrapper.append('label')
+            .attr('for', (d) => `facility--${d.id}`)
+            .text(d => d.facility)
     })
 }
 
@@ -319,7 +343,7 @@ function setupNav(){
                 .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
                 .on('click', launchModal)
 
-            $container.append('ul').attr('class', 'animal--list')
+            $container.append('fieldset').attr('class', 'animal--list')
                 .attr('data-animal', d => d.animal)
 
             return $container
@@ -352,7 +376,7 @@ function setupNav(){
                     .attr('data-id', d => d.camera[0])
                     .on('click', launchModal)
                 
-                g.append('ul').attr('class', 'animal--list').attr('data-animal', d => d.animal)
+                g.append('fieldset').attr('class', 'animal--list').attr('data-animal', d => d.animal)
 
                 return g
             })
@@ -376,11 +400,11 @@ function switchFacility(){
 
     // set low opacity for non-selected
     if (MOBILE){
-        $li = $mobileAnimals.selectAll('ul').filter((d, i, n) => {
+        $li = $mobileAnimals.selectAll('fieldset').filter((d, i, n) => {
             return d3.select(n[i]).attr('data-animal') === animal
         }).selectAll('li')
     } else {
-       $li = $exhib.selectAll('ul').filter((d, i, n) => {
+       $li = $exhib.selectAll('fieldset').filter((d, i, n) => {
         return d3.select(n[i]).attr('data-animal') === animal
     }).selectAll('li') 
     }
