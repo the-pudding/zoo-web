@@ -270,13 +270,13 @@ function setupFacilities(group){
 
         const $radio = $wrapper.append('input')
             .attr('type', 'radio')
-            .attr('value', d => d.facility)
+            .attr('value', d => d.id)
             .attr('class', 'animal--facility')
             .attr('id', (d) => `facility--${d.id}`)
             .attr('data-id', d => d.id)
             .attr('data-animal', d => d.animal)
             .attr('data-tile', d => d.tile)
-            .attr('checked', d => {
+            .property('checked', d => {
                 const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
                     .selectAll('.cam__display')
                     .filter((e, i, n) => {
@@ -284,7 +284,6 @@ function setupFacilities(group){
                     })
 
                 const displayed = thisCam.attr('data-id')
-                console.log({d, thisCam, displayed})
 
                 return d.id === displayed
             })
@@ -402,19 +401,18 @@ function switchFacility(){
     if (MOBILE){
         $li = $mobileAnimals.selectAll('fieldset').filter((d, i, n) => {
             return d3.select(n[i]).attr('data-animal') === animal
-        }).selectAll('li')
+        }).selectAll('input')
     } else {
        $li = $exhib.selectAll('fieldset').filter((d, i, n) => {
         return d3.select(n[i]).attr('data-animal') === animal
-    }).selectAll('li') 
+    }).selectAll('input') 
     }
     
-    $li.classed('selected', false)
+    $li.property('checked', false)
     
     $li.selectAll('.video--icon').classed('is-hidden', true)
 
-    sel.classed('selected', true)
-
+    sel.property('checked', true)
     sel.select('.video--icon').classed('is-hidden', false)
 
     // find which display to switch
@@ -440,7 +438,6 @@ function switchFacility(){
 function determineGridRows(d){
 
     const last = +d[0].shape.split('')[1]
-    console.log({d, last})
     const top = TOP_GAP[last]
     const middle = MIDDLE_GAP[last]
     let final = null 
@@ -482,7 +479,6 @@ function loadMaps(){
                 .attr('data-tile', d => d[0].tile)
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
-                    console.log({d, i})
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
                     else if (exhibitIndex === 1 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
                     else return `1 / 1 / ${d.length + 1} / 3`
