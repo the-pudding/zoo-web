@@ -9,7 +9,6 @@ function setup(islandData, linkData, animal, facility, id){
     $modal.classed('is-hidden', false)
 
 
-
     const theseData = linkData.filter(d => d.id === id)[0]
     const animalTitle = theseData.specific ? theseData.specific : animal
     $info.select('.modal__info-animal').text(animalTitle)
@@ -56,6 +55,7 @@ function setup(islandData, linkData, animal, facility, id){
                         const $sel = d3.select(n[i])
                         const id = $sel.attr('data-id')
                         const newFacility = idMap.get(+id)
+                        console.log({id})
                         setup(islandData, linkData, animal, newFacility, id)
                     })
 

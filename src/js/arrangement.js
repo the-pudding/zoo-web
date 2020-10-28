@@ -49,7 +49,6 @@ const habitatScroller = scrollama()
 
 function swapSource(el){
     const $sel = d3.select(el)//d3.select(this)
-    console.log({$sel})
     const id = $sel.attr('data-id')
     const type = $sel.attr('data-type')
   
@@ -158,7 +157,6 @@ function setupScroll(){
                 //.selectAll(`[data-animal="${animal}"]`)
                 $ul.classed('is-hidden', false)
     
-                console.log({$ul, animal, node: $ul.node()})
                 $ul.node().scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
@@ -232,7 +230,10 @@ function launchModal(){
     const id = $sel.attr('data-id')
 
     const group  = $section.selectAll(`[data-list="${animal}"]`)
-    const facility = group.selectAll('.animal--facility.selected').node().innerText.trim()
+    const facility = group.select('.animal--facility.selected').attr('data-facility')
+    // const label = d3.select(parent).select('label')//.innerText//.innerText.trim()
+    // const facility = label.innerText
+    // console.log({facility, parent, label})
 
     modal.setup(mappedData, linkData, animal, facility, id)
 }
@@ -293,6 +294,7 @@ function setupFacilities(group){
             .attr('value', d => d.id)
             .attr('class', 'animal--facility')
             .attr('id', (d) => `facility--${d.id}`)
+            .attr('data-facility', (d) => d.facility)
             .attr('data-id', d => d.id)
             .attr('data-animal', d => d.animal)
             .attr('data-tile', d => d.tile)
