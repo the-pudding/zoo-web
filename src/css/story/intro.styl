@@ -8,35 +8,46 @@
 		max-width 60rem
 		margin 0 auto
 		text-align center
-		set-type-size('xxxxx-large')
 		font-weight bold
 		font-family $national
 		display flex 
 		flex-direction column
 		&--welcome
-			set-type-size('xx-large')
-			line-height 0
+			set-type-size('medium')
+			line-height 115%
+			weight 400
+			letter-spacing 1.25em
+			text-transform uppercase
+		&--name 
+			font-size 96px
+			line-height 115%
+			
 
-		
+	
 	&__dek
 		max-width $column-width
 		margin 0 auto
 		margin-top 1rem
 	
-	&__byline
+	.sig
 		max-width $column-width
 		margin 0 auto
 		margin-top 1rem
 		text-align center
+		font-style italic 
+		a
+			font-style normal
 	
 	&__time
 		display block
 		max-width $column-width
 		margin 0 auto
 		text-align center
-		set-type-size('root')
+		set-type-size('medium')
 		font-family $national
-		line-height 0
+		line-height 115%
+		text-transform uppercase 
+
 
 	&__text 
 		max-width $column-width

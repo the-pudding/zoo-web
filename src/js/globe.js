@@ -150,18 +150,10 @@ function addLabels(){
   $g.append('text')
     .append('textPath')
     .attr('xlink:href', '#globe--bottom')
-    .style('text-anchor', (d, i, n) => {
-      const sel = d3.select(n[i].parentNode.parentNode.parentNode.parentNode)
-      const size = sel.attr('data-globe')
-      return size === 'desktop' ? 'end' : 'start'
-    })
+    .style('text-anchor', 'middle')
     .style('text-baseline', 'hanging')
-    .attr('startOffset', (d, i, n) => {
-      const sel = d3.select(n[i].parentNode.parentNode.parentNode.parentNode)
-      const size = sel.attr('data-globe')
-      return size === 'desktop' ? '100%' : '0%'
-    } )
-    .text('Center of Wild Range')
+    .attr('startOffset', '50%')
+    .text('~Center of Wild Range')
     .attr('font-size', '14px')
 }
 
