@@ -86,7 +86,6 @@ body
                     margin 0
 
                 fieldset
-                    
                     .wrapper
                         pointer-events all
                         set-type-size('root')
@@ -98,8 +97,42 @@ body
                         align-items center
                         // list-style-image url('assets/images/video.svg')
                         background-position top 10px
-                        &:checked
-                            font-weight bold 
+                        margin 0.5rem 0
+                        input 
+                            opacity 0
+                        label 
+                            display inline-block 
+                            position relative
+                            &::before 
+                                content ''
+                                position absolute 
+                                display inline-block 
+                                left -20px
+                                width 12px 
+                                height 12px
+                                border-radius 50%
+                                border 1px solid $white
+                                background $white
+                            &::after 
+                                content ''
+                                position absolute 
+                                display inline-block
+                                left -17px
+                                top 3px
+                                border-radius 50%
+                                width 8px 
+                                height 8px
+                                
+
+                        input:checked
+                            +label
+                                &::after
+                                    background $primary
+                        input:focus 
+                            +label
+                                &::before 
+                                    box-shadow 0 0px 8px $zooPink
+
                         .video--icon
                             margin-left 0.5rem
                             margin-top 2px
