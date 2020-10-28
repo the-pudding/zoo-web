@@ -49,6 +49,7 @@ const habitatScroller = scrollama()
 
 function swapSource(el){
     const $sel = d3.select(el)//d3.select(this)
+    console.log({$sel})
     const id = $sel.attr('data-id')
     const type = $sel.attr('data-type')
   
@@ -146,21 +147,20 @@ function setupScroll(){
             
 
             if (MOBILE) {
-                $mobileAnimals.selectAll('fieldset').classed('is-hidden', true)
+                $mobileAnimals.selectAll('.g-anno').classed('is-hidden', true)
                 const animal = d3.select(element).attr('data-animal')
-                const $ul = $mobileAnimals.selectAll('fieldset')
+                const $ul = $mobileAnimals.selectAll('.g-anno')
                     .filter((d, i, n) => {
-                        return d3.select(n[i]).attr('data-animal') === animal
+                        return d3.select(n[i]).attr('data-list') === animal
                     })
                 
                 //.selectAll(`[data-animal="${animal}"]`)
                 $ul.classed('is-hidden', false)
     
-
+                console.log({$ul, animal, node: $ul.node()})
                 $ul.node().scrollIntoView({
                     behavior: 'smooth',
-                    block: 'center',
-                    inline: 'start'
+                    block: 'center'
                 })
             }
         })
