@@ -2,6 +2,7 @@ import loadData from './load-data'
 
 const $globes = d3.selectAll('.globe')
 const $svg = $globes.selectAll('svg')
+let $g = null
 
 let projection = d3.geoOrthographic();
 const path = d3.geoPath(projection)//.projection(projection);
@@ -124,6 +125,38 @@ function update(lat, long){
 
 }
 
+function addLabels(){
+  // add path for text
+  $g.append('path')
+    .attr('id', 'globe--top')
+    .attr('d', 'M-4,50 A 54,54 0 0,1 104,50')
+    .style('fill', 'none')
+    .style('stroke', 'none')
+
+  $g.append('text')
+    .append('textPath')
+    .attr('xlink:href', '#globe--top')
+    .style('text-anchor', 'middle')
+    .attr('startOffset', '50%')
+    .text('Geographic Center')
+    .attr('font-size', '14px')
+
+    $g.append('path')
+    .attr('id', 'globe--bottom')
+    .attr('d', 'M-12,50 A 62,62 0 0,0 112,50')
+    .style('fill', 'none')
+    .style('stroke', 'none')
+
+  $g.append('text')
+    .append('textPath')
+    .attr('xlink:href', '#globe--bottom')
+    .style('text-anchor', 'middle')
+    .style('text-baseline', 'hanging')
+    .attr('startOffset', '50%')
+    .text('of Wild Range')
+    .attr('font-size', '14px')
+}
+
 function drawMarkers(markers){
   const circles = $svg.selectAll('.marker')
     .data(markers)
@@ -133,12 +166,17 @@ function drawMarkers(markers){
     )
 }
 
-function resize(){}
+function resize(){
+  //$svg.selectAll('.g-map').attr('transform', 'translate(50px, 50px)')
+}
 
 function setupMap(geojson){
+  $g = $svg.append('g').attr('class', 'g-globe')
+    
+  $g.style('transform', 'translate(15px, 15px)')
 
     // setup map group
-    $map = $svg.append('g').attr('class', 'g-map');
+    $map = $g.append('g').attr('class', 'g-map');
     $map.append('path').attr('class', 'path-sphere');
     $map.append('g').attr('class', 'g-countries');
 
@@ -167,6 +205,7 @@ function setupMap(geojson){
       countryPaths.attr('d', path)
 
     geo = geojson;
+    addLabels()
 }
 
 
