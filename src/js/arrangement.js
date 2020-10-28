@@ -144,6 +144,7 @@ function setupScroll(){
             const $el = d3.select(element)
             $el.classed('in-focus', true)
             highlightList(element)
+
             
 
             if (MOBILE) {
@@ -162,6 +163,25 @@ function setupScroll(){
                     behavior: 'smooth',
                     block: 'center'
                 })
+            }
+        })
+        .onStepExit(response => {
+            const {element, index, direction} = response 
+
+            if (index === 1 && direction === 'up'){
+                // if beluga and scrolling up, re-highlight the polar bear
+                const $el = d3.select(element)
+                $el.classed('in-focus', false)
+                swapSource(element)
+
+                const pb = d3.selectAll('.cam__display').filter((d, i, n) => {
+                    return d3.select(n[i]).attr('data-animal') === 'polar bear'
+                })
+
+                swapSource(pb.node())
+                pb.classed('in-focus', true)
+                highlightList(pb.node())
+                
             }
         })
 }
