@@ -230,6 +230,7 @@ function cleanData(dat){
 
 
 function launchModal($sel){
+    console.log('launchModal ran')
     //const $sel = d3.select(this)
     const animal = $sel.attr('data-animal')
     const id = $sel.attr('data-id')
@@ -370,7 +371,7 @@ function setupNav(){
                 .attr('data-animal', d => d.animal)
                 .attr('data-id', d => d.id)
                 .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
-                .on('click', launchModal)
+                .on('click', (d, i, n) => launchModal(d3.select(n[i])))
 
             const $fs = $container.append('fieldset').attr('class', 'animal--list')
                 .attr('data-animal', d => d.animal)
@@ -406,7 +407,7 @@ function setupNav(){
                     })
                     .attr('data-animal', d => d.animal)
                     .attr('data-id', d => d.camera[0])
-                    .on('click', launchModal)
+                    .on('click', (d, i, n) => launchModal(d3.select(n[i])))
                 
                 const $fs = g.append('fieldset').attr('class', 'animal--list').attr('data-animal', d => d.animal).attr('tabindex', 0)
                 $fs.append('legend').text(d => `Facilities with a ${d.animal} live stream`).attr('class', 'sr-only')

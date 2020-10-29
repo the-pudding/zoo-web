@@ -52,6 +52,13 @@ function setupA11y(){
               close()
           }
       })
+
+    d3.select($firstFocus).on('keydown', () => {
+        const pressed = d3.event.code;
+        if (pressed === 'Enter'){
+            close()
+        }
+    })
       
 }
 
