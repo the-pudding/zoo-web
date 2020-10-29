@@ -6,6 +6,7 @@ import findUnique from './utils/unique';
 import videoSVG from './videoSVG'
 import modal from './modal'
 import globe from './globe'
+import { reject } from 'promise-polyfill';
 
 const $body = d3.select('body')
 const $section = $body.selectAll('[data-js="arrangement"]')
@@ -259,6 +260,7 @@ function findGridArea(cam, i){
 
 
 function resize(){
+    console.log('resize ran')
     MOBILE = window.innerWidth < BREAKPOINT
 
     const $exhibits = $islands.selectAll('.exhibit')
@@ -632,23 +634,42 @@ function setupTimestamps(){
 
 }
 
+function loadAssets(){
+    return new Promise((resolve, reject) => {
+        try {
+           loadMaps()
+            setupTimestamps()
+
+            globe.init(mappedData) 
+            resolve()
+        } catch (error){
+            reject(error)
+        }
+})
+}
+
+function setupScrolls(){
+    return new Promise((resolve, reject) => {
+        try {
+            setupScroll()
+            setupHabitatScroll()
+            resize()
+            resolve()
+        } catch (error){
+            reject(error)
+        }
+          
+    })
+  
+}
+
 function init(){
     loadData(['assets/data/arrangement.csv', 'assets/data/links.csv']).then(response => {
         return cleanData(response)
     })
     .then(() => preloadImages())
-    .then(() => {
-        loadMaps()
-        setupTimestamps()
-
-
-        globe.init(mappedData)
-    })
-    .then(() => {
-        resize()
-        setupScroll()
-        setupHabitatScroll()
-    })
+    .then(() => loadAssets())
+    .then(() => setupScrolls())
 }
 
 export default { init, resize };
