@@ -89,6 +89,9 @@ function setup(islandData, linkData, animal, facility, id){
     $videos.select('.large')
         .attr('tabindex', 0)
         .attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${theseData.id}.gif`)
+        .attr('alt', d => {
+            return `Image of ${animal} at ${facility}`
+        })
     const $carousel = $videos.select('.modal__video--carousel')
     
     if (otherVids.length > 0){
@@ -105,6 +108,9 @@ function setup(islandData, linkData, animal, facility, id){
                 $container.append('img')
                     .attr('class', 'carousel__display')
                     .attr('tabindex', 0)
+                    .attr('alt', d => {
+                        return `Image of ${animal} at ${idMap.get(+d)}`
+                    })
                     .on('click', (d, i, n) => {
                         d3.event.stopPropagation()
                         const $sel = d3.select(n[i])
