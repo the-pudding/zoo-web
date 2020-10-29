@@ -144,7 +144,6 @@ function setupScroll(){
             const elData = $el.data()[0]
             const {lat, long} = elData
             globe.update(+lat, +long)
-            console.log({elData, lat, long})
 
             if (MOBILE) {
                 $mobileAnimals.selectAll('.g-anno').classed('is-hidden', true)
@@ -545,7 +544,7 @@ function loadMaps(){
                         const polarBear = d.tile === 'polar' ? `-40%` : right
                         return polarBear
                     })
-                    .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.camera[0]}.png`)
+                    .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.first}.png`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
                     .on('click', launchModal)
                     //.style('z-index', -10)
