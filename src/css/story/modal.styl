@@ -21,6 +21,8 @@
         align-items center
         margin-bottom 0.5rem
         pointer-events none
+        &:focus
+            outline 2px solid $white 
         p 
             margin 0
             set-type-size('small')
@@ -38,6 +40,9 @@
         flex 2
         max-width 500px
         margin-right 2rem
+        img 
+            &:focus 
+                outline 2px solid $white
         .modal__video--carousel
             display none 
             flex-direction row 

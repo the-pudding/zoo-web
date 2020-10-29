@@ -227,8 +227,9 @@ function cleanData(dat){
 
 }
 
-function launchModal(){
-    const $sel = d3.select(this)
+
+function launchModal($sel){
+    //const $sel = d3.select(this)
     const animal = $sel.attr('data-animal')
     const id = $sel.attr('data-id')
 
@@ -533,6 +534,7 @@ function loadMaps(){
             $container.append('img')
             .attr('class', 'exhibit-top')
                 .attr('src', d => `assets/images/${d[0].tile}-2.PNG`)
+                .attr('aria-hidden', true)
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
@@ -553,6 +555,7 @@ function loadMaps(){
                     .attr('data-id', d => d.first)
                     .attr('data-type', 'png')
                     .attr('data-animal', d => d.animal)
+                    .attr('tabindex', 0)
                     .attr('alt', d => {
                         return `Video clip of ${d.animal} at ${idToFacilityMap.get(d.first)}`})
                     .style('justify-self', d => d.positionX === 'R' ? 'start' : 'end')
@@ -564,7 +567,13 @@ function loadMaps(){
                     })
                     .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.first}.png`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
-                    .on('click', launchModal)
+                    .on('click', (d, i, n) => launchModal(d3.select(n[i])))
+                    .on('keydown', (d, i, n) => {
+                        const pressed = d3.event.code;
+                        if (pressed === 'Enter') {
+                            launchModal(d3.select(n[i]))
+                        }
+                    })
                     //.style('z-index', -10)
                     //.on('click', swapSource)
             })

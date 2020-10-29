@@ -3,11 +3,61 @@ const $modal = d3.select('[data-js="modal"]')
 const $info = $modal.select('.modal__info')
 const $videos = $modal.select('.modal__video')
 
+function setupA11y(){
+    // when modal is open, tabbing remains within modal
+    const $focusableInModal = $modal.selectAll('.modal__quit, a, img').nodes()
+    const $firstFocus = $focusableInModal[0];
+    const $lastFocus = $focusableInModal[$focusableInModal.length - 1]
+    
+    $firstFocus.focus()
 
+    d3.select($firstFocus).on('keydown', () => {
+        const open = !$modal.classed('is-hidden');
+    
+        if (open) {
+          const pressed = d3.event.code;
+          const shift = d3.event.shiftKey;
+    
+          if (pressed === 'Tab' && shift === true) {
+            // prevent default behavior
+            d3.event.preventDefault();
+    
+            // focus on the last element
+            $lastFocus.focus();
+          }
+        }
+      });
+
+      d3.select($lastFocus).on('keydown', () => {
+        const open = !$modal.classed('is-hidden');
+        if (open) {
+          const pressed = d3.event.code;
+          const shift = d3.event.shiftKey;
+    
+          if (pressed === 'Tab' && shift === false) {
+            // prevent default behavior
+            d3.event.preventDefault();
+    
+            // focus on the last element
+            $firstFocus.focus();
+          }
+        }
+      });
+
+      $modal.on('keydown', () => {
+          const pressed = d3.event.code;
+          const open = !$modal.classed('is-hidden');
+          if (pressed === 'Escape' && open === true){
+              // close menu 
+              close()
+          }
+      })
+      
+}
 
 function setup(islandData, linkData, animal, facility, id){
-    $modal.classed('is-hidden', false)
 
+    $modal.classed('is-hidden', false)
 
     const theseData = linkData.filter(d => d.id === id)[0]
     const animalTitle = theseData.specific ? theseData.specific : animal
@@ -36,7 +86,9 @@ function setup(islandData, linkData, animal, facility, id){
 
     const otherVids = islandData.filter(d => d.animal === animal)[0].camera.filter(d => +d !== +theseData.id)
     
-    $videos.select('.large').attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${theseData.id}.gif`)
+    $videos.select('.large')
+        .attr('tabindex', 0)
+        .attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${theseData.id}.gif`)
     const $carousel = $videos.select('.modal__video--carousel')
     
     if (otherVids.length > 0){
@@ -52,6 +104,7 @@ function setup(islandData, linkData, animal, facility, id){
 
                 $container.append('img')
                     .attr('class', 'carousel__display')
+                    .attr('tabindex', 0)
                     .on('click', (d, i, n) => {
                         d3.event.stopPropagation()
                         const $sel = d3.select(n[i])
@@ -60,6 +113,7 @@ function setup(islandData, linkData, animal, facility, id){
                         console.log({id})
                         setup(islandData, linkData, animal, newFacility, id)
                     })
+                    
 
                 $container
                     .append('span')
@@ -71,12 +125,15 @@ function setup(islandData, linkData, animal, facility, id){
         $vidCar.selectAll('.carousel__facility').text(d => idMap.get(+d))
         $vidCar.selectAll('img').attr('data-id', d => d).attr('src', d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${+d}.png`)
     } else $carousel.classed('is-hidden', true)
+
+    setupA11y()
 }
 
 function close(){
     $modal.classed('is-hidden', true)
     $body.classed('modal__open', false)
 }
+
 
 $modal.on('click', close)
 export default {setup, close}
