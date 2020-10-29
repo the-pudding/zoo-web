@@ -6,6 +6,18 @@ body
         overflow-y hidden 
         padding-right 1rem
 
+.sr-only 
+      position absolute
+      width 1px
+      height 1px
+      padding 0
+      margin -1px
+      overflow hidden
+      clip rect(0, 0, 0, 0)
+      white-space nowrap /* added line */
+      border 0
+
+
 .grid
     display flex 
     flex-wrap wrap 
@@ -95,6 +107,7 @@ body
                     margin 0
 
                 fieldset
+                    legend 
                     .wrapper
                         pointer-events all
                         set-type-size('root')

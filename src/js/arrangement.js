@@ -19,6 +19,8 @@ let linkData = null
 let mappedData = null
 let nestedData = null
 
+let idToFacilityMap = null
+
 let TOTAL_ISLANDS = 16
 
 
@@ -61,6 +63,8 @@ function swapSource(el){
       $sel.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${id}.png`)
       $sel.attr('data-type', 'png')
     }
+
+
   
   }
 
@@ -199,7 +203,7 @@ function findFirst(arr, facMap){
 function cleanData(dat){
     return new Promise((resolve) => {
         linkData = dat[1]
-        const idToFacilityMap = new Map(linkData.map(d => [d.id, d.facility]))
+         idToFacilityMap = new Map(linkData.map(d => [d.id, d.facility]))
 
         mappedData =  dat[0].map((d) => ({
             ...d,
@@ -298,6 +302,7 @@ function setupFacilities(group){
             .attr('data-id', d => d.id)
             .attr('data-animal', d => d.animal)
             .attr('data-tile', d => d.tile)
+            .attr('tabindex', (d, i) => i === 0 ? 0 : -1)
             .property('checked', d => {
                 const thisCam = $section.select(`[data-exhibit="${d.tile}"]`)
                     .selectAll('.cam__display')
@@ -364,8 +369,11 @@ function setupNav(){
                 .style('text-align', d => d.positionX === 'L' ? 'left' : 'right')
                 .on('click', launchModal)
 
-            $container.append('fieldset').attr('class', 'animal--list')
+            const $fs = $container.append('fieldset').attr('class', 'animal--list')
                 .attr('data-animal', d => d.animal)
+                .attr('tabindex', 0)
+
+                $fs.append('legend').text(d => `Facilities with a ${d.animal} live stream`).attr('class', 'sr-only')
 
             return $container
             })
@@ -397,7 +405,8 @@ function setupNav(){
                     .attr('data-id', d => d.camera[0])
                     .on('click', launchModal)
                 
-                g.append('fieldset').attr('class', 'animal--list').attr('data-animal', d => d.animal)
+                const $fs = g.append('fieldset').attr('class', 'animal--list').attr('data-animal', d => d.animal).attr('tabindex', 0)
+                $fs.append('legend').text(d => `Facilities with a ${d.animal} live stream`).attr('class', 'sr-only')
 
                 return g
             })
@@ -448,11 +457,17 @@ function switchFacility(){
     if (type === 'png'){
         match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${cam}.png`)
         .attr('data-id', cam)
+        .attr('alt', d => {
+            console.log({test: d})
+            return `Still image of ${animal} at ${idToFacilityMap.get(cam)}`})
       }
     
       else {
         match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${cam}.gif`)
         .attr('data-id', cam)
+        .attr('alt', d => {
+            console.log({test: d})
+            return `Video clip of ${animal} at ${idToFacilityMap.get(cam)}`})
       }
 
 }
@@ -499,6 +514,7 @@ function loadMaps(){
                 .attr('class', 'exhibit')
                 .attr('src', d => `assets/images/${d[0].tile}-0.PNG`)
                 .attr('data-tile', d => d[0].tile)
+                .attr('aria-hidden', true)
                 .style('grid-area', (d, i, n) => {
                     const exhibitIndex = d[0].index 
                     if (exhibitIndex % 2 === 0 && !MOBILE) return `1 / 2 / ${d.length + 1} / 4`
@@ -537,6 +553,8 @@ function loadMaps(){
                     .attr('data-id', d => d.first)
                     .attr('data-type', 'png')
                     .attr('data-animal', d => d.animal)
+                    .attr('alt', d => {
+                        return `Video clip of ${d.animal} at ${idToFacilityMap.get(d.first)}`})
                     .style('justify-self', d => d.positionX === 'R' ? 'start' : 'end')
                     .style('margin-right', d => d.positionX === 'R' ? 0 : `-4%`)
                     .style('margin-left', d => {
