@@ -9,7 +9,7 @@ index,tile,positionY,positionX,camera,animal,display,size,shape,imHeight,locatio
 3,wildwest,5,R,16,burrowing owl,,5,R5,2674,North America,35.72,-119.9268
 4,monterey,1,L,41,California sea lion,,4,L4,2174,North America,34.8607,-120.8066
 4,monterey,2,R,"33, 38, 46, 139",sea otter,,4,L4,2174,North America,32.4657,-117.162
-4,monterey,3,L,30,kelp forest,,4,L4,2174,North America,27.8559,-114.2903
+4,monterey,3,L,29,kelp forest,,4,L4,2174,North America,27.8559,-114.2903
 4,monterey,4,R,6,blue cavern,,4,L4,2174,North America,9.9253,-89.973
 5,igazu,1,L,112,tamarin,,4,L4,2174,Argentina,9.9253,-89.973
 5,igazu,2,R,43,piranha,,4,L4,2174,Argentina,-24.2074,-52.8978
