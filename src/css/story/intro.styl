@@ -14,14 +14,18 @@
 		display flex 
 		flex-direction column
 		&--welcome
-			set-type-size('medium')
+			set-type-size('root')
 			line-height 115%
 			weight 400
 			letter-spacing 1.25em
 			text-transform uppercase
+			+mq('bp-5')
+				set-type-size('medium')
 		&--name 
-			font-size 96px
+			font-size 65px
 			line-height 115%
+			+mq('bp-5')
+				font-size 96px
 			
 
 	
@@ -44,10 +48,12 @@
 		max-width $column-width
 		margin 0 auto
 		text-align center
-		set-type-size('medium')
+		set-type-size('root')
 		font-family $national
 		line-height 115%
 		text-transform uppercase 
+		+mq('bp-5')
+			set-type-size('medium')
 
 
 	&__text 

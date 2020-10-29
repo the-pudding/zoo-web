@@ -153,7 +153,7 @@ function addLabels(){
     .style('text-anchor', 'middle')
     .style('text-baseline', 'hanging')
     .attr('startOffset', '50%')
-    .text('~Center of Wild Range')
+    .text('Center of Wild Range')
     .attr('font-size', '14px')
 }
 

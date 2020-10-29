@@ -99,11 +99,7 @@ function setupHabitatScroll(){
         .onStepEnter(response => {
             const {element, index, direction} = response
             const $el = d3.select(element)
-            const elData = $el.data()[0].values[0]
-            const {lat, long} = elData
-
-            // update globe 
-            globe.update(+lat, +long)
+            
 
             if (index === TOTAL_ISLANDS){
                 $section.selectAll('.clouds__base, .globe').classed('is-hidden', false)
@@ -144,7 +140,11 @@ function setupScroll(){
             $el.classed('in-focus', true)
             highlightList(element)
 
-            
+            // update globe 
+            const elData = $el.data()[0]
+            const {lat, long} = elData
+            globe.update(+lat, +long)
+            console.log({elData, lat, long})
 
             if (MOBILE) {
                 $mobileAnimals.selectAll('.g-anno').classed('is-hidden', true)
