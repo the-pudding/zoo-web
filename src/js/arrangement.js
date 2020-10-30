@@ -56,12 +56,12 @@ function swapSource(el){
     const type = $sel.attr('data-type')
   
     if (type === 'png'){
-      $sel.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${id}.gif`)
+      $sel.attr('src', `https://pudding.cool/2020/11/zoo-data/output/${id}.gif`)
       $sel.attr('data-type', 'gif')
     }
   
     else {
-      $sel.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${id}.png`)
+      $sel.attr('src', `https://pudding.cool/2020/11/zoo-data/stills/${id}.png`)
       $sel.attr('data-type', 'png')
     }
 
@@ -459,7 +459,7 @@ function switchFacility(){
 
 
     if (type === 'png'){
-        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${cam}.png`)
+        match.attr('src', `https://pudding.cool/2020/11/zoo-data/stills/${cam}.png`)
         .attr('data-id', cam)
         .attr('alt', d => {
             console.log({test: d})
@@ -467,7 +467,7 @@ function switchFacility(){
       }
     
       else {
-        match.attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${cam}.gif`)
+        match.attr('src', `https://pudding.cool/2020/11/zoo-data/output/${cam}.gif`)
         .attr('data-id', cam)
         .attr('alt', d => {
             console.log({test: d})
@@ -568,7 +568,7 @@ function loadMaps(){
                         const polarBear = d.tile === 'polar' ? `-40%` : right
                         return polarBear
                     })
-                    .attr('src',  d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${d.first}.png`)
+                    .attr('src',  d => `https://pudding.cool/2020/11/zoo-data/stills/${d.first}.png`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
                     .on('click', (d, i, n) => launchModal(d3.select(n[i])))
                     .on('keydown', (d, i, n) => {
@@ -608,7 +608,7 @@ function preloadImages(){
 
 
 function setupTimestamps(){
-    d3.json(`https://pudding-data-processing.s3.amazonaws.com/zoo-cams/timestamps.json`)
+    d3.json(`https://pudding.cool/2020/11/zoo-data/timestamps.json`)
         .then(result => {
             const timestampData = result.map(d => ({
                 ...d,
