@@ -201,9 +201,16 @@ function findFirst(arr, facMap){
 
 }
 
-function cleanData(dat){
+function cleanData(dat, timestamps){
     return new Promise((resolve) => {
-        linkData = dat[1]
+       const cleanTS = timestamps.map(d => d.id)
+
+        const updatedLinks = dat[1].map(d => ({
+            ...d, 
+            camOn: cleanTS.includes(d.id)
+        }))
+
+        linkData = updatedLinks
          idToFacilityMap = new Map(linkData.map(d => [d.id, d.facility]))
 
         mappedData =  dat[0].map((d) => ({
@@ -223,23 +230,20 @@ function cleanData(dat){
         //     heights[h] = findNewHeight(h)
         // })
     
-        resolve ({mappedData, nestedData, links: dat[1]})
+        resolve ({mappedData, nestedData, links: updatedLinks})
     })
 
 }
 
 
 function launchModal($sel){
-    console.log('launchModal ran')
     //const $sel = d3.select(this)
     const animal = $sel.attr('data-animal')
     const id = $sel.attr('data-id')
 
     const group  = $section.selectAll(`[data-list="${animal}"]`)
     const facility = group.select('.animal--facility.selected').attr('data-facility')
-    // const label = d3.select(parent).select('label')//.innerText//.innerText.trim()
-    // const facility = label.innerText
-    // console.log({facility, parent, label})
+
     $body.classed('modal__open', true)
 
     modal.setup(mappedData, linkData, animal, facility, id)
@@ -261,7 +265,6 @@ function findGridArea(cam, i){
 
 
 function resize(){
-    console.log('resize ran')
     MOBILE = window.innerWidth < BREAKPOINT
 
     const $exhibits = $islands.selectAll('.exhibit')
@@ -462,7 +465,6 @@ function switchFacility(){
         match.attr('src', `https://pudding.cool/2020/11/zoo-data/stills/${cam}.png`)
         .attr('data-id', cam)
         .attr('alt', d => {
-            console.log({test: d})
             return `Still image of ${animal} at ${idToFacilityMap.get(cam)}`})
       }
     
@@ -470,7 +472,6 @@ function switchFacility(){
         match.attr('src', `https://pudding.cool/2020/11/zoo-data/output/${cam}.gif`)
         .attr('data-id', cam)
         .attr('alt', d => {
-            console.log({test: d})
             return `Video clip of ${animal} at ${idToFacilityMap.get(cam)}`})
       }
 
@@ -608,9 +609,11 @@ function preloadImages(){
 
 
 function setupTimestamps(){
-    d3.json(`https://pudding.cool/2020/11/zoo-data/timestamps.json`)
-        .then(result => {
-            const timestampData = result.map(d => ({
+
+        return d3.json(`https://pudding.cool/2020/11/zoo-data/timestamps.json`, (error, data) => {
+            if (error) reject(error)
+            else {
+                const timestampData = data.map(d => ({
                 ...d,
                 id: +d.id,
                 timestamp: +d.timestamp
@@ -622,16 +625,17 @@ function setupTimestamps(){
 
             const elapsed = d3.timeMinute.count(timestampData.timestamp, currentTime)
 
+            const justUpdated = data.map(d => +d.id)
 
             $update.text(() => {
                 if (elapsed < 60) return `~${elapsed} minutes ago`
              else return `~${d3.timeHour.count(timestampData.timestamp, currentTime)} hours ago`
             })
-        
-        })
-            .catch(new Error("Couldn't load timestamp data"));
 
-      
+            return justUpdated
+            }
+        })
+        
 
 }
 
@@ -639,7 +643,7 @@ function loadAssets(){
     return new Promise((resolve, reject) => {
         try {
            loadMaps()
-            setupTimestamps()
+            // setupTimestamps()
 
             globe.init(mappedData) 
             resolve()
@@ -666,7 +670,10 @@ function setupScrolls(){
 
 function init(){
     loadData(['assets/data/arrangement.csv', 'assets/data/links.csv']).then(response => {
-        return cleanData(response)
+        const data = setupTimestamps()
+            .then(ts => {
+                cleanData(response, ts)})
+        return data
     })
     .then(() => preloadImages())
     .then(() => loadAssets())

@@ -67,10 +67,11 @@ function setup(islandData, linkData, animal, facility, id){
     $modal.classed('is-hidden', false)
 
     const theseData = linkData.filter(d => d.id === id)[0]
+    console.log({theseData})
     const animalTitle = theseData.specific ? theseData.specific : animal
     $info.select('.modal__info-animal').text(animalTitle)
     $info.select('.modal__info-facility').text(facility)
-    $info.select('.modal__info-full').text(`Go to the full live stream`)
+    $info.select('.modal__info-full').text(theseData.camOn === true ? `Go to the full live stream` : `Go to the full live stream (camera may be currently offline)`)
         .attr('href', theseData.link)
         .attr('target', '_blank')
     $info.select('.modal__info-help')
