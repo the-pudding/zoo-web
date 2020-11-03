@@ -203,11 +203,10 @@ function findFirst(arr, facMap){
 
 function cleanData(dat, timestamps){
     return new Promise((resolve) => {
-       const cleanTS = timestamps.map(d => d.id)
 
         const updatedLinks = dat[1].map(d => ({
             ...d, 
-            camOn: cleanTS.includes(d.id)
+            camOn: timestamps.includes(+d.id)
         }))
 
         linkData = updatedLinks
@@ -610,10 +609,10 @@ function preloadImages(){
 
 function setupTimestamps(){
 
-        return d3.json(`https://pudding.cool/2020/11/zoo-data/timestamps.json`, (error, data) => {
-            if (error) reject(error)
-            else {
-                const timestampData = data.map(d => ({
+    return new Promise((resolve, reject) => {
+        d3.json(`https://pudding.cool/2020/11/zoo-data/timestamps.json`)
+        .then(res => {
+            const timestampData = res.map(d => ({
                 ...d,
                 id: +d.id,
                 timestamp: +d.timestamp
@@ -625,16 +624,17 @@ function setupTimestamps(){
 
             const elapsed = d3.timeMinute.count(timestampData.timestamp, currentTime)
 
-            const justUpdated = data.map(d => +d.id)
+            const justUpdated = res.map(d => +d.id)
 
             $update.text(() => {
                 if (elapsed < 60) return `~${elapsed} minutes ago`
              else return `~${d3.timeHour.count(timestampData.timestamp, currentTime)} hours ago`
             })
 
-            return justUpdated
-            }
+         resolve(justUpdated)
         })
+        .catch(err => reject(err))
+    })
         
 
 }

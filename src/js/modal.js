@@ -67,7 +67,7 @@ function setup(islandData, linkData, animal, facility, id){
     $modal.classed('is-hidden', false)
 
     const theseData = linkData.filter(d => d.id === id)[0]
-    console.log({theseData})
+ 
     const animalTitle = theseData.specific ? theseData.specific : animal
     $info.select('.modal__info-animal').text(animalTitle)
     $info.select('.modal__info-facility').text(facility)
@@ -96,7 +96,7 @@ function setup(islandData, linkData, animal, facility, id){
     
     $videos.select('.large')
         .attr('tabindex', 0)
-        .attr('src', `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/output/${theseData.id}.gif`)
+        .attr('src', `https://pudding.cool/2020/11/zoo-data/output/${theseData.id}.gif`)
         .attr('alt', d => {
             return `Image of ${animal} at ${facility}`
         })
@@ -124,7 +124,6 @@ function setup(islandData, linkData, animal, facility, id){
                         const $sel = d3.select(n[i])
                         const id = $sel.attr('data-id')
                         const newFacility = idMap.get(+id)
-                        console.log({id})
                         setup(islandData, linkData, animal, newFacility, id)
                     })
                     
@@ -137,7 +136,7 @@ function setup(islandData, linkData, animal, facility, id){
             })
 
         $vidCar.selectAll('.carousel__facility').text(d => idMap.get(+d))
-        $vidCar.selectAll('img').attr('data-id', d => d).attr('src', d => `https://pudding-data-processing.s3.amazonaws.com/zoo-cams/stills/${+d}.png`)
+        $vidCar.selectAll('img').attr('data-id', d => d).attr('src', d => `https://pudding.cool/2020/11/zoo-data/stills/${+d}.png`)
     } else $carousel.classed('is-hidden', true)
 
     setupA11y()
