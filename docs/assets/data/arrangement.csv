@@ -37,7 +37,7 @@ index,tile,positionY,positionX,camera,animal,display,size,shape,imHeight,locatio
 12,escape,2,L,"34, 35",sharks & fish 1,sharks & fish,2,R2,1174,Madagascar,-5.3428,45.385
 13,mara,1,R,9,baboon,,4,R4,2174,African plains,-3.3561,38.0281
 13,mara,2,L,"15, 58",savannah,,4,R4,2174,African plains,-2.5095,36.3794
-13,mara,3,R,"22, 85",lion,,4,R4,2174,African plains,-2.1564,35.1577
+13,mara,3,R,85,lion,,4,R4,2174,African plains,-2.1564,35.1577
 13,mara,4,L,"7, 86",hippopotamus,,4,R4,2174,African plains,-3.4276,34.2872
 14,apes,1,R,59,chimpanzee,,2,R2,1174,,-4.6479,28.3215
 14,apes,2,L,55,western lowland gorilla,,2,R2,1174,,-9.1122,26.7997
