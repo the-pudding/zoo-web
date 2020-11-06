@@ -160,11 +160,16 @@ function setupScroll(){
                 
                 //.selectAll(`[data-animal="${animal}"]`)
                 $ul.classed('is-hidden', false)
+
+                const top = $ul.node().offsetTop
+                const wrapper = $mobileNav.node().scrollTop
+
+                $mobileNav.node().scrollBy({top: top - wrapper, left: 0, behavior: 'smooth'})
     
-                $ul.node().scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                })
+                // $ul.node().scrollIntoView({
+                //     behavior: 'smooth',
+                //     block: 'center'
+                // })
             }
         })
         .onStepExit(response => {
