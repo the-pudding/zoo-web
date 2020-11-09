@@ -133,7 +133,8 @@ function setupScroll(){
             // stop anything else playing 
             if (first === false){
                 const playing = $islands.select('[data-type="gif"]')
-                if (playing.size() > 1){
+
+                if (playing.size() > 0){
                     swapSource(playing.node())
                     playing.classed('in-focus', false)
                 }
