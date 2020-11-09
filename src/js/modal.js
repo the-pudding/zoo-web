@@ -3,6 +3,9 @@ const $modal = d3.select('[data-js="modal"]')
 const $info = $modal.select('.modal__info')
 const $videos = $modal.select('.modal__video')
 
+const v = Date.now()
+const clearCache = `?version=${v}`
+
 function setupA11y(){
     // when modal is open, tabbing remains within modal
     const $focusableInModal = $modal.selectAll('.modal__quit, a, img').nodes()
@@ -96,7 +99,7 @@ function setup(islandData, linkData, animal, facility, id){
     
     $videos.select('.large')
         .attr('tabindex', 0)
-        .attr('src', `https://pudding.cool/2020/11/zoo-data/output/${theseData.id}.gif`)
+        .attr('src', `https://pudding.cool/2020/11/zoo-data/output/${theseData.id}.gif${clearCache}`)
         .attr('alt', d => {
             return `Image of ${animal} at ${facility}`
         })
@@ -136,7 +139,7 @@ function setup(islandData, linkData, animal, facility, id){
             })
 
         $vidCar.selectAll('.carousel__facility').text(d => idMap.get(+d))
-        $vidCar.selectAll('img').attr('data-id', d => d).attr('src', d => `https://pudding.cool/2020/11/zoo-data/stills/${+d}.png`)
+        $vidCar.selectAll('img').attr('data-id', d => d).attr('src', d => `https://pudding.cool/2020/11/zoo-data/stills/${+d}.png${clearCache}`)
     } else $carousel.classed('is-hidden', true)
 
     setupA11y()

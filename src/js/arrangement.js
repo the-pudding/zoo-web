@@ -15,6 +15,8 @@ const $mobileNav = d3.selectAll('[data-js="navigation"]')
 const $mobileAnimals = $mobileNav.select('.animal')
 const $update = d3.select('.update')
 const heights = []
+const v = Date.now()
+const clearCache = `?version=${v}`
 
 let linkData = null
 let mappedData = null
@@ -56,12 +58,12 @@ function swapSource(el){
     const type = $sel.attr('data-type')
   
     if (type === 'png'){
-      $sel.attr('src', `https://pudding.cool/2020/11/zoo-data/output/${id}.gif`)
+      $sel.attr('src', `https://pudding.cool/2020/11/zoo-data/output/${id}.gif${clearCache}`)
       $sel.attr('data-type', 'gif')
     }
   
     else {
-      $sel.attr('src', `https://pudding.cool/2020/11/zoo-data/stills/${id}.png`)
+      $sel.attr('src', `https://pudding.cool/2020/11/zoo-data/stills/${id}.png${clearCache}`)
       $sel.attr('data-type', 'png')
     }
 
@@ -247,7 +249,9 @@ function launchModal($sel){
     const id = $sel.attr('data-id')
 
     const group  = $section.selectAll(`[data-list="${animal}"]`)
-    const facility = group.select('.animal--facility.selected').attr('data-facility')
+    const facility = group.select('fieldset').selectAll('input:checked').attr('data-facility')
+
+    console.log({group, facility})
 
     $body.classed('modal__open', true)
 
@@ -467,14 +471,14 @@ function switchFacility(){
 
 
     if (type === 'png'){
-        match.attr('src', `https://pudding.cool/2020/11/zoo-data/stills/${cam}.png`)
+        match.attr('src', `https://pudding.cool/2020/11/zoo-data/stills/${cam}.png${clearCache}`)
         .attr('data-id', cam)
         .attr('alt', d => {
             return `Still image of ${animal} at ${idToFacilityMap.get(cam)}`})
       }
     
       else {
-        match.attr('src', `https://pudding.cool/2020/11/zoo-data/output/${cam}.gif`)
+        match.attr('src', `https://pudding.cool/2020/11/zoo-data/output/${cam}.gif${clearCache}`)
         .attr('data-id', cam)
         .attr('alt', d => {
             return `Video clip of ${animal} at ${idToFacilityMap.get(cam)}`})
@@ -574,7 +578,7 @@ function loadMaps(){
                         const polarBear = d.tile === 'polar' ? `-40%` : right
                         return polarBear
                     })
-                    .attr('src',  d => `https://pudding.cool/2020/11/zoo-data/stills/${d.first}.png`)
+                    .attr('src',  d => `https://pudding.cool/2020/11/zoo-data/stills/${d.first}.png${clearCache}`)
                     .style('grid-area', (d, i) => findGridArea(d, i))
                     .on('click', (d, i, n) => launchModal(d3.select(n[i])))
                     .on('keydown', (d, i, n) => {
@@ -616,7 +620,7 @@ function preloadImages(){
 function setupTimestamps(){
 
     return new Promise((resolve, reject) => {
-        d3.json(`https://pudding.cool/2020/11/zoo-data/timestamps.json`)
+        d3.json(`https://pudding.cool/2020/11/zoo-data/timestamps.json${clearCache}`)
         .then(res => {
             const timestampData = res.map(d => ({
                 ...d,
