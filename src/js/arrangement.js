@@ -274,7 +274,7 @@ function findGridArea(cam, i){
 
 
 function resize(){
-    MOBILE = window.innerWidth < BREAKPOINT
+    MOBILE = window.innerWidth < BREAKPOINT || window.innerWidth > window.screen.width 
 
     const $exhibits = $islands.selectAll('.exhibit')
     $exhibits.nodes().forEach(ex => {
