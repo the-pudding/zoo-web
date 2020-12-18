@@ -246,12 +246,11 @@ function cleanData(dat, timestamps){
 function launchModal($sel){
     //const $sel = d3.select(this)
     const animal = $sel.attr('data-animal')
-    const id = $sel.attr('data-id')
 
     const group  = $section.selectAll(`[data-list="${animal}"]`)
-    const facility = group.select('fieldset').selectAll('input:checked').attr('data-facility')
-
-    console.log({group, facility})
+    const selRadio = group.select('fieldset').selectAll('input:checked')
+    const id = selRadio.data()[0].id
+    const facility = selRadio.attr('data-facility')
 
     $body.classed('modal__open', true)
 

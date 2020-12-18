@@ -67,10 +67,10 @@ function setupA11y(){
 
 function setup(islandData, linkData, animal, facility, id){
 
+
     $modal.classed('is-hidden', false)
 
     const theseData = linkData.filter(d => d.id === id)[0]
- 
     const animalTitle = theseData.specific ? theseData.specific : animal
     $info.select('.modal__info-animal').text(animalTitle)
     $info.select('.modal__info-facility').text(facility)
